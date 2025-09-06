@@ -178,8 +178,6 @@ func UserUpdate(c *gin.Context) {
 		return
 	}
 
-	userRequest.Password = password.Hash(userRequest.Password)
-
 	user, err := repo.UpdateUser(configs.DB, id, userRequest)
 	if err == sql.ErrNoRows {
 		c.AbortWithStatusJSON(http.StatusNotFound, structs.Payload{

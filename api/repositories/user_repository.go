@@ -3,7 +3,9 @@ package repositories
 import (
 	req "api/types/structs/requests"
 	res "api/types/structs/responses"
+	"api/utils/password"
 	"database/sql"
+	"fmt"
 )
 
 func GetAllUsers(dbParam *sql.DB) (response []res.UserResponse, err error) {
@@ -22,7 +24,7 @@ func GetAllUsers(dbParam *sql.DB) (response []res.UserResponse, err error) {
 		if err != nil {
 			panic(err)
 		}
-		
+
 		response = append(response, user)
 	}
 	return
@@ -43,9 +45,11 @@ func GetUserByID(dbParam *sql.DB, id int) (response res.UserResponse, err error)
 func UpdateUser(dbParam *sql.DB, id int, userRequest req.UserRequest) (response res.UserResponse, err error) {
 	var sqlStatement string
 	if userRequest.Password != "" {
+		userRequest.Password = password.Hash(userRequest.Password)
 		sqlStatement = "UPDATE users SET name = $1, email = $2, password = $3, role = $4, phone = $5, address = $6, updated_at = NOW() WHERE id = $7 RETURNING id, name, email, role, phone, address, created_at, updated_at"
 		err = dbParam.QueryRow(sqlStatement, userRequest.Name, userRequest.Email, userRequest.Password, userRequest.Role, userRequest.Phone, userRequest.Address, id).Scan(&response.ID, &response.Name, &response.Email, &response.Role, &response.Phone, &response.Address, &response.CreatedAt, &response.UpdatedAt)
 	} else {
+		fmt.Println("No Pw")
 		sqlStatement = "UPDATE users SET name = $1, email = $2, role = $3, phone = $4, address = $5, updated_at = NOW() WHERE id = $6 RETURNING id, name, email, role, phone, address, created_at, updated_at"
 		err = dbParam.QueryRow(sqlStatement, userRequest.Name, userRequest.Email, userRequest.Role, userRequest.Phone, userRequest.Address, id).Scan(&response.ID, &response.Name, &response.Email, &response.Role, &response.Phone, &response.Address, &response.CreatedAt, &response.UpdatedAt)
 	}
