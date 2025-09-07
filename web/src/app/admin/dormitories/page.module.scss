@@ -1,0 +1,11 @@
+@import "../../styles/variable.scss";
+
+.actions {
+  display: flex;
+  gap: 14px;
+}
+
+.header {
+  justify-content: space-between;
+  align-items: center;
+}
