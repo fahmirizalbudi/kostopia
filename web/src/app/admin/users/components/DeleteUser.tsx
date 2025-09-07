@@ -24,10 +24,14 @@ const DeleteUser = (user: User) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await deleteUser({
+    const res = await deleteUser({
       accessToken: session?.accessToken as string,
       where: user.id as number,
     })
+
+    if (!res.ok) {
+      return toast.error("Terjadi kesalahan!", { duration: 3000 })
+    }
 
     setIsOpen(false)
     toast.success("User berhasil dihapus!", { duration: 3000 })

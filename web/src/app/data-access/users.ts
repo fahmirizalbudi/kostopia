@@ -49,4 +49,6 @@ export const deleteUser = async (obj: { accessToken: string; where: number | str
       Authorization: `Bearer ${obj.accessToken}`,
     },
   })
+
+  return res
 }
