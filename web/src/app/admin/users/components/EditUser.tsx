@@ -3,7 +3,6 @@
 import { useState } from "react"
 import formStyles from "@/app/components/forms/Action.module.scss"
 import { Modal } from "@/app/components/ui/Modal"
-import Button from "@/app/components/ui/Button"
 import TextBox from "@/app/components/forms/TextBox"
 import Flex from "@/app/components/layout/Flex"
 import Label from "@/app/components/forms/Label"
@@ -14,16 +13,25 @@ import { User } from "@/app/types/user"
 import Error from "@/app/components/forms/Error"
 import { API_URL } from "@/app/constants/api"
 import { useRouter } from "next/navigation"
+import Action from "@/app/components/forms/Action"
+import { asset } from "@/app/lib/asset"
 import toast from "react-hot-toast"
 
-const AddUser = () => {
+const EditUser = (user: User) => {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState<Boolean>(false)
-  const [formData, setFormData] = useState<User>({ name: "", email: "", role: "", password: "", phone: "", address: "" })
+  const [formData, setFormData] = useState<User>({
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    password: "",
+    phone: user.phone,
+    address: user.address,
+  })
   const [errors, setErrors] = useState<User>({ name: "", email: "", role: "", password: "", phone: "", address: "" })
 
   const toggleOpen = () => {
-    setFormData({ name: "", email: "", role: "", password: "", phone: "", address: "" })
+    setFormData({ name: user.name, email: user.email, role: user.role, password: "", phone: user.phone, address: user.address })
     setErrors({ name: "", email: "", role: "", password: "", phone: "", address: "" })
     return setIsOpen(!isOpen)
   }
@@ -39,8 +47,8 @@ const AddUser = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const res = await fetch(API_URL + "/users", {
-      method: "POST",
+    const res = await fetch(API_URL + `/users/${user.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -57,16 +65,14 @@ const AddUser = () => {
     setFormData({ name: "", email: "", role: "", password: "", phone: "", address: "" })
 
     setIsOpen(false)
-    toast.success("User berhasil ditambahkan!", { duration: 3000 });
+    toast.success("User berhasil diperbarui!", { duration: 3000 });
     router.refresh()
   }
 
   return (
     <>
-      <Button className={formStyles.add} onClick={toggleOpen}>
-        Tambah Pengguna
-      </Button>
-      <Modal title="Tambah Pengguna" isOpen={isOpen} onClose={toggleOpen}>
+      <Action icon={asset("edit.svg")} size={18} as="Edit" onAction={toggleOpen} />
+      <Modal title="Edit Pengguna" isOpen={isOpen} onClose={toggleOpen}>
         <form className={formStyles.form} onSubmit={handleSubmit}>
           <Flex className={formStyles.group}>
             <Label htmlFor="name">Nama :</Label>
@@ -110,4 +116,4 @@ const AddUser = () => {
   )
 }
 
-export default AddUser
+export default EditUser

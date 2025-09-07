@@ -1,18 +1,5 @@
 @import "../../styles/variable.scss";
 
-.action {
-  border-radius: 8px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  background-color: #fff;
-  color: $primary-color;
-  border: 1px solid rgba(85, 86, 90, 0.12);
-  font-weight: 500;
-}
-
 .actions {
   display: flex;
   gap: 14px;

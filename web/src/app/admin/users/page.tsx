@@ -2,18 +2,21 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import Cumbs from "../components/Cumbs"
 import SafeView from "../components/SafeView"
 import styles from "./page.module.scss"
-import Button from "@/app/components/ui/Button"
-import Image from "next/image"
 import { asset } from "@/app/lib/asset"
 import { API_URL } from "@/app/constants/api"
 import Break from "../components/Break"
 import Flex from "@/app/components/layout/Flex"
 import { User } from "@/app/types/user"
 import AddUser from "./components/AddUser"
+import EditUser from "./components/EditUser"
+import Action from "@/app/components/forms/Action"
+import DeleteUser from "./components/DeleteUser"
+import { asc } from "@/app/utils/utils"
+import { FIELD_ID } from "@/app/constants/field"
 
 const fetchUsers = async (): Promise<User[]> => {
   const res = await fetch(API_URL + "/users", {
-    cache: "no-store"
+    cache: "no-store",
   })
   const json = await res.json()
   return json.data
@@ -41,7 +44,7 @@ const Users = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users?.map((user: User, i: number) => (
+          {asc(users, FIELD_ID)?.map((user: User, i: number) => (
             <TableRow key={user.id}>
               <TableCell>{i + 1}</TableCell>
               <TableCell>{user.name}</TableCell>
@@ -49,12 +52,11 @@ const Users = async () => {
               <TableCell>{user.phone}</TableCell>
               <TableCell>{user.address}</TableCell>
               <TableCell className={styles.actions}>
-                <Button className={`${styles.action}`}>
+                {/* <Button className={`${styles.action}`}>
                   <Image src={asset("edit.svg")} alt="Edit" width={18} height={18} />
-                </Button>
-                <Button className={`${styles.action}`}>
-                  <Image src={asset("hapus.svg")} alt="Delete" width={18} height={18} />
-                </Button>
+                </Button> */}
+                <EditUser {...user} />
+                <DeleteUser {...user} />
               </TableCell>
             </TableRow>
           ))}
