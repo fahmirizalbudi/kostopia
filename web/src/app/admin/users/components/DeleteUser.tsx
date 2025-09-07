@@ -3,7 +3,6 @@
 import { useState } from "react"
 import formStyles from "@/app/components/forms/Action.module.scss"
 import { Modal } from "@/app/components/ui/Modal"
-import TextBox from "@/app/components/forms/TextBox"
 import FormAction from "@/app/components/forms/FormAction"
 import { User } from "@/app/types/user"
 import { useRouter } from "next/navigation"
