@@ -15,7 +15,7 @@ interface MyClaims {
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
-  secret: "secret",
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/auth/login"
+    signIn: "/auth/login",
   }
 }
 
