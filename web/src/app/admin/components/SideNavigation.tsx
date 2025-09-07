@@ -42,7 +42,6 @@ const SideNavigation = ({ menu }: SideNavigationProps) => {
 
   return (
     <>
-      <div className={`sidebar-backdrop`} />
       <nav className={styles.sidebar}>
         <div className={styles.container}>
           <div className={styles.logo}>
