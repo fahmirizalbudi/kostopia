@@ -12,15 +12,17 @@ import FormAction from "@/app/components/forms/FormAction"
 import { findOption } from "@/app/utils/utils"
 import { User } from "@/app/types/user"
 import Error from "@/app/components/forms/Error"
-import { API_URL } from "@/app/constants/api"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { createUser } from "@/app/data-access/users"
+import { useSession } from "next-auth/react"
 
 const AddUser = () => {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState<Boolean>(false)
   const [formData, setFormData] = useState<User>({ name: "", email: "", role: "", password: "", phone: "", address: "" })
   const [errors, setErrors] = useState<User>({ name: "", email: "", role: "", password: "", phone: "", address: "" })
+  const { data: session } = useSession()
 
   const toggleOpen = () => {
     setFormData({ name: "", email: "", role: "", password: "", phone: "", address: "" })
@@ -39,13 +41,9 @@ const AddUser = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const res = await fetch(API_URL + "/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
+    const res = await createUser({
+      accessToken: session?.accessToken as string,
+      schema: formData,
     })
     const json = await res.json()
 
@@ -57,7 +55,7 @@ const AddUser = () => {
     setFormData({ name: "", email: "", role: "", password: "", phone: "", address: "" })
 
     setIsOpen(false)
-    toast.success("User berhasil ditambahkan!", { duration: 3000 });
+    toast.success("User berhasil ditambahkan!", { duration: 3000 })
     router.refresh()
   }
 

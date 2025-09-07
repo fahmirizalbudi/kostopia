@@ -2,28 +2,23 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import Cumbs from "../components/Cumbs"
 import SafeView from "../components/SafeView"
 import styles from "./page.module.scss"
-import { asset } from "@/app/lib/asset"
-import { API_URL } from "@/app/constants/api"
 import Break from "../components/Break"
 import Flex from "@/app/components/layout/Flex"
 import { User } from "@/app/types/user"
 import AddUser from "./components/AddUser"
 import EditUser from "./components/EditUser"
-import Action from "@/app/components/forms/Action"
 import DeleteUser from "./components/DeleteUser"
 import { asc } from "@/app/utils/utils"
 import { FIELD_ID } from "@/app/constants/field"
-
-const fetchUsers = async (): Promise<User[]> => {
-  const res = await fetch(API_URL + "/users", {
-    cache: "no-store",
-  })
-  const json = await res.json()
-  return json.data
-}
+import { fetchUsers } from "@/app/data-access/users"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 const Users = async () => {
-  const users = await fetchUsers()
+  const session = await getServerSession(authOptions)
+  const users = await fetchUsers({
+    accessToken: session?.accessToken as string,
+  })
 
   return (
     <SafeView>

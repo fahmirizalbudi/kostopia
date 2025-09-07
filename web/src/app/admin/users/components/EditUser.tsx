@@ -11,11 +11,12 @@ import FormAction from "@/app/components/forms/FormAction"
 import { findOption } from "@/app/utils/utils"
 import { User } from "@/app/types/user"
 import Error from "@/app/components/forms/Error"
-import { API_URL } from "@/app/constants/api"
 import { useRouter } from "next/navigation"
 import Action from "@/app/components/forms/Action"
 import { asset } from "@/app/lib/asset"
 import toast from "react-hot-toast"
+import { updateUser } from "@/app/data-access/users"
+import { useSession } from "next-auth/react"
 
 const EditUser = (user: User) => {
   const router = useRouter()
@@ -29,6 +30,7 @@ const EditUser = (user: User) => {
     address: user.address,
   })
   const [errors, setErrors] = useState<User>({ name: "", email: "", role: "", password: "", phone: "", address: "" })
+  const { data: session } = useSession()
 
   const toggleOpen = () => {
     setFormData({ name: user.name, email: user.email, role: user.role, password: "", phone: user.phone, address: user.address })
@@ -47,13 +49,10 @@ const EditUser = (user: User) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const res = await fetch(API_URL + `/users/${user.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
+    const res = await updateUser({
+      accessToken: session?.accessToken as string,
+      schema: formData,
+      where: user.id as number
     })
     const json = await res.json()
 
@@ -65,7 +64,7 @@ const EditUser = (user: User) => {
     setFormData({ name: "", email: "", role: "", password: "", phone: "", address: "" })
 
     setIsOpen(false)
-    toast.success("User berhasil diperbarui!", { duration: 3000 });
+    toast.success("User berhasil diperbarui!", { duration: 3000 })
     router.refresh()
   }
 

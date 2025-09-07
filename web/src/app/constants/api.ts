@@ -1,1 +1,1 @@
-export const API_URL = "http://localhost:8080/api"
+export const API = process.env.GO_API_URL || "http://localhost:8080/api"

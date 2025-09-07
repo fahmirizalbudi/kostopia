@@ -5,5 +5,5 @@ export function findOption(options: Option[], value: string | undefined | null):
 }
 
 export function asc(arr: any[], by: string): any[] {
-  return arr.sort((a, b) => a[by] - b[by])
+  return arr?.sort((a, b) => a[by] - b[by])
 }
