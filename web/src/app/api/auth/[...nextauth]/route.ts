@@ -1,4 +1,4 @@
-import { API_URL } from "@/app/constants/api"
+import { API } from "@/app/constants/api"
 import { jwtDecode } from "jwt-decode"
 import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch(API_URL + "/auth/login", {
+        const res = await fetch(API + "/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
@@ -34,11 +34,11 @@ export const authOptions: NextAuthOptions = {
         const data = await res.json()
         if (!data?.data) return null
 
-        const token = data.data as string
+        const token = String(data.data)
         const claims = jwtDecode<MyClaims>(token)
 
         return {
-          id: claims.id.toString(), 
+          id: String(claims.id), 
           email: claims.email,
           name: claims.name,
           role: claims.role,
@@ -53,18 +53,18 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id
         token.email = user.email
         token.name = user.name
-        token.role = (user as any).role
-        token.accessToken = (user as any).accessToken
+        token.role = user.role
+        token.accessToken = user.accessToken
       }
       return token
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken as string
+      session.accessToken = String(token.accessToken)
       session.user = {
-        id: token.id as string,
-        email: token.email as string,
-        name: token.name as string,
-        role: token.role as string,
+        id: String(token.id),
+        email:  String(token.email),
+        name: String(token.name),
+        role: String(token.role),
       }
       return session
     },
