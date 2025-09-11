@@ -11,6 +11,7 @@ import { fetchDormitories } from "@/app/data-access/dormitories"
 import AddDormitory from "./components/AddDormitory"
 import EditDormitory from "./components/EditDormitory"
 import DeleteDormitory from "./components/DeleteDormitory"
+import PreviewsDormitory from "./components/PreviewsDormitory"
 
 const Dormitories = async () => {
   const dormitories = await fetchDormitories()
@@ -44,6 +45,7 @@ const Dormitories = async () => {
               <TableCell className={styles.actions}>
                 <EditDormitory {...dormitory} />
                 <DeleteDormitory {...dormitory} />
+                <PreviewsDormitory {...dormitory} />
               </TableCell>
             </TableRow>
           ))}

@@ -40,10 +40,10 @@ func Setup() *gin.Engine {
 	api.DELETE("/dormitories/:id", middlewares.AuthMiddleware, handlers.DormitoryDestroy)
 
 	api.GET("/dormitories/previews", handlers.DormitoryAttachPreviews)
-	api.GET("/dormitories/:id/previews", handlers.DormitoryPreviewIndex)
+	api.GET("/dormitories/:id/previews", middlewares.AuthMiddleware, handlers.DormitoryPreviewIndex)
 
-	api.POST("/dormitory-previews", handlers.DormitoryPreviewStore)
-	api.DELETE("/dormitory-previews/:id", handlers.DormitoryPreviewDestroy)
+	api.POST("/dormitory-previews", middlewares.AuthMiddleware, handlers.DormitoryPreviewStore)
+	api.DELETE("/dormitory-previews/:id", middlewares.AuthMiddleware, handlers.DormitoryPreviewDestroy)
 
 	api.GET("/dormitories/:id/rooms", handlers.RoomByDormitory)
 
