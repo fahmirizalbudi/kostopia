@@ -55,7 +55,7 @@ const SideNavigation = ({ menu }: SideNavigationProps) => {
                   <SideNavigationHeader key={i} text={item.text} />
                 ) :
                 item.type === MENU_SIDE_LINK && (
-                  <SideNavigationList key={i} icon={asset(item.icon ?? "")} label={item.text} linkTo={item.linkTo ?? "#"} isActive={pathname === item.linkTo}  />
+                  <SideNavigationList key={i} icon={asset(item.icon ?? "")} label={item.text} linkTo={item.linkTo ?? "#"} isActive={item.linkTo === "/admin" ? pathname === "/admin" : pathname.startsWith(String(item.linkTo))}  />
                 )
               ))}
             </ul>
