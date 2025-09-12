@@ -6,10 +6,11 @@ type TextBoxProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   name?: string
   value?: number | string
+  className?: string
 }
 
-const TextBox = ({ type, placeholder, onChange, name, value }: TextBoxProps) => (
-  <input className={styles.textbox} type={type} placeholder={placeholder} onChange={onChange} name={name} value={value} id={name} autoComplete="off" />
+const TextBox = ({ type, placeholder, onChange, name, value, className }: TextBoxProps) => (
+  <input className={`${styles.textbox} ${className}`} type={type} placeholder={placeholder} onChange={onChange} name={name} value={value} id={name} autoComplete="off" />
 )
 
 export default TextBox
