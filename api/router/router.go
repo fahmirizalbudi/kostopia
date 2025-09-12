@@ -47,11 +47,11 @@ func Setup() *gin.Engine {
 
 	api.GET("/dormitories/:id/rooms", handlers.RoomByDormitory)
 
-	api.GET("/rooms", handlers.RoomIndex)
-	api.POST("/rooms", handlers.RoomStore)
-	api.GET("/rooms/:id", handlers.RoomFind)
-	api.PUT("/rooms/:id", handlers.RoomUpdate)
-	api.DELETE("/rooms/:id", handlers.RoomDestroy)
+	api.GET("/rooms", middlewares.AuthMiddleware, handlers.RoomIndex)
+	api.POST("/rooms", middlewares.AuthMiddleware, handlers.RoomStore)
+	api.GET("/rooms/:id", middlewares.AuthMiddleware, handlers.RoomFind)
+	api.PUT("/rooms/:id", middlewares.AuthMiddleware, handlers.RoomUpdate)
+	api.DELETE("/rooms/:id", middlewares.AuthMiddleware, handlers.RoomDestroy)
 
 	api.GET("/rentals", handlers.RentalIndex)
 	api.POST("/rentals", middlewares.AuthMiddleware, handlers.RentalStore)
