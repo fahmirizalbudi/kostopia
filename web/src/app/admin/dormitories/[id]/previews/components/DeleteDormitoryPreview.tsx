@@ -33,14 +33,14 @@ const DeleteDormitoryPreview = (dormitoryPreview: DormitoryPreview) => {
     }
 
     setIsOpen(false)
-    toast.success("Kost preview berhasil dihapus!", { duration: 3000 })
+    toast.success("Kos preview berhasil dihapus!", { duration: 3000 })
     router.refresh()
   }
 
   return (
     <>
       <Action icon={asset("hapus.svg")} size={18} as="Hapus" onAction={toggleOpen} />
-      <Modal title="Hapus Kost Preview" isOpen={isOpen} onClose={toggleOpen}>
+      <Modal title="Hapus Kos Preview" isOpen={isOpen} onClose={toggleOpen}>
         <form className={formStyles.form} onSubmit={handleSubmit}>
           <FormAction onCancel={toggleOpen} />
         </form>

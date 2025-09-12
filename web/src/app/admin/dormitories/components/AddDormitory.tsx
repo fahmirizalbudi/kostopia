@@ -52,16 +52,16 @@ const AddDormitory = () => {
     setFormData({ name: "", address: "", description: "", price: null, facilities: "", google_maps: "" })
 
     setIsOpen(false)
-    toast.success("Kost berhasil ditambahkan!", { duration: 3000 })
+    toast.success("Kos berhasil ditambahkan!", { duration: 3000 })
     router.refresh()
   }
 
   return (
     <>
       <Button className={formStyles.add} onClick={toggleOpen}>
-        Tambah Kost
+        Tambah Kos
       </Button>
-      <Modal title="Tambah Kost" isOpen={isOpen} onClose={toggleOpen}>
+      <Modal title="Tambah Kos" isOpen={isOpen} onClose={toggleOpen}>
         <form className={formStyles.form} onSubmit={handleSubmit}>
           <Flex className={formStyles.group}>
             <Label htmlFor="name">Nama :</Label>

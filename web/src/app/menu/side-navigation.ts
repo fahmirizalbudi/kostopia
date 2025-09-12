@@ -26,13 +26,13 @@ export const menuSideNavigation: menuSideNavigationProps[] = [
     type: MENU_SIDE_LINK
   },
   {
-    text: "Kost",
+    text: "Kos",
     linkTo: "/admin/dormitories",
     icon: "kost.svg",
     type: MENU_SIDE_LINK
   },
   {
-    text: "Kamar Kost",
+    text: "Kamar Kos",
     linkTo: "/admin/rooms",
     icon: "kamar.svg",
     type: MENU_SIDE_LINK

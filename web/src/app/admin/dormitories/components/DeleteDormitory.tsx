@@ -34,14 +34,14 @@ const DeleteDormitory = (dormitory: Dormitory) => {
     }
 
     setIsOpen(false)
-    toast.success("Kost berhasil dihapus!", { duration: 3000 })
+    toast.success("Kos berhasil dihapus!", { duration: 3000 })
     router.refresh()
   }
 
   return (
     <>
       <Action icon={asset("hapus.svg")} size={18} as="Hapus" onAction={toggleOpen} />
-      <Modal title="Hapus Kost" isOpen={isOpen} onClose={toggleOpen}>
+      <Modal title="Hapus Kos" isOpen={isOpen} onClose={toggleOpen}>
         <form className={formStyles.form} onSubmit={handleSubmit}>
           <FormAction onCancel={toggleOpen} />
         </form>

@@ -19,7 +19,7 @@ const Dormitories = async () => {
   return (
     <SafeView>
       <Flex className={styles.header}>
-        <Cumbs heading="Kost" description="Manajemen data untuk melihat, menambah, atau menghapus kost." />
+        <Cumbs heading="Kos" description="Manajemen data untuk melihat, menambah, atau menghapus kos." />
         <AddDormitory />
       </Flex>
       <Break height={30} />

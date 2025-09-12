@@ -29,7 +29,7 @@ const Previews = async ({ params }: PreviewsProps) => {
   return (
     <SafeView>
       <Flex className={styles.header}>
-        <Cumbs heading={`Kost Preview [${params?.id}]`} description={`Manajemen previews kost berdasarkan kost id ${params?.id}.`} />
+        <Cumbs heading={`Kos Preview [${params?.id}]`} description={`Manajemen previews kos berdasarkan kos id ${params?.id}.`} />
         <AddDormitoryPreview {...dormitoryPreview} />
       </Flex>
       <Break height={30} />
@@ -47,7 +47,7 @@ const Previews = async ({ params }: PreviewsProps) => {
               <TableCell>{i + 1}</TableCell>
               <TableCell>
                 <Link className={styles.link} href={String(dormitoryPreview.url)}>
-                  Kost Preview {i + 1}
+                  Kos Preview {i + 1}
                 </Link>
               </TableCell>
               <TableCell className={styles.actions}>

@@ -32,7 +32,7 @@ const Rooms = async () => {
         <TableHeader>
           <TableRow>
             <TableHead>NO</TableHead>
-            <TableHead>KOST</TableHead>
+            <TableHead>KOS</TableHead>
             <TableHead>NOMOR KAMAR</TableHead>
             <TableHead>STATUS</TableHead>
             <TableHead>AKSI</TableHead>

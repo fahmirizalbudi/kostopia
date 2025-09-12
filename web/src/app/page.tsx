@@ -13,7 +13,7 @@ export default function Home() {
         <span className={styles.motto}>
           Hunian Terjangkau
         </span>
-        <p className={styles.description}>Kami memiliki lebih dari 5+ kost yang siap huni.</p>
+        <p className={styles.description}>Kami memiliki lebih dari 5+ kos yang siap huni.</p>
         <h1 className={styles.display}>Temukan Hunian Impianmu</h1>
         <div className={styles.search}>
           <input type="text" className={styles.input} placeholder="Enter Name, Keywords ..." />

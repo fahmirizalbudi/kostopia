@@ -85,10 +85,10 @@ const AddRoom = () => {
       <Modal title="Tambah Kamar" isOpen={isOpen} onClose={toggleOpen}>
         <form className={formStyles.form} onSubmit={handleSubmit}>
           <Flex className={formStyles.group}>
-            <Label htmlFor="dormitory_id">Kost :</Label>
+            <Label htmlFor="dormitory_id">Kos :</Label>
             <ComboBox
               options={dormitories}
-              placeholder="Pilih kost ..."
+              placeholder="Pilih kos ..."
               value={findOption(dormitories, String(formData?.dormitory_id))}
               onChange={(option) => setFormData({ ...formData, dormitory_id: Number(option) })}
             />

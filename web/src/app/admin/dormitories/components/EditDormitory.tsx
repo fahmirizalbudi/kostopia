@@ -68,14 +68,14 @@ const EditDormitory = (dormitory: Dormitory) => {
     setFormData({ name: "", address: "", description: "", price: null, facilities: "", google_maps: "" })
 
     setIsOpen(false)
-    toast.success("Kost berhasil diperbarui!", { duration: 3000 })
+    toast.success("Kos berhasil diperbarui!", { duration: 3000 })
     router.refresh()
   }
 
   return (
     <>
       <Action icon={asset("edit.svg")} size={18} as="Edit" onAction={toggleOpen} />
-      <Modal title="Edit Kost" isOpen={isOpen} onClose={toggleOpen}>
+      <Modal title="Edit Kos" isOpen={isOpen} onClose={toggleOpen}>
         <form className={formStyles.form} onSubmit={handleSubmit}>
           <Flex className={formStyles.group}>
             <Label htmlFor="name">Nama :</Label>
