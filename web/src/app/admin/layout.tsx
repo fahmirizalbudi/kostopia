@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import SideNavigation from "./components/SideNavigation"
-import { menuSideNavigation } from "../data/menu"
+import { menuSideNavigation } from "../menu/side-navigation"
 import AppBar from "./components/AppBar"
 
 export const metadata: Metadata = {

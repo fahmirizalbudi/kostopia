@@ -1,8 +1,3 @@
-export type menuNavigationBarProps = {
-  menu: string
-  linkTo: string
-}
-
 export type menuSideNavigationProps = {
   text: string
   linkTo?: string
@@ -12,25 +7,6 @@ export type menuSideNavigationProps = {
 
 export const MENU_SIDE_HEADER = "header"
 export const MENU_SIDE_LINK = "link"
-
-export const menuNavigationBar: menuNavigationBarProps[] = [
-  {
-    menu: "Beranda",
-    linkTo: "/",
-  },
-  {
-    menu: "Sewa",
-    linkTo: "/rent",
-  },
-  {
-    menu: "Kontak",
-    linkTo: "/contact",
-  },
-  {
-    menu: "Telusuri",
-    linkTo: "/search",
-  },
-]
 
 export const menuSideNavigation: menuSideNavigationProps[] = [
   {

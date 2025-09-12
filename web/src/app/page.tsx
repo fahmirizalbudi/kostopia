@@ -1,7 +1,7 @@
 import Image from "next/image";
 import NavigationBar from "./components/layout/NavigationBar";
 import Button from "./components/ui/Button";
-import { menuNavigationBar } from "./data/menu";
+import { menuNavigationBar } from "./menu/navigation-bar";
 import styles from "./page.module.scss"
 import { asset } from "./lib/asset";
 

@@ -3,7 +3,7 @@
 import Image from "next/image"
 import styles from "./SideNavigation.module.scss"
 import { asset } from "@/app/lib/asset"
-import { MENU_SIDE_HEADER, MENU_SIDE_LINK, menuSideNavigationProps } from "@/app/data/menu"
+import { MENU_SIDE_HEADER, MENU_SIDE_LINK, menuSideNavigationProps } from "@/app/menu/side-navigation"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { menuNavigationBarProps } from "@/app/data/menu"
+import { menuNavigationBarProps } from "@/app/menu/navigation-bar"
 import { asset } from "@/app/lib/asset"
 import Image from "next/image"
 import Button from "../ui/Button"
