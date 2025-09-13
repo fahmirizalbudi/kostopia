@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import styles from "./ComboBox.module.scss"
+import Image from "next/image"
+import { asset } from "@/app/lib/asset"
 
 export type Option = {
   value: string
@@ -12,9 +14,10 @@ type ComboBoxProps = {
   name?: string
   value?: Option | null
   onChange?: (option: string) => void
+  className?: string
 }
 
-export default function ComboBox({ options, placeholder = "Select...", value, onChange, name }: ComboBoxProps) {
+export default function ComboBox({ options, placeholder = "Select...", value, onChange, name, className }: ComboBoxProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<Option | null>(value || null)
 
@@ -31,10 +34,10 @@ export default function ComboBox({ options, placeholder = "Select...", value, on
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className}`}>
       <button name={name} type="button" className={styles.trigger} onClick={toggleDropdown} style={{ color: selected ? "#1b1b1b" : "#757575" }}>
         {selected ? selected.label : placeholder}
-        <span>&#9662;</span>
+        <Image src={asset("dropdown.svg")} height={20} width={20} alt="Dropdown" />
       </button>
 
       {isOpen && (
