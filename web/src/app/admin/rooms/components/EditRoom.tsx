@@ -31,7 +31,7 @@ const EditRoom = (room: Room) => {
   useEffect(() => {
       const fetchDormitoriesOption = async () => {
         const rawDormitories: Dormitory[] = await fetchDormitories()
-        const optionDormitories: Option[] = rawDormitories.map(rawDormitory => ({
+        const optionDormitories: Option[] = rawDormitories?.map(rawDormitory => ({
           value: String(rawDormitory?.id),
           label: String(rawDormitory?.id) + " - " + String(rawDormitory?.name)
         }))
