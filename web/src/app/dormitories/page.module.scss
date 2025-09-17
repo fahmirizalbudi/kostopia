@@ -1,0 +1,65 @@
+@import "../styles/variable.scss";
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.titleSection {
+  font-size: 38px;
+  line-height: 125%;
+  font-family: "SF Pro Display";
+  letter-spacing: 0.3px;
+  color: #1b1b1b;
+  margin-left: 1px;
+}
+
+.decorations {
+  gap: 15px;
+}
+
+.decoration {
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.filterContainer {
+  gap: 16px;
+}
+
+.search {
+  width: 2200px;
+}
+
+.orderBy {
+  width: 2200px;
+}
+
+.action {
+  padding-inline: 16px;
+
+  &:hover {
+    background-color: darken($color: white, $amount: 3);
+  }
+}
+
+.dormitories {
+  gap: 30px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.dormitoriesList {
+  gap: 30px;
+  flex-direction: column;
+}

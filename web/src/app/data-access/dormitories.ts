@@ -49,3 +49,11 @@ export const deleteDormitory = async (obj: { accessToken: string; where: number 
 
   return res
 }
+
+export const fetchDormitoriesWithPreviews = async () => {
+  const res = await fetch(API + "/dormitories/previews", {
+    cache: "no-store",
+  })
+  const json = await res.json()
+  return json.data
+}

@@ -9,15 +9,15 @@ export const menuNavigationBar: menuNavigationBarProps[] = [
     linkTo: "/",
   },
   {
-    menu: "Sewa",
-    linkTo: "/rent",
+    menu: "Cari Kos",
+    linkTo: "/dormitories",
   },
   {
-    menu: "Kontak",
+    menu: "Informasi",
+    linkTo: "/information",
+  },
+  {
+    menu: "Kontak Kami",
     linkTo: "/contact",
-  },
-  {
-    menu: "Telusuri",
-    linkTo: "/search",
   },
 ]
