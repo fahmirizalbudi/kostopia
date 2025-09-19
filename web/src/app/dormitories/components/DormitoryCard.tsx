@@ -3,15 +3,10 @@
 import Image from "next/image"
 import styles from "./DormitoryCard.module.scss"
 import { asset } from "@/app/lib/asset"
-import Button from "../../components/ui/Button"
 import { Dormitory } from "@/app/types/dormitory"
+import Link from "next/link"
 
 const DormitoryCard = (dormitoriesWithPreview: Dormitory) => {
-  const { id } = dormitoriesWithPreview
-  const handleClick = (id: Number) => {
-    alert(id)
-  }
-
   return (
     <div className={styles.dormitory}>
       <div className={styles.dormitoryPreviewWrapper}>
@@ -47,7 +42,7 @@ const DormitoryCard = (dormitoriesWithPreview: Dormitory) => {
               <span className={styles.monthlyText}>/ Bulan</span>
             </span>
           </div>
-          <Button className={styles.viewDetail} onClick={() => handleClick(Number(id))}>Lihat Detail</Button>
+          <Link href={`/dormitories/${dormitoriesWithPreview.id}/detail`} className={styles.viewDetail}>Lihat Detail</Link>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import styles from "./DormitoryList.module.scss"
 import Image from "next/image"
 import { Dormitory } from "@/app/types/dormitory"
 import { asset } from "@/app/lib/asset"
-import Button from "@/app/components/ui/Button"
+import Link from "next/link"
 
 const DormitoryList = (dormitoriesWithPreview: Dormitory) => {
   return (
@@ -43,7 +43,7 @@ const DormitoryList = (dormitoriesWithPreview: Dormitory) => {
               <span className={styles.monthlyText}>/ Bulan</span>
             </span>
           </div>
-          <Button className={styles.viewDetail}>Lihat Detail</Button>
+          <Link href={`/dormitories/${dormitoriesWithPreview.id}/detail`} className={styles.viewDetail}>Lihat Detail</Link>
         </div>
       </div>
     </Flex>
