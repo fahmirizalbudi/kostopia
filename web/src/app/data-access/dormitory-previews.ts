@@ -1,12 +1,11 @@
 import { API } from "../constants/api"
 import { DormitoryPreview } from "../types/dormitory-preview"
 
-export const fetchDormitoryPreviews = async (obj: { accessToken: string; where: number | string }): Promise<DormitoryPreview[]> => {
+export const fetchDormitoryPreviews = async (obj: { where: number | string }): Promise<DormitoryPreview[]> => {
   const res = await fetch(API + `/dormitories/${obj.where}/previews`, {
     cache: "no-store",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${obj.accessToken}`,
     },
   })
   const json = await res.json()

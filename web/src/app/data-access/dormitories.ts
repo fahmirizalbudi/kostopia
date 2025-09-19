@@ -23,6 +23,14 @@ export const createDormitory = async (obj: { accessToken: string; schema: Dormit
   return res
 }
 
+export const findDormitory = async (obj: { where: number | string }): Promise<Dormitory> => {
+  const res = await fetch(API + `/dormitories/${obj.where}`, {
+    cache: "no-store",
+  })
+  const json = await res.json()
+  return json.data
+}
+
 export const updateDormitory = async (obj: { accessToken: string; schema: Dormitory; where: number | string }) => {
   const res = await fetch(API + `/dormitories/${obj.where}`, {
     method: "PUT",

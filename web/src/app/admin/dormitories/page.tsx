@@ -40,7 +40,7 @@ const Dormitories = async () => {
               <TableCell>{i + 1}</TableCell>
               <TableCell>{dormitory.name}</TableCell>
               <TableCell>{dormitory.address}</TableCell>
-              <TableCell>{dormitory.description}</TableCell>
+              <TableCell>{Number(dormitory?.description?.length) > 100 ? dormitory?.description?.substring(0, 100) + "..." : dormitory?.description}</TableCell>
               <TableCell>{rupiah(dormitory.price as number)}</TableCell>
               <TableCell className={styles.actions}>
                 <EditDormitory {...dormitory} />
