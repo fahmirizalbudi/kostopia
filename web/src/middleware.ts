@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
 
   if (path === "/") return NextResponse.next()
 
-  if (path === "/auth/login" && token?.role === "tenant") {
+  if (path === "/auth/login" && token) {
     url.pathname = "/"
     return NextResponse.redirect(url)
   }
