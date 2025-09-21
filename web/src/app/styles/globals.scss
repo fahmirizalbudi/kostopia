@@ -1,3 +1,5 @@
+@import "./variable.scss";
+
 @font-face {
   font-family: "SF Pro Text";
   src: url("../fonts/SFProText-Regular.ttf") format("truetype");
@@ -118,4 +120,22 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+#nprogress .bar {
+  background: $primary-color; 
+  height: 2.5px;         
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px $primary-color, 0 0 5px $primary-color;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: $primary-color;
+  border-left-color: $primary-color;
+}
+
+#nprogress .bar {
+  transition: all 0.4s ease;
 }

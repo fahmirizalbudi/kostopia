@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import "./styles/globals.scss"
 import ToasterProvider from "./components/ui/ToasterProvider"
-import { SessionProvider } from "next-auth/react"
 import { getServerSession } from "next-auth"
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import SessionProviderWrapper from "./components/layout/ServerSessionWrapper"
+import ProgressBar from "./components/layout/ProgressBar"
 
 export const metadata: Metadata = {
   title: "Kostopia - Rent a Dorm",
@@ -22,7 +22,10 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <SessionProviderWrapper session={session}>
-          <ToasterProvider>{children}</ToasterProvider>
+          <ToasterProvider>
+            <ProgressBar />
+            {children}
+          </ToasterProvider>
         </SessionProviderWrapper>
       </body>
     </html>
