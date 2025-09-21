@@ -1,7 +1,7 @@
+"use client"
+
+import { useRef } from "react"
 import styles from "./DatePicker.module.scss"
-import Image from "next/image"
-import { asset } from "@/app/lib/asset"
-import { FormEvent } from "react"
 
 interface DatePickerProps {
   placeholder?: string
@@ -10,9 +10,15 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ placeholder = "Pilih tanggal ...", value, onChange }: DatePickerProps) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleClick = () => {
+    inputRef.current?.showPicker()
+  }
+
   return (
-    <div className={`${styles.datePicker} ${value ? styles.hasValue : ""}`}>
-      <input type="date" value={String(value)} onChange={onChange} onFocus={(e: React.FocusEvent<HTMLInputElement>) => e.target.blur()} />
+    <div className={`${styles.datePicker} ${value ? styles.hasValue : ""}`} onClick={handleClick}>
+      <input type="date" value={String(value)} onChange={onChange} onFocus={(e: React.FocusEvent<HTMLInputElement>) => e.target.blur()} ref={inputRef} />
       <span className={styles.placeholder}>{value || placeholder}</span>
     </div>
   )

@@ -12,6 +12,7 @@
   font-weight: 500;
   font-size: 15px;
   position: relative;
+  cursor: pointer;
 
   input {
     border: none;
@@ -21,8 +22,8 @@
     color: transparent;
     width: 100%;
     background: transparent;
-    cursor: pointer;
     user-select: none;
+    pointer-events: none;
 
     &::-webkit-calendar-picker-indicator {
       position: absolute;
