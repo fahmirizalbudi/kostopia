@@ -3,7 +3,7 @@
 
 CREATE TYPE transaction_method AS ENUM ('cash', 'transfer', 'ewallet');
 CREATE TYPE transaction_purpose AS ENUM ('new', 'renewal');
-CREATE TYPE transaction_status AS ENUM ('pending', 'success');
+CREATE TYPE transaction_status AS ENUM ('pending', 'success', 'rejected');
 
 -- TODO: add dormitory_price column, add purpose column ('new', 'renewal')
 
