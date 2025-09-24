@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -333,5 +334,25 @@ func TransactionFind(c *gin.Context) {
 		Message: fmt.Sprintf("Transaction with id %s successfully found", id),
 		Error:   nil,
 		Data:    transaction,
+	})
+}
+
+func TransactionCheckLastStatus(c *gin.Context) {
+	rentalId, _ := strconv.Atoi(c.Param("id"))
+	res, err := repo.CheckLastTransactionStatusByRentalID(configs.DB, rentalId)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.Payload{
+		Message: fmt.Sprintf("Transaction status with rental id %d successfully found", rentalId),
+		Error:   nil,
+		Data:    res,
 	})
 }

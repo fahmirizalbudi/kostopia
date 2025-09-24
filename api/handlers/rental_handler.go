@@ -252,3 +252,32 @@ func RentalByAuthenticated(c *gin.Context) {
 		Data:    rentals,
 	})
 }
+
+func RentalFind(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	rental, err := repo.GetRentalByID(configs.DB, id)
+	if err == sql.ErrNoRows {
+		c.AbortWithStatusJSON(http.StatusNotFound, structs.Payload{
+			Message: fmt.Sprintf("Rental with id %d not found", id),
+			Error:   "Not Found",
+			Data:    nil,
+		})
+		return
+	}
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.Payload{
+		Message: fmt.Sprintf("Rental with id %d successfully found", id),
+		Error:   nil,
+		Data:    rental,
+	})
+}

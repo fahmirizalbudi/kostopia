@@ -58,6 +58,7 @@ func Setup() *gin.Engine {
 	api.PATCH("/rentals/:id/status", middlewares.AuthMiddleware, handlers.RentalStatus)
 	api.PATCH("/rentals/:id/duration", middlewares.AuthMiddleware, handlers.RentalAddDuration)
 	api.GET("/rentals/me", middlewares.AuthMiddleware, handlers.RentalByAuthenticated)
+	api.GET("/rentals/:id", handlers.RentalFind)
 
 	api.GET("/transactions", handlers.TransactionIndex)
 	api.POST("/transactions/midtrans", handlers.TransactionMidtrans)
@@ -65,6 +66,7 @@ func Setup() *gin.Engine {
 	api.POST("/transactions/:id/proof", handlers.TransactionAttachProof)
 	api.PATCH("/transactions/:id/status", handlers.TransactionStatus)
 	api.GET("/transactions/:id", handlers.TransactionFind)
+	api.GET("/transactions/rental/:id/status", handlers.TransactionCheckLastStatus)
 
 	return router
 }

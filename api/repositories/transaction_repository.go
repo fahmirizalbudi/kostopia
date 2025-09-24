@@ -5,6 +5,8 @@ import (
 	res "api/types/structs/responses"
 	"database/sql"
 	"fmt"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetNewTransactionID(dbParam *sql.DB) (response string) {
@@ -87,7 +89,7 @@ func GetTransactionByID(dbParam *sql.DB, id string) (response res.TransactionWit
 	err = dbParam.QueryRow(sqlStatement, id).
 		Scan(&response.ID, &response.RentalID, &response.DormitoryPrice, &response.MonthPaid, &response.Amount, &response.Method, &response.Purpose, &response.Status, &response.Proof, &response.CreatedAt)
 	if err != nil {
-		return response, err 
+		return response, err
 	}
 
 	rental, err := GetRentalWithRoomAndTenantByID(dbParam, response.RentalID)
@@ -97,4 +99,24 @@ func GetTransactionByID(dbParam *sql.DB, id string) (response res.TransactionWit
 	response.Rental = rental
 
 	return response, nil
+}
+
+func CheckLastTransactionStatusByRentalID(dbParam *sql.DB, rentalId int) (gin.H, error) {
+	var id string
+	var status string
+	sqlStatement := "SELECT id, status FROM transactions WHERE rental_id = $1 ORDER BY created_at DESC LIMIT 1"
+	err := dbParam.QueryRow(sqlStatement, rentalId).Scan(&id, &status)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return gin.H{
+				"status": "no_transaction",
+			}, nil
+		}
+		return nil, err
+	}
+
+	return gin.H{
+		"transaction_id": id,
+		"status":         status,
+	}, nil
 }
