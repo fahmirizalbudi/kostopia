@@ -49,3 +49,22 @@ export const deleteRoom = async (obj: { accessToken: string; where: number | str
   })
   return res
 }
+
+export const getRoomsByDormitory = async (obj: { where: number | string }): Promise<Room[]> => {
+  const res = await fetch(API + `/dormitories/${obj.where}/rooms`, {
+    cache: "no-store",
+  })
+  const json = await res.json()
+  return json.data
+}
+
+export const findRoom = async (obj: { accessToken: string; where: number | string }): Promise<Room> => {
+  const res = await fetch(API + `/rooms/${obj.where}`, {
+    headers: {
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
+    cache: "no-store",
+  })
+  const json = await res.json()
+  return json.data
+}
