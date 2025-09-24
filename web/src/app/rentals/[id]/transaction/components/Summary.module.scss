@@ -1,0 +1,59 @@
+@import "../../../../styles/variable.scss";
+
+.rental {
+  align-items: center;
+  justify-content: space-between;
+
+  .priceWrapper {
+    align-items: center;
+
+    .priceText {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 125%;
+      color: #1c1c1b;
+    }
+  }
+
+  .rentalImage {
+    border-radius: 10px;
+  }
+
+  .rentalContent {
+    padding-inline: 30px;
+    align-items: center;
+    flex: 1;
+
+    .rentalContentWrapper {
+      flex-direction: column;
+      gap: 12px;
+
+      .rentalName {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 125%;
+        color: #1c1c1b;
+      }
+
+      .rentalSpecifications {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+        align-items: center;
+
+        .rentalSpecification {
+
+          .specificationTitle {
+            font-size: 14px;
+            line-height: 150%;
+            color: #636366;
+          }
+
+          .specificationBody {
+            color: #1C1C1B;
+          }
+        }
+      }
+    }
+  }
+}

@@ -39,7 +39,7 @@ const EditRoom = (room: Room) => {
       }
   
       fetchDormitoriesOption()
-    },[dormitories])
+    },[])
 
   const toggleOpen = () => {
     setFormData({ dormitory_id: room.dormitory_id, room_number: room.room_number, status: room.status })

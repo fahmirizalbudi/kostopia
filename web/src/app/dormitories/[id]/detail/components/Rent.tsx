@@ -4,35 +4,65 @@ import Flex from "@/app/components/layout/Flex"
 import styles from "../page.module.scss"
 import TextBox from "@/app/components/forms/TextBox"
 import Button from "@/app/components/ui/Button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DatePicker from "@/app/components/forms/DatePicker"
 import { asset } from "@/app/lib/asset"
+import { Room } from "@/app/types/room"
+import { getRoomsByDormitory } from "@/app/data-access/rooms"
+import { useParams } from "next/navigation"
+import nProgress from "nprogress"
+import { useSession } from "next-auth/react"
+import { createRental } from "@/app/data-access/rentals"
 
 const Rent = () => {
-  const [room, setRoom] = useState<String>()
+  const { id } = useParams()
+  const { data: session } = useSession()
+  const [rooms, setRooms] = useState<Room[]>()
+  const [roomId, setRoomId] = useState<Number | null>(null)
   const [startDate, setStartDate] = useState<String>("")
-  const [duration, setDuration] = useState<Number>()
+  const [durationMonths, setDurationMonths] = useState<Number | null>(null)
 
-  const handleClick = () => {
-    console.log({ room, startDate, duration })
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const rooms = await getRoomsByDormitory({
+        where: Number(id),
+      })
+      setRooms(rooms)
+    }
+    fetchRooms()
+  }, [id])
+
+  const handleClick = async () => {
+    const res = await createRental({
+      accessToken: String(session?.accessToken),
+      schema: {
+        room_id: Number(roomId),
+        start_date: String(startDate),
+        duration_months: Number(durationMonths)
+      },
+    })
+    setRoomId(null)
+    setStartDate("")
+    setDurationMonths(null)
   }
 
   return (
     <Flex className={styles.rent}>
       <span className={styles.name}>Atur Penyewaan</span>
       <Flex className={styles.options}>
-        <div className={styles.option}>
-          <input type="radio" id="KK001" name="size" value="KK001" onChange={(e) => setRoom(e.target.value)} />
-          <label htmlFor="KK001">KK001</label>
-        </div>
-        <div className={styles.option}>
-          <input type="radio" id="KK002" name="size" value="KK002" disabled />
-          <label htmlFor="KK002">KK002</label>
-        </div>
-        <div className={styles.option}>
-          <input type="radio" id="KK003" name="size" value="KK003" onChange={(e) => setRoom(e.target.value)} />
-          <label htmlFor="KK003">KK003</label>
-        </div>
+        {rooms?.map((room) => (
+          <div className={styles.option} key={room.id}>
+            <input
+              type="radio"
+              id={String(room.id)}
+              name="room_id"
+              value={room.id}
+              disabled={String(room.status) === "rented"}
+              onChange={(e) => setRoomId(Number(e.target.value))}
+            />
+            <label htmlFor={String(room.id)}>{room.room_number}</label>
+          </div>
+        ))}
       </Flex>
       <DatePicker placeholder="Mulai sewa (dd-mm-yyyy)" value={startDate} onChange={(e) => setStartDate(String(e.target.value))} />
       <TextBox
@@ -40,7 +70,8 @@ const Rent = () => {
         placeholder="Periode sewa (bulan)"
         icon={asset("ordered.svg")}
         iconSize={18}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDuration(Number(e.target.value))}
+        value={durationMonths ? Number(durationMonths) : ""}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDurationMonths(Number(e.target.value))}
       />
       <Button className={styles.rentNow} onClick={handleClick}>
         Sewa Sekarang!

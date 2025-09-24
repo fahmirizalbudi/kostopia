@@ -1,0 +1,100 @@
+@import "../../styles/variable.scss";
+
+.lineDivider {
+  border: none;
+  height: 1px;
+  background-color: #E0E0E0;
+}
+
+.rental {
+  align-items: center;
+  justify-content: space-between;
+
+  .rentalImage {
+    border-radius: 10px;
+  }
+
+  .rentalContent {
+    padding-inline: 30px;
+    align-items: center;
+    flex: 1;
+
+    .rentalContentWrapper {
+      flex-direction: column;
+      gap: 12px;
+
+      .rentalName {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 125%;
+        color: #1c1c1b;
+      }
+
+      .rentalSpecifications {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+        align-items: center;
+
+        .rentalSpecification {
+
+          .specificationTitle {
+            font-size: 14px;
+            line-height: 150%;
+            color: #636366;
+          }
+
+          .specificationBody {
+            color: #1C1C1B;
+          }
+
+          .statusPending,
+          .statusPaid,
+          .statusCanceled {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-left: 4px;
+          }
+
+          .statusPending {
+            background-color: #fff3cd;
+            color: #856404;
+          }
+
+          .statusPaid {
+            background-color: #d4edda;
+            color: #155724;
+          }
+
+          .statusCanceled {
+            background-color: #f8d7da;
+            color: #721c24;
+          }
+        }
+      }
+    }
+  }
+
+  .rentalAction {
+    .payButton {
+      border-radius: 8px;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #fff;
+      background-color: $primary-color;
+      height: fit-content;
+      text-decoration: none;
+      font-size: 15px;
+      border: none;
+
+      &:hover {
+        background-color: darken($color: $primary-color, $amount: 2.5);
+      }
+    }
+  }
+}

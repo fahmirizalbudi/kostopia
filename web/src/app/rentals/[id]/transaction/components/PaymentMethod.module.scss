@@ -1,0 +1,105 @@
+@import "../../../../styles/variable.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  user-select: none;
+
+  input {
+    display: none;
+  }
+}
+
+.customRadio {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #888;
+  border-radius: 50%;
+  position: relative;
+  transition: border-color 0.3s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background: #1F4B43;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+}
+
+.option.active {
+  border-color: #1F4B43;
+  background: #E8F5F2;
+
+  .customRadio {
+    border-color: #1F4B43;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  .icon {
+    color: #1F4B43;
+  }
+
+  .label {
+    font-weight: 600;
+    color: #1F4B43;
+  }
+}
+
+.label {
+  font-size: 15px;
+  color: #333;
+}
+
+.payWrapper {
+  justify-content: flex-end;
+  margin-top: 0.45rem;
+
+  .pay {
+    border-radius: 8px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    background-color: $primary-color;
+    height: fit-content;
+    text-decoration: none;
+    font-size: 15px;
+    border: none;
+
+    &:hover {
+      background-color: darken($color: $primary-color, $amount: 2.5);
+    }
+  }
+}

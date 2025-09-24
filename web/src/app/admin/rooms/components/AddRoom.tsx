@@ -38,7 +38,7 @@ const AddRoom = () => {
     }
 
     fetchDormitoriesOption()
-  },[dormitories])
+  },[])
 
   const toggleOpen = () => {
     setFormData({ dormitory_id: null, room_number: "", status: "" })
