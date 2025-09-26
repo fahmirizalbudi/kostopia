@@ -1,14 +1,13 @@
 package repositories
 
 import (
-	res "api/types/structs/responses"
 	req "api/types/structs/requests"
+	res "api/types/structs/responses"
 	"database/sql"
 )
 
 func GetAllRoomsWithDormitory(dbParam *sql.DB) (responses []res.RoomWithDormitoryResponse, err error) {
 	sqlStatement := "SELECT * FROM rooms"
-
 
 	rows, err := dbParam.Query(sqlStatement)
 	if err != nil {
@@ -86,4 +85,10 @@ func GetRoomsByDormitoryID(dbParam *sql.DB, dormitoryId int) (response []res.Roo
 	}
 
 	return
+}
+
+func UpdateRoomStatusIfRentalIsActive(dbParam *sql.DB) error {
+	sqlStatement := "UPDATE rooms SET status = 'rented' FROM rentals WHERE rentals.room_id = rooms.id AND ((SELECT status FROM rentals ORDER BY id DESC LIMIT 1) = 'active')"
+	_, err := dbParam.Exec(sqlStatement)
+	return err
 }

@@ -58,9 +58,16 @@ func GetAllTransactions(dbParam *sql.DB) (response []res.TransactionWithRentalRe
 }
 
 func CreateTransaction(dbParam *sql.DB, transactionRequest req.TransactionRequest) (response res.TransactionResponse, err error) {
-	sqlStatement := "INSERT INTO transactions (id, rental_id, dormitory_price, month_paid, amount, method, purpose, status) SELECT $1 as id, $2 as rental_id, (SELECT price FROM dormitories WHERE id = (SELECT dormitory_id FROM rooms WHERE id = (SELECT room_id FROM rentals WHERE id = $3))) as dormitory_price, $4 as month_paid, (SELECT price FROM dormitories WHERE id = (SELECT dormitory_id FROM rooms WHERE id = (SELECT room_id FROM rentals WHERE id = $3))) * $4 as amount, $5 as method, $6 as purpose, $7 as status RETURNING *"
+	sqlStatement := "INSERT INTO transactions (id, rental_id, dormitory_price, month_paid, amount, method, purpose, status, proof) SELECT $1 as id, $2 as rental_id, (SELECT price FROM dormitories WHERE id = (SELECT dormitory_id FROM rooms WHERE id = (SELECT room_id FROM rentals WHERE id = $3))) as dormitory_price, $4 as month_paid, (SELECT price FROM dormitories WHERE id = (SELECT dormitory_id FROM rooms WHERE id = (SELECT room_id FROM rentals WHERE id = $3))) * $4 as amount, $5 as method, $6 as purpose, $7 as status, $8 as proof RETURNING *"
 	newTransactionID := GetNewTransactionID(dbParam)
-	err = dbParam.QueryRow(sqlStatement, newTransactionID, transactionRequest.RentalID, transactionRequest.RentalID, transactionRequest.MonthPaid, transactionRequest.Method, transactionRequest.Purpose, transactionRequest.Status).Scan(&response.ID, &response.RentalID, &response.DormitoryPrice, &response.MonthPaid, &response.Amount, &response.Method, &response.Purpose, &response.Status, &response.Proof, &response.CreatedAt)
+	var proof sql.NullString
+	if transactionRequest.Proof == "" {
+		fmt.Println("Ya")
+		proof = sql.NullString{String: "", Valid: false} 
+	} else {
+		proof = sql.NullString{String: transactionRequest.Proof, Valid: true}
+	}
+	err = dbParam.QueryRow(sqlStatement, newTransactionID, transactionRequest.RentalID, transactionRequest.RentalID, transactionRequest.MonthPaid, transactionRequest.Method, transactionRequest.Purpose, transactionRequest.Status, proof).Scan(&response.ID, &response.RentalID, &response.DormitoryPrice, &response.MonthPaid, &response.Amount, &response.Method, &response.Purpose, &response.Status, &response.Proof, &response.CreatedAt)
 	return
 }
 
@@ -104,8 +111,9 @@ func GetTransactionByID(dbParam *sql.DB, id string) (response res.TransactionWit
 func CheckLastTransactionStatusByRentalID(dbParam *sql.DB, rentalId int) (gin.H, error) {
 	var id string
 	var status string
-	sqlStatement := "SELECT id, status FROM transactions WHERE rental_id = $1 ORDER BY created_at DESC LIMIT 1"
-	err := dbParam.QueryRow(sqlStatement, rentalId).Scan(&id, &status)
+	var method string
+	sqlStatement := "SELECT id, status, method FROM transactions WHERE rental_id = $1 ORDER BY created_at DESC LIMIT 1"
+	err := dbParam.QueryRow(sqlStatement, rentalId).Scan(&id, &status, &method)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return gin.H{
@@ -117,6 +125,7 @@ func CheckLastTransactionStatusByRentalID(dbParam *sql.DB, rentalId int) (gin.H,
 
 	return gin.H{
 		"transaction_id": id,
+		"method":					method,
 		"status":         status,
 	}, nil
 }

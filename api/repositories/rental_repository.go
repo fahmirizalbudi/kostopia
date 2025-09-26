@@ -119,3 +119,9 @@ func GetRentalWithRoomAndTenantByID(dbParam *sql.DB, id int) (response res.Renta
 
 	return
 }
+
+func UpdateRentalStatusIfTransactionIsSuccess(dbParam *sql.DB) error {
+	sqlStatement := "UPDATE rentals SET status = 'active' FROM transactions WHERE transactions.rental_id = rentals.id AND transactions.status = 'success' AND rentals.status = 'pending' AND DATE(rentals.start_date) = CURRENT_DATE"
+	_, err := dbParam.Exec(sqlStatement)
+	return err
+}

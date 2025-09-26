@@ -7,7 +7,8 @@ import { findDormitory } from "@/app/data-access/dormitories"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { fetchDormitoryPreviews } from "@/app/data-access/dormitory-previews"
-import { getTransactionStatusByRental } from "@/app/data-access/transactions"
+import { getTransactionMethodByRental, getTransactionStatusByRental } from "@/app/data-access/transactions"
+import PayButton from "./PayButton"
 
 const RentalList = async (rental: Rental) => {
   const session = await getServerSession(authOptions)
@@ -22,7 +23,10 @@ const RentalList = async (rental: Rental) => {
     where: Number(dormitory.id),
   })
   const transactionStatus = await getTransactionStatusByRental({
-    where: Number(rental.id)
+    where: Number(rental.id),
+  })
+  const transactionMethod = await getTransactionMethodByRental({
+    where: Number(rental.id),
   })
 
   return (
@@ -60,15 +64,15 @@ const RentalList = async (rental: Rental) => {
                     className={`${styles.specificationBody} ${
                       rental.status === "pending"
                         ? styles.statusPending
-                        : rental.status === "paid" || rental.status === "finished"
+                        : rental.status === "active" || rental.status === "finished"
                         ? styles.statusPaid
                         : styles.statusCanceled
                     }`}
                   >
                     {rental.status === "pending"
                       ? "Menunggu"
-                      : rental.status === "paid"
-                      ? "Lunas"
+                      : rental.status === "active"
+                      ? "Aktif"
                       : rental.status === "finished"
                       ? "Selesai"
                       : "Dibatalkan"}
@@ -103,7 +107,7 @@ const RentalList = async (rental: Rental) => {
           </Flex>
         </Flex>
         <div className={styles.rentalAction}>
-          <button className={styles.payButton}>Bayar ➝</button>
+          {(transactionStatus === "pending" || transactionStatus === "no_transaction") && <PayButton rental={rental} transactionMethod={transactionMethod} transactionStatus={transactionStatus} />}
         </div>
       </Flex>
       <hr className={styles.lineDivider} />

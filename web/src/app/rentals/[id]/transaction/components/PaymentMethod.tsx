@@ -1,9 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styles from "./PaymentMethod.module.scss"
 import Button from "@/app/components/ui/Button"
 import Flex from "@/app/components/layout/Flex"
+import { createTransaction, snapMidtrans } from "@/app/data-access/transactions"
+import { useSession } from "next-auth/react"
+import { Transaction } from "@/app/types/transaction"
+import { Rental } from "@/app/types/rental"
+import { findRental } from "@/app/data-access/rentals"
+import { useParams, useRouter } from "next/navigation"
+import { NULL_PROOF } from "@/app/enums/transaction.enums"
 
 const methods = [
   {
@@ -40,18 +47,60 @@ const methods = [
 
 export default function PaymentMethod() {
   const [selected, setSelected] = useState("")
+  const session = useSession()
+  const { id } = useParams()
+  const [rental, setRental] = useState<Rental>()
+  const router = useRouter()
+
+  useEffect(() => {
+    const fetchRental = async () => {
+      const rental =  await findRental({
+        where: Number(id)
+      })
+      setRental(rental)
+    }
+    fetchRental()
+  }, [])
+
+  const handlePay = async () => {
+    const transaction: Transaction = {
+      rental_id: Number(id),
+      month_paid: Number(rental?.duration_months),
+      purpose: "new",
+      method: selected,
+      status: "pending",
+      proof: NULL_PROOF
+    }
+
+    const snapRes = await snapMidtrans({
+      accessToken: String(session.data?.accessToken),
+      schema: transaction
+    })
+
+    transaction.proof = String(snapRes.midtrans_unique)
+
+    const transactionRes = await createTransaction({
+      accessToken: String(session.data?.accessToken),
+      schema: transaction
+    })
+
+    if(transactionRes) {
+      const redirect: string = snapRes.snap_response.redirect_url
+      router.push(redirect)
+    }
+  }
 
   return (
     <div className={styles.container}>
       {methods.map((method) => (
         <label key={method.id} className={`${styles.option} ${selected === method.id ? styles.active : ""}`}>
-          <input type="radio" name="payment" value={method.id} checked={selected === method.id} onChange={() => setSelected(method.id)} />
+          <input type="radio" name="method" value={method.id} checked={selected === method.id} onChange={() => setSelected(method.id)} />
           <span className={styles.customRadio}></span>
           <span className={styles.icon}>{method.icon}</span>
           <span className={styles.label}>{method.label}</span>
         </label>
       ))}
-      <Flex className={styles.payWrapper}><Button className={styles.pay}>Bayar Sekarang!</Button></Flex>
+      <Flex className={styles.payWrapper}><Button className={styles.pay} onClick={handlePay}>Bayar Sekarang!</Button></Flex>
     </div>
   )
 }

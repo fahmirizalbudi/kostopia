@@ -13,9 +13,11 @@ import { useParams } from "next/navigation"
 import nProgress from "nprogress"
 import { useSession } from "next-auth/react"
 import { createRental } from "@/app/data-access/rentals"
+import { useRouter } from "next/navigation"
 
 const Rent = () => {
   const { id } = useParams()
+  const router = useRouter()
   const { data: session } = useSession()
   const [rooms, setRooms] = useState<Room[]>()
   const [roomId, setRoomId] = useState<Number | null>(null)
@@ -44,6 +46,12 @@ const Rent = () => {
     setRoomId(null)
     setStartDate("")
     setDurationMonths(null)
+    
+    const json = await res.json()
+    const rentalId = json.data.id
+
+    nProgress.start()
+    router.push(`/rentals/${rentalId}/transaction`)
   }
 
   return (

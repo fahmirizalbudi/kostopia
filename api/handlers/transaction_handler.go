@@ -56,6 +56,20 @@ func TransactionMidtrans(c *gin.Context) {
 		})
 		return
 	}
+
+	redisKey := fmt.Sprintf("rental:%d:transaction", *transactionRequest.RentalID)
+	cached, err := redis.GetKey(redisKey)
+	if err == nil {
+		var cacheSnap snap.Response
+		json.Unmarshal([]byte(cached), &cacheSnap)
+
+		c.JSON(http.StatusOK, structs.Payload{
+			Message: "Midtrans snap reused from cache",
+			Error:   nil,
+			Data:    cacheSnap,
+		})
+		return
+	}
 	
 	v := validator.New()
 	v.Required(transactionRequest.RentalID, "rental_id")
@@ -68,20 +82,6 @@ func TransactionMidtrans(c *gin.Context) {
 			Message: "Validation error",
 			Error:   "Unprocessable Entity",
 			Data:    v,
-		})
-		return
-	}
-
-	redisKey := fmt.Sprintf("rental:%d:transaction", *transactionRequest.RentalID)
-	cached, err := redis.GetKey(redisKey)
-	if err == nil {
-		var cacheSnap snap.Response
-		json.Unmarshal([]byte(cached), &cacheSnap)
-
-		c.JSON(http.StatusOK, structs.Payload{
-			Message: "Midtrans snap reused from cache",
-			Error:   nil,
-			Data:    cacheSnap,
 		})
 		return
 	}
@@ -106,15 +106,20 @@ func TransactionMidtrans(c *gin.Context) {
 		return
 	}
 
+	midtransUnique := fmt.Sprintf("%s_%d", repo.GetNewTransactionID(configs.DB), time.Now().Unix())
+
 	snapRequest := snap.Request{
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID:   fmt.Sprintf("%s_%d", repo.GetNewTransactionID(configs.DB), time.Now().Unix()),
+			OrderID:   midtransUnique,
 			GrossAmt: int64(*transactionRequest.MonthPaid) * int64(dormitory.Price),
 		},
 		CustomerDetail: &midtrans.CustomerDetails{
 			FName: rental.Tenant.Name,
 			Email: rental.Tenant.Email,
 			Phone: rental.Tenant.Phone,
+		},
+		Callbacks: &snap.Callbacks{
+			Finish: fmt.Sprintf("http://localhost:3000/payment/success?id=%s", repo.GetNewTransactionID(configs.DB)),
 		},
 	}
 
@@ -135,7 +140,10 @@ func TransactionMidtrans(c *gin.Context) {
 	c.JSON(http.StatusOK, structs.Payload{
 		Message: "Midtrans snap generated successfully",
 		Error:   nil,
-		Data:    snapResponse,
+		Data:    gin.H{
+			"snap_response": snapResponse,
+			"midtrans_unique": midtransUnique,
+		},
 	})
 }
 
@@ -177,21 +185,21 @@ func TransactionStore(c *gin.Context) {
 		return
 	}
 
-	rental, err := repo.GetRentalByID(configs.DB, transaction.RentalID)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
-			Message: "Internal server error",
-			Error:   "Internal Server Error",
-			Data:    nil,
-		})
-		return
-	}
+	// rental, err := repo.GetRentalByID(configs.DB, transaction.RentalID)
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+	// 		Message: "Internal server error",
+	// 		Error:   "Internal Server Error",
+	// 		Data:    nil,
+	// 	})
+	// 	return
+	// }
 
-	rentalStartDate, _ := time.Parse(constants.TIMESTAMP_TO_DATE_FORMAT, rental.StartDate)
-	rentalStartDateString := rentalStartDate.Format(constants.DATE_FORMAT)
-	if transaction.Status == constants.TRANSACTION_STATUS_SUCCESS && utils.DateNow() == rentalStartDateString {
-		repo.ChangeRentalStatus(configs.DB, rental.ID, constants.RENTAL_STATUS_ACTIVE)
-	}
+	// rentalStartDate, _ := time.Parse(constants.TIMESTAMP_TO_DATE_FORMAT, rental.StartDate)
+	// rentalStartDateString := rentalStartDate.Format(constants.DATE_FORMAT)
+	// if transaction.Status == constants.TRANSACTION_STATUS_SUCCESS && utils.DateNow() == rentalStartDateString {
+	// 	repo.ChangeRentalStatus(configs.DB, rental.ID, constants.RENTAL_STATUS_ACTIVE)
+	// }
 
 	c.JSON(http.StatusOK, structs.Payload{
 		Message: "Transaction inserted successfully",
