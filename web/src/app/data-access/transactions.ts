@@ -46,3 +46,16 @@ export const changeTransactionStatus = async (obj: { where?: string, to?: string
   })
   return res
 }
+
+export const attachProof = async (obj: { accessToken: string; schema: FormData; where: number | string }) => {
+  const res = await fetch(API + `/transactions/${obj.where}/proof`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
+    body: obj.schema,
+  })
+
+  return res
+}

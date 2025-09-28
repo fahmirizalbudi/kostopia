@@ -51,14 +51,6 @@ const RentalList = async (rental: Rental) => {
               </li>
               <li className={styles.rentalSpecification}>
                 <span className={styles.specificationTitle}>
-                  Total:{" "}
-                  <span className={styles.specificationBody}>
-                    {(Number(dormitory.price) * Number(rental.duration_months)).toLocaleString("id-ID")}
-                  </span>
-                </span>
-              </li>
-              <li className={styles.rentalSpecification}>
-                <span className={styles.specificationTitle}>
                   Status:{" "}
                   <span
                     className={`${styles.specificationBody} ${

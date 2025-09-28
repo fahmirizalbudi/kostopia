@@ -164,7 +164,6 @@
     gap: 30px;
 
     & .leftSection {
-      flex: 2;
       flex-direction: column;
 
       .subContentTitle {
@@ -235,7 +234,6 @@
     }
 
     & .rightSection {
-      flex: 1;
 
       & .rightCard {
         border: 1px solid #e0e0e0;

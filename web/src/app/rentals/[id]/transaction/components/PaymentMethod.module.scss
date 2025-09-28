@@ -101,5 +101,9 @@
     &:hover {
       background-color: darken($color: $primary-color, $amount: 2.5);
     }
+
+    &.inactive {
+      background-color: darken($color: $primary-color, $amount: 2.5);
+    }
   }
 }

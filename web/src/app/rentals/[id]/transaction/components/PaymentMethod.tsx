@@ -11,6 +11,8 @@ import { Rental } from "@/app/types/rental"
 import { findRental } from "@/app/data-access/rentals"
 import { useParams, useRouter } from "next/navigation"
 import { NULL_PROOF } from "@/app/enums/transaction.enums"
+import AttachProof from "./AttachProof"
+import CashPayment from "./CashPayment"
 
 const methods = [
   {
@@ -54,8 +56,8 @@ export default function PaymentMethod() {
 
   useEffect(() => {
     const fetchRental = async () => {
-      const rental =  await findRental({
-        where: Number(id)
+      const rental = await findRental({
+        where: Number(id),
       })
       setRental(rental)
     }
@@ -69,38 +71,60 @@ export default function PaymentMethod() {
       purpose: "new",
       method: selected,
       status: "pending",
-      proof: NULL_PROOF
+      proof: NULL_PROOF,
     }
 
-    const snapRes = await snapMidtrans({
-      accessToken: String(session.data?.accessToken),
-      schema: transaction
-    })
+    if (transaction.method === "ewallet") {
+      const snapRes = await snapMidtrans({
+        accessToken: String(session.data?.accessToken),
+        schema: transaction,
+      })
 
-    transaction.proof = String(snapRes.midtrans_unique)
+      transaction.proof = String(snapRes.midtrans_unique)
 
-    const transactionRes = await createTransaction({
-      accessToken: String(session.data?.accessToken),
-      schema: transaction
-    })
+      const transactionRes = await createTransaction({
+        accessToken: String(session.data?.accessToken),
+        schema: transaction,
+      })
 
-    if(transactionRes) {
-      const redirect: string = snapRes.snap_response.redirect_url
-      router.push(redirect)
+      if (transactionRes) {
+        const redirect: string = snapRes.snap_response.redirect_url
+        router.push(redirect)
+      }
+    } else if (transaction.method === "transfer") {
+      console.log("tes")
     }
   }
 
   return (
-    <div className={styles.container}>
-      {methods.map((method) => (
-        <label key={method.id} className={`${styles.option} ${selected === method.id ? styles.active : ""}`}>
-          <input type="radio" name="method" value={method.id} checked={selected === method.id} onChange={() => setSelected(method.id)} />
-          <span className={styles.customRadio}></span>
-          <span className={styles.icon}>{method.icon}</span>
-          <span className={styles.label}>{method.label}</span>
-        </label>
-      ))}
-      <Flex className={styles.payWrapper}><Button className={styles.pay} onClick={handlePay}>Bayar Sekarang!</Button></Flex>
-    </div>
+    <>
+      <div className={styles.container}>
+        {methods.map((method) => (
+          <label key={method.id} className={`${styles.option} ${selected === method.id ? styles.active : ""}`}>
+            <input type="radio" name="method" value={method.id} checked={selected === method.id} onChange={() => setSelected(method.id)} />
+            <span className={styles.customRadio}></span>
+            <span className={styles.icon}>{method.icon}</span>
+            <span className={styles.label}>{method.label}</span>
+          </label>
+        ))}
+        <Flex className={styles.payWrapper}>
+          {selected === "ewallet" && (
+            <Button className={styles.pay} onClick={handlePay}>
+              Bayar Sekarang!
+            </Button>
+          )}
+
+          {selected === "transfer" && <AttachProof rental={rental as Rental} btnSytle={styles.pay} />}
+
+          {selected === "cash" && <CashPayment rental={rental as Rental} btnSytle={styles.pay} />}
+
+          {selected === "" && (
+            <Button className={`${styles.pay} ${styles.inactive}`}>
+              Bayar Sekarang!
+            </Button>
+          )}
+        </Flex>
+      </div>
+    </>
   )
 }
