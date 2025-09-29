@@ -1,6 +1,16 @@
 import { API } from "../constants/api"
 import { Transaction } from "../types/transaction"
 
+export const fetchTransactions = async (obj: { accessToken: string }): Promise<Transaction[]> => {
+  const res = await fetch(API + "/transactions", {
+    headers: {
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
+  })
+  const json = await res.json()
+  return json.data
+}
+
 export const getTransactionStatusByRental = async (obj: { where: number }): Promise<string> => {
   const res = await fetch(API + `/transactions/rental/${obj.where}/status`)
   const json = await res.json()
@@ -40,7 +50,7 @@ export const snapMidtrans = async (obj: { accessToken: string; schema: Transacti
   return json.data
 }
 
-export const changeTransactionStatus = async (obj: { where?: string, to?: string }) => {
+export const changeTransactionStatus = async (obj: { where?: string; to?: string }) => {
   const res = await fetch(API + `/transactions/${obj.where}/status?to=${obj.to}`, {
     method: "PATCH",
   })
