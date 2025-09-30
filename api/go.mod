@@ -3,6 +3,7 @@ module api
 go 1.24.1
 
 require (
+	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.9.3 // indirect
 	github.com/bxcodec/faker/v4 v4.0.0-beta.3 // indirect
 	github.com/bytedance/sonic v1.14.0 // indirect
 	github.com/bytedance/sonic/loader v0.3.0 // indirect

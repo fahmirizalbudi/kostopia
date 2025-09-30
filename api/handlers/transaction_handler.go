@@ -70,7 +70,7 @@ func TransactionMidtrans(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	v := validator.New()
 	v.Required(transactionRequest.RentalID, "rental_id")
 	v.Required(transactionRequest.MonthPaid, "month_paid")
@@ -110,7 +110,7 @@ func TransactionMidtrans(c *gin.Context) {
 
 	snapRequest := snap.Request{
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID:   midtransUnique,
+			OrderID:  midtransUnique,
 			GrossAmt: int64(*transactionRequest.MonthPaid) * int64(dormitory.Price),
 		},
 		CustomerDetail: &midtrans.CustomerDetails{
@@ -134,14 +134,16 @@ func TransactionMidtrans(c *gin.Context) {
 	}
 
 	jsonData, err := json.Marshal(snapResponse)
-	if err != nil { panic(err) }
-	redis.SetKey(redisKey, string(jsonData), 15 * 60)
+	if err != nil {
+		panic(err)
+	}
+	redis.SetKey(redisKey, string(jsonData), 15*60)
 
 	c.JSON(http.StatusOK, structs.Payload{
 		Message: "Midtrans snap generated successfully",
 		Error:   nil,
-		Data:    gin.H{
-			"snap_response": snapResponse,
+		Data: gin.H{
+			"snap_response":   snapResponse,
 			"midtrans_unique": midtransUnique,
 		},
 	})
@@ -221,7 +223,6 @@ func TransactionAttachProof(c *gin.Context) {
 		return
 	}
 
-
 	var v = validator.New()
 	proof, err := c.FormFile("proof")
 	if err != nil {
@@ -238,13 +239,13 @@ func TransactionAttachProof(c *gin.Context) {
 	}
 
 	filename := utils.RandomString() + filepath.Ext(proof.Filename)
-	err = c.SaveUploadedFile(proof, "./public/uploads/" + filename)
+	err = c.SaveUploadedFile(proof, "./public/uploads/"+filename)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
 			Message: "Internal server error",
 			Error:   "Internal Server Error",
 			Data:    nil,
-			})
+		})
 		return
 	}
 
@@ -363,4 +364,54 @@ func TransactionCheckLastStatus(c *gin.Context) {
 		Error:   nil,
 		Data:    res,
 	})
+}
+
+func TransactionReceipt(c *gin.Context) {
+	id := c.Param("id")
+
+	transaction, err := repo.GetTransactionByID(configs.DB, id)
+	if err == sql.ErrNoRows {
+		c.AbortWithStatusJSON(http.StatusNotFound, structs.Payload{
+			Message: fmt.Sprintf("Transaction with id %s not found", id),
+			Error:   "Not Found",
+			Data:    nil,
+		})
+		return
+	}
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	htmlContent, err := utils.RenderReceiptHTML(transaction)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	pdfBytes, err := utils.GeneratePDF(htmlContent)
+	if err != nil {
+		fmt.Println(err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	c.Data(
+		http.StatusOK,
+		"application/pdf",
+		pdfBytes,
+	)
 }

@@ -67,6 +67,7 @@ func Setup() *gin.Engine {
 	api.PATCH("/transactions/:id/status", handlers.TransactionStatus)
 	api.GET("/transactions/:id", handlers.TransactionFind)
 	api.GET("/transactions/rental/:id/status", handlers.TransactionCheckLastStatus)
+	api.GET("/transactions/:id/receipt", handlers.TransactionReceipt)
 
 	return router
 }

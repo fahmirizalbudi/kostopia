@@ -12,7 +12,7 @@ import { fetchTransactions } from "@/app/data-access/transactions"
 import { Transaction } from "@/app/types/transaction"
 import TransactionProof from "./components/TransactionProof"
 import TransactionIsSuccess from "./components/TransactionIsSuccess"
-import TransactionInvoice from "./components/TransactionInvoice"
+import TransactionReceipt from "./components/TransactionReceipt"
 import TransactionInformation from "./components/TransactionInformation"
 
 const Transactions = async () => {
@@ -76,7 +76,7 @@ const Transactions = async () => {
               </TableCell>
               <TableCell className={styles.actions}>
                 <TransactionInformation {...transaction} />
-                {transaction.status === "success" && <TransactionInvoice {...transaction} />}
+                {transaction.status === "success" && <TransactionReceipt {...transaction} />}
                 {transaction.method === "transfer" && <TransactionProof {...transaction} />}
                 {(transaction.method === "cash" || transaction.method === "transfer") && transaction.status === "pending" && (
                   <TransactionIsSuccess {...transaction} />
