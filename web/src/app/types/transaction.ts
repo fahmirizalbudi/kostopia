@@ -1,3 +1,5 @@
+import { Rental } from "./rental"
+
 export type Transaction = {
   id?: string
   rental_id?: number
@@ -8,5 +10,6 @@ export type Transaction = {
   purpose?: string
   status?: string
   proof?: string
+  rental?: Rental
   created_at?: string
 }
