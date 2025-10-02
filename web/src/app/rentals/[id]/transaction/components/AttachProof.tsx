@@ -21,9 +21,11 @@ import nProgress from "nprogress"
 type AttachProofProps = {
   btnSytle: string
   rental: Rental
+  renewal?: Boolean
+  monthPaid?: number
 }
 
-const AttachProof = ({ btnSytle, rental }: AttachProofProps) => {
+const AttachProof = ({ btnSytle, rental, renewal, monthPaid }: AttachProofProps) => {
   const { data: session } = useSession()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState<Boolean>(false)
@@ -51,8 +53,8 @@ const AttachProof = ({ btnSytle, rental }: AttachProofProps) => {
 
     const transaction: Transaction = {
       rental_id: Number(rental.id),
-      month_paid: Number(rental?.duration_months),
-      purpose: "new",
+      month_paid: renewal ? monthPaid : Number(rental?.duration_months),
+      purpose: renewal ? "renewal" : "new",
       method: "transfer",
       status: "pending",
       proof: NULL_PROOF,

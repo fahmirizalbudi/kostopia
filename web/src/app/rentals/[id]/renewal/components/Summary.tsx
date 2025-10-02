@@ -19,6 +19,10 @@ const Summary = ({ rental }: { rental: Rental }) => {
   const { setDuration, duration } = useDataProvider()
 
   useEffect(() => {
+    setDuration(1)
+  }, [])
+
+  useEffect(() => {
     const fetchData = async () => {
       const roomRes = await findRoom({
         accessToken: String(session?.accessToken),

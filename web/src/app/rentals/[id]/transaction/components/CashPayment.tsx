@@ -16,9 +16,11 @@ import { NULL_PROOF } from "@/app/enums/transaction.enums"
 type CashPaymentProps = {
   btnSytle: string
   rental: Rental
+  renewal?: Boolean
+  monthPaid?: number
 }
 
-const CashPayment = ({ btnSytle, rental }: CashPaymentProps) => {
+const CashPayment = ({ btnSytle, rental, renewal, monthPaid }: CashPaymentProps) => {
   const { data: session } = useSession()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState<Boolean>(false)
@@ -32,8 +34,8 @@ const CashPayment = ({ btnSytle, rental }: CashPaymentProps) => {
 
     const transaction: Transaction = {
       rental_id: Number(rental.id),
-      month_paid: Number(rental?.duration_months),
-      purpose: "new",
+      month_paid: renewal ? monthPaid : Number(rental?.duration_months),
+      purpose: renewal ? "renewal" : "new",
       method: "cash",
       status: "pending",
       proof: NULL_PROOF,

@@ -115,9 +115,9 @@ export default function PaymentMethod() {
             </Button>
           )}
 
-          {selected === "transfer" && <AttachProof rental={rental as Rental} btnSytle={styles.pay} />}
+          {selected === "transfer" && <AttachProof rental={rental as Rental} btnSytle={styles.pay} renewal monthPaid={duration} />}
 
-          {selected === "cash" && <CashPayment rental={rental as Rental} btnSytle={styles.pay} />}
+          {selected === "cash" && <CashPayment rental={rental as Rental} btnSytle={styles.pay} renewal monthPaid={duration} />}
 
           {selected === "" && <Button className={`${styles.pay} ${styles.inactive}`}>Bayar Sekarang!</Button>}
         </Flex>
