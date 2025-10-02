@@ -42,12 +42,33 @@ const RentalList = async (rental: Rental) => {
             <ul className={styles.rentalSpecifications}>
               <li className={styles.rentalSpecification}>
                 <span className={styles.specificationTitle}>
-                  Mulai Sewa: <span className={styles.specificationBody}>{new Date(String(rental.start_date)).toLocaleDateString("id-ID")}</span>
+                  Mulai Sewa:{" "}
+                  <span className={styles.specificationBody}>
+                    {new Date(rental.start_date as string).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
                 </span>
               </li>
               <li className={styles.rentalSpecification}>
                 <span className={styles.specificationTitle}>
                   Lama Sewa: <span className={styles.specificationBody}>{rental.duration_months} Bulan</span>
+                </span>
+              </li>
+              <li className={styles.rentalSpecification}>
+                <span className={styles.specificationTitle}>
+                  Selesai Sewa:{" "}
+                  <span className={styles.specificationBody}>
+                    {new Date(rental.end_date as string).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </span>
                 </span>
               </li>
               <li className={styles.rentalSpecification}>
