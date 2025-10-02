@@ -10,6 +10,8 @@ import RentalList from "./components/RentalList"
 import { getMyRentals } from "../data-access/rentals"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]/route"
+import Tabs from "../components/ui/Tabs"
+import { historyTabItems } from "../menu/history-tab"
 
 const Rentals = async () => {
   const session = await getServerSession(authOptions)
@@ -24,8 +26,9 @@ const Rentals = async () => {
         <Flex className={styles.header}>
           <span className={styles.titleSection}>Histori</span>
           <Flex className={styles.decorations}>
-            <Image alt="Decoration" width={40} height={40} src={asset("deco_02.svg")} className={styles.decoration} />
-            <Image alt="Decoration" width={40} height={40} src={asset("deco.svg")} className={styles.decoration} />
+            {/* <Image alt="Decoration" width={40} height={40} src={asset("deco_02.svg")} className={styles.decoration} />
+            <Image alt="Decoration" width={40} height={40} src={asset("deco.svg")} className={styles.decoration} /> */}
+            <Tabs items={historyTabItems} />
           </Flex>
         </Flex>
         <Break height={30} />
