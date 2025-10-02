@@ -112,7 +112,7 @@ func CheckLastTransactionStatusByRentalID(dbParam *sql.DB, rentalId int) (gin.H,
 	var id string
 	var status string
 	var method string
-	sqlStatement := "SELECT id, status, method FROM transactions WHERE rental_id = $1 ORDER BY created_at DESC LIMIT 1"
+	sqlStatement := "SELECT id, status, method FROM transactions WHERE rental_id = $1 ORDER BY created_at ASC LIMIT 1"
 	err := dbParam.QueryRow(sqlStatement, rentalId).Scan(&id, &status, &method)
 	if err != nil {
 		if err == sql.ErrNoRows {

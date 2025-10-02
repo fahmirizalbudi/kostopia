@@ -9,6 +9,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { fetchDormitoryPreviews } from "@/app/data-access/dormitory-previews"
 import { getTransactionMethodByRental, getTransactionStatusByRental } from "@/app/data-access/transactions"
 import PayButton from "./PayButton"
+import RenewalButton from "./RenewalButton"
 
 const RentalList = async (rental: Rental) => {
   const session = await getServerSession(authOptions)
@@ -99,7 +100,10 @@ const RentalList = async (rental: Rental) => {
           </Flex>
         </Flex>
         <div className={styles.rentalAction}>
-          {(transactionStatus === "pending" || transactionStatus === "no_transaction") && <PayButton rental={rental} transactionMethod={transactionMethod} transactionStatus={transactionStatus} />}
+          {(transactionStatus === "pending" || transactionStatus === "no_transaction") && (
+            <PayButton rental={rental} transactionMethod={transactionMethod} transactionStatus={transactionStatus} />
+          )}
+          {rental.status === "active" && <RenewalButton {...rental} />}
         </div>
       </Flex>
       <hr className={styles.lineDivider} />

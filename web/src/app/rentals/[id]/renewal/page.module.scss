@@ -1,0 +1,48 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-block: 30px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .titleSection {
+      font-size: 38px;
+      line-height: 125%;
+      font-family: "SF Pro Display";
+      letter-spacing: 0.3px;
+      color: #1b1b1b;
+      margin-left: 1px;
+    }
+  }
+
+  .divider {
+    width: 100%;
+    flex-direction: column-reverse;
+    gap: 50px;
+
+    .paymentMethod {
+      flex-direction: column;
+      gap: 22.5px;
+
+      .subTitle {
+        color: lighten($color: #1b1b1b, $amount: 10);
+        font-weight: 500;
+        font-size: 18px;
+      }
+    }
+
+    .summary {
+      flex-direction: column;
+      gap: 22.5px;
+
+      .subTitle {
+        color: lighten($color: #1b1b1b, $amount: 10);
+        font-weight: 500;
+        font-size: 18px;
+      }
+    }
+  }
+}
