@@ -121,9 +121,7 @@ const RentalList = async (rental: Rental) => {
           </Flex>
         </Flex>
         <div className={styles.rentalAction}>
-          {(transactionStatus === "pending" || transactionStatus === "no_transaction") && (
-            <PayButton rental={rental} transactionMethod={transactionMethod} transactionStatus={transactionStatus} />
-          )}
+          {(transactionStatus === "no_transaction" && rental.status === "pending") && <PayButton rental={rental} />}
           {rental.status === "active" && <RenewalButton {...rental} />}
         </div>
       </Flex>
