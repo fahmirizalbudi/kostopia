@@ -160,3 +160,9 @@ func GetAuthenticatedUserTransactions(dbParam *sql.DB, claims *helpers.Claims) (
 
 	return
 }
+
+func RejectTransactionIfEwalletAndMoreThanThirtyMinutes(dbParam *sql.DB) error {
+	sqlStatement := "UPDATE transactions SET status = 'rejected' WHERE status = 'pending' AND created_at <= CURRENT_TIMESTAMP - INTERVAL '30 minutes'"
+	_, err := dbParam.Exec(sqlStatement)
+	return err
+}

@@ -125,3 +125,9 @@ func UpdateRentalStatusIfTransactionIsSuccess(dbParam *sql.DB) error {
 	_, err := dbParam.Exec(sqlStatement)
 	return err
 }
+
+func CancelRentalIfNotProceed(dbParam *sql.DB) error {
+	sqlStatement := "UPDATE rentals SET status = 'cancelled' WHERE status = 'pending' AND created_at <= CURRENT_TIMESTAMP - INTERVAL '30 minutes'"
+	_, err := dbParam.Exec(sqlStatement)
+	return err
+}

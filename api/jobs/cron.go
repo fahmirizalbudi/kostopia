@@ -10,14 +10,24 @@ import (
 
 func Run() {
 	c := cron.New(cron.WithSeconds())
+
+	var count int
+
 	_, err := c.AddFunc("*/5 * * * * *", func() {
 		if err := repo.UpdateRentalStatusIfTransactionIsSuccess(configs.DB); err != nil {
-			fmt.Println("Error update rentals:", err)
+			panic(err)
 		}
 		if err := repo.UpdateRoomStatusIfRentalIsActive(configs.DB); err != nil {
-			fmt.Println("Error update rooms:", err)
+			panic(err)
 		}
-		fmt.Println("Job is executing ...")
+		if err := repo.CancelRentalIfNotProceed(configs.DB); err != nil {
+			panic(err)
+		}
+		if err := repo.RejectTransactionIfEwalletAndMoreThanThirtyMinutes(configs.DB); err != nil {
+			panic(err)
+		}
+		count++
+		fmt.Println("Job is executing... run ke:", count)
 	})
 	if err != nil {
 		fmt.Println("Error menambahkan cron:", err)
