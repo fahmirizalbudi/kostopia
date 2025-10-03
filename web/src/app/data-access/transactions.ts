@@ -69,3 +69,13 @@ export const attachProof = async (obj: { accessToken: string; schema: FormData; 
 
   return res
 }
+
+export const getMyTransactions = async (obj: { accessToken: string }): Promise<Transaction[]> => {
+  const res = await fetch(API + "/transactions/me", {
+    headers: {
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
+  })
+  const json = await res.json()
+  return json.data
+}

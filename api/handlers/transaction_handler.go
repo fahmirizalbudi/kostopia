@@ -3,6 +3,7 @@ package handlers
 import (
 	"api/configs"
 	"api/constants"
+	"api/helpers"
 	repo "api/repositories"
 	"api/types/structs"
 	req "api/types/structs/requests"
@@ -412,4 +413,25 @@ func TransactionReceipt(c *gin.Context) {
 		"application/pdf",
 		pdfBytes,
 	)
+}
+
+func TransactionByAuthenticated(c *gin.Context) {
+	claims, _ := c.Get("claims")
+	auth := claims.(*helpers.Claims)
+
+	transactions, err := repo.GetAuthenticatedUserTransactions(configs.DB, auth)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.Payload{
+		Message: "Your transactions retrieved successfully",
+		Error:   nil,
+		Data:    transactions,
+	})
 }

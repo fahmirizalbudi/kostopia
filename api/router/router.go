@@ -68,6 +68,7 @@ func Setup() *gin.Engine {
 	api.GET("/transactions/:id", handlers.TransactionFind)
 	api.GET("/transactions/rental/:id/status", handlers.TransactionCheckLastStatus)
 	api.GET("/transactions/:id/receipt", handlers.TransactionReceipt)
+	api.GET("/transactions/me", middlewares.AuthMiddleware, handlers.TransactionByAuthenticated)
 
 	return router
 }

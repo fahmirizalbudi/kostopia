@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"api/helpers"
 	req "api/types/structs/requests"
 	res "api/types/structs/responses"
 	"database/sql"
@@ -63,7 +64,7 @@ func CreateTransaction(dbParam *sql.DB, transactionRequest req.TransactionReques
 	var proof sql.NullString
 	if transactionRequest.Proof == "" {
 		fmt.Println("Ya")
-		proof = sql.NullString{String: "", Valid: false} 
+		proof = sql.NullString{String: "", Valid: false}
 	} else {
 		proof = sql.NullString{String: transactionRequest.Proof, Valid: true}
 	}
@@ -125,7 +126,37 @@ func CheckLastTransactionStatusByRentalID(dbParam *sql.DB, rentalId int) (gin.H,
 
 	return gin.H{
 		"transaction_id": id,
-		"method":					method,
+		"method":         method,
 		"status":         status,
 	}, nil
+}
+
+func GetAuthenticatedUserTransactions(dbParam *sql.DB, claims *helpers.Claims) (response []res.TransactionWithRentalResponse, err error) {
+	sqlStatement := "SELECT transactions.id, transactions.rental_id, transactions.dormitory_price, transactions.month_paid, transactions.amount, transactions.method, transactions.purpose, transactions.status, transactions.proof, transactions.created_at FROM transactions INNER JOIN rentals ON transactions.rental_id = rentals.id WHERE rentals.tenant_id = $1"
+
+	rows, err := dbParam.Query(sqlStatement, claims.ID)
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		var transaction res.TransactionWithRentalResponse
+
+		err = rows.Scan(&transaction.ID, &transaction.RentalID, &transaction.DormitoryPrice, &transaction.MonthPaid, &transaction.Amount, &transaction.Method, &transaction.Purpose, &transaction.Status, &transaction.Proof, &transaction.CreatedAt)
+		if err != nil {
+			panic(err)
+		}
+
+		rental, err := GetRentalWithRoomAndTenantByID(dbParam, transaction.RentalID)
+		if err != nil {
+			panic(err)
+		}
+
+		transaction.Rental = rental
+
+		response = append(response, transaction)
+	}
+
+	return
 }
