@@ -9,6 +9,7 @@ import { findDormitory } from "@/app/data-access/dormitories"
 import { fetchDormitoryPreviews } from "@/app/data-access/dormitory-previews"
 import { findRental } from "@/app/data-access/rentals"
 import TransactionReceipt from "@/app/admin/transactions/components/TransactionReceipt"
+import ContinuePayment from "./ContinuePayment"
 
 const TransactionList = async (transaction: Transaction) => {
   const session = await getServerSession(authOptions)
@@ -86,7 +87,12 @@ const TransactionList = async (transaction: Transaction) => {
             </ul>
           </Flex>
         </Flex>
-        <div className={styles.transactionAction}>{transaction.status === "success" && <TransactionReceipt {...transaction} />}</div>
+        <div className={styles.transactionAction}>
+          {transaction.status === "success" && <TransactionReceipt {...transaction} />}
+          {(transaction.status === "pending" && transaction.method === "ewallet") && (
+            <ContinuePayment {...transaction} />
+          )}
+        </div>
       </Flex>
       <hr className={styles.lineDivider} />
     </>

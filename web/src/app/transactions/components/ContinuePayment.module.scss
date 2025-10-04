@@ -1,0 +1,19 @@
+@import "../../styles/variable.scss";
+
+.continuePayment {
+  border-radius: 8px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+  background-color: $primary-color;
+  height: fit-content;
+  text-decoration: none;
+  font-size: 15px;
+  border: none;
+
+  &:hover {
+    background-color: darken($color: $primary-color, $amount: 2.5);
+  }
+}

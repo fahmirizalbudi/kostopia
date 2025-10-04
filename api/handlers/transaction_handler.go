@@ -3,6 +3,7 @@ package handlers
 import (
 	"api/configs"
 	"api/constants"
+	"api/database/redis"
 	"api/helpers"
 	repo "api/repositories"
 	"api/types/structs"
@@ -10,6 +11,7 @@ import (
 	"api/utils"
 	"api/utils/validator"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -56,19 +58,7 @@ func TransactionMidtrans(c *gin.Context) {
 		return
 	}
 
-	// redisKey := fmt.Sprintf("rental:%d:transaction", *transactionRequest.RentalID)
-	// cached, err := redis.GetKey(redisKey)
-	// if err == nil {
-	// 	var cacheSnap snap.Response
-	// 	json.Unmarshal([]byte(cached), &cacheSnap)
-
-	// 	c.JSON(http.StatusOK, structs.Payload{
-	// 		Message: "Midtrans snap reused from cache",
-	// 		Error:   nil,
-	// 		Data:    cacheSnap,
-	// 	})
-	// 	return
-	// }
+	redisKey := fmt.Sprintf("transaction:%s", repo.GetNewTransactionID(configs.DB))
 
 	v := validator.New()
 	v.Required(transactionRequest.RentalID, "rental_id")
@@ -132,11 +122,11 @@ func TransactionMidtrans(c *gin.Context) {
 		return
 	}
 
-	// jsonData, err := json.Marshal(snapResponse)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// redis.SetKey(redisKey, string(jsonData), 15*60)
+	jsonData, err := json.Marshal(snapResponse)
+	if err != nil {
+		panic(err)
+	}
+	redis.SetKey(redisKey, string(jsonData), 15*60)
 
 	c.JSON(http.StatusOK, structs.Payload{
 		Message: "Midtrans snap generated successfully",
@@ -146,6 +136,24 @@ func TransactionMidtrans(c *gin.Context) {
 			"midtrans_unique": midtransUnique,
 		},
 	})
+}
+
+func TransactionMidtransCache(c *gin.Context) {
+	id := c.Param("id")
+	redisKey := fmt.Sprintf("transaction:%s", id)
+
+	cached, err := redis.GetKey(redisKey)
+	if err == nil {
+		var cacheSnap snap.Response
+		json.Unmarshal([]byte(cached), &cacheSnap)
+
+		c.JSON(http.StatusOK, structs.Payload{
+			Message: "Midtrans snap reused from cache",
+			Error:   nil,
+			Data:    cacheSnap,
+		})
+		return
+	}
 }
 
 func TransactionStore(c *gin.Context) {

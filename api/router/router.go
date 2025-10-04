@@ -62,6 +62,7 @@ func Setup() *gin.Engine {
 
 	api.GET("/transactions", handlers.TransactionIndex)
 	api.POST("/transactions/midtrans", handlers.TransactionMidtrans)
+	api.GET("/transactions/midtrans/:id/cache", handlers.TransactionMidtransCache)
 	api.POST("/transactions", handlers.TransactionStore)
 	api.POST("/transactions/:id/proof", handlers.TransactionAttachProof)
 	api.PATCH("/transactions/:id/status", handlers.TransactionStatus)

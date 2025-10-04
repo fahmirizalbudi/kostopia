@@ -79,3 +79,13 @@ export const getMyTransactions = async (obj: { accessToken: string }): Promise<T
   const json = await res.json()
   return json.data
 }
+
+export const snapMidtransCache = async (obj: { accessToken: string; where: string }) => {
+  const res = await fetch(API + `/transactions/midtrans/${obj.where}/cache`, {
+    headers: {
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
+  })
+  const json = await res.json()
+  return json.data
+}
