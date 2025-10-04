@@ -137,3 +137,9 @@ func CancelRentalIfTransactionIsRejected(dbParam *sql.DB) error {
 	_, err := dbParam.Exec(sqlStatement)
 	return err
 }
+
+func FinishRentalOnEndDate(dbParam *sql.DB) error {
+	sqlStatement := "UPDATE rentals SET status = 'finished' WHERE DATE(end_date) = CURRENT_DATE"
+	_, err := dbParam.Exec(sqlStatement)
+	return err
+}
