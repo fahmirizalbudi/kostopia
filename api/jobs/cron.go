@@ -29,6 +29,9 @@ func Run() {
 		if err := repo.CancelRentalIfTransactionIsRejected(configs.DB); err != nil {
 			panic(err)
 		}
+		if err := repo.FinishRentalOnEndDate(configs.DB); err != nil {
+			panic(err)
+		}
 		count++
 		fmt.Println("Job is executing... run ke:", count)
 	})
