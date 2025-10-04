@@ -83,7 +83,7 @@ const Rent = () => {
         value={durationMonths ? Number(durationMonths) : ""}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDurationMonths(Number(e.target.value))}
       />
-      <Button className={styles.rentNow} onClick={handleClick} disabled={!roomId && !durationMonths}>
+      <Button className={styles.rentNow} onClick={handleClick} disabled={(!roomId || !durationMonths || !startDate)}>
         Sewa Sekarang!
       </Button>
     </Flex>
