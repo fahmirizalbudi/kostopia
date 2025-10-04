@@ -57,12 +57,12 @@ const Review = (rental: Rental) => {
           <form onSubmit={handleSubmit} className={styles.form}>
             <Flex className={styles.formContent}>
               <RatingReview rating={rating} size={50} onRating={(value) => setRating(value)} />
-              <TextBox
-                type="text"
+              <textarea
                 placeholder="Masukkan ulasan anda ..."
                 className={styles.comment}
                 value={comment as string}
                 onChange={(e) => setComment(e.target.value)}
+                rows={3}
               />
             </Flex>
 
