@@ -337,7 +337,7 @@
           }
 
           .options {
-            column-gap: 4px;
+            column-gap: 8px;
             row-gap: 12px;
             flex: 1;
             flex-wrap: wrap;
@@ -394,9 +394,15 @@
           font-size: 15px;
           border: none;
           justify-content: center;
+          pointer-events: all;
 
           &:hover {
             background-color: darken($color: $primary-color, $amount: 3);
+          }
+
+          &:disabled {
+            background-color: darken($color: $primary-color, $amount: 3);
+            cursor: not-allowed;
           }
         }
       }
