@@ -9,6 +9,7 @@ import GridCarousels from "./components/GridCarousels"
 import LeftSection from "./components/LeftSection"
 import RightSection from "./components/RightSection"
 import DetailHeader from "./components/DetailHeader"
+import ReviewSection from "./components/ReviewSection"
 
 type DormitoryDetailProps = {
   params: { id: string }
@@ -34,6 +35,7 @@ const DormitoryDetail = async ({ params }: DormitoryDetailProps) => {
           <LeftSection {...dormitoryDetail} />
           <RightSection {...dormitoryDetail} />
         </Flex>
+        <ReviewSection {...dormitoryDetail} />
       </section>
     </main>
   )

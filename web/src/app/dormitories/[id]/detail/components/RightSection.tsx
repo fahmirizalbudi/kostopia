@@ -5,8 +5,15 @@ import RatingReview from "@/app/components/ui/RatingReview"
 import Image from "next/image"
 import { asset } from "@/app/lib/asset"
 import { Dormitory } from "@/app/types/dormitory"
+import { getReviewsByDormitory } from "@/app/data-access/reviews"
 
-const RightSection = (dormitoryDetail: Dormitory) => {
+const RightSection = async (dormitoryDetail: Dormitory) => {
+  const reviews = await getReviewsByDormitory({
+    where: dormitoryDetail.id as number,
+  })
+  const reviewer = reviews?.length ?? 0
+  const averageOfRating = reviewer === 0 ? 0 : Math.round((reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviewer) * 10) / 10
+
   return (
     <Flex className={styles.rightSection}>
       <Flex className={styles.rightCard}>
@@ -15,8 +22,8 @@ const RightSection = (dormitoryDetail: Dormitory) => {
             <span className={styles.name}>{dormitoryDetail.name}</span>
             <Flex className={styles.ratingSection}>
               <span className={styles.rentBadge}>For Rent</span>
-              <RatingReview rating={5} size={20} className={styles.ratingStar} />
-              <span className={styles.reviewCount}>(2 Reviews)</span>
+              <RatingReview rating={averageOfRating} size={20} className={styles.ratingStar} />
+              <span className={styles.reviewCount}>({reviewer} Reviews)</span>
             </Flex>
             <div className={styles.location}>
               <Image src={asset("location.svg")} width={24} height={24} alt="Location" />

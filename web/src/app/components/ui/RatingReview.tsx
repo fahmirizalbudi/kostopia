@@ -1,7 +1,9 @@
+"use client"
+
 type RatingReviewProps = {
   rating: number
   className?: string
-  onRating?: () => void
+  onRating?: (value: number) => void
   size: number
 }
 
@@ -11,13 +13,14 @@ const RatingReview = ({ rating, className, size, onRating }: RatingReviewProps) 
       {[1, 2, 3, 4, 5].map((star) => {
         return (
           <span
+          key={star}
             className={className}
             style={{
-              cursor: "pointer",
-              color: rating >= star ? "gold" : "gray",
+              cursor: onRating ? "pointer" : "default",
+              color: rating >= star ? "gold" : "rgba(0, 0, 0, 0.2)",
               fontSize: size,
             }}
-            onClick={onRating}
+            onClick={() => onRating?.(star)}
           >
             ★
           </span>

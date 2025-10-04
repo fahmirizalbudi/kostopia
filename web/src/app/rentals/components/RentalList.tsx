@@ -10,6 +10,7 @@ import { fetchDormitoryPreviews } from "@/app/data-access/dormitory-previews"
 import { getTransactionMethodByRental, getTransactionStatusByRental } from "@/app/data-access/transactions"
 import PayButton from "./PayButton"
 import RenewalButton from "./RenewalButton"
+import Review from "./Review"
 
 const RentalList = async (rental: Rental) => {
   const session = await getServerSession(authOptions)
@@ -123,6 +124,9 @@ const RentalList = async (rental: Rental) => {
         <div className={styles.rentalAction}>
           {(transactionStatus === "no_transaction" && rental.status === "pending") && <PayButton rental={rental} />}
           {rental.status === "active" && <RenewalButton {...rental} />}
+          {rental.status === "finished" && (
+            <Review {...rental} />
+          )}
         </div>
       </Flex>
       <hr className={styles.lineDivider} />

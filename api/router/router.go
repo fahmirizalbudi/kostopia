@@ -71,5 +71,8 @@ func Setup() *gin.Engine {
 	api.GET("/transactions/:id/receipt", handlers.TransactionReceipt)
 	api.GET("/transactions/me", middlewares.AuthMiddleware, handlers.TransactionByAuthenticated)
 
+	api.GET("/reviews/:id/dormitory", handlers.ReviewDormitory)
+	api.POST("/reviews", handlers.ReviewStore)
+
 	return router
 }

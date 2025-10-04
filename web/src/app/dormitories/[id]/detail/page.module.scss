@@ -408,4 +408,38 @@
       }
     }
   }
+
+  .reviewsSection {
+    width: 100%;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .reviewsTitle {
+      font-size: 28px;
+      font-weight: 500;
+      font-family: "SF Pro Display";
+    }
+
+    .reviewList {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .reviewItem {
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #636366;
+
+        .reviewer {
+          font-weight: 600;
+          color: #1b1b1b;
+          margin-bottom: 8px;
+        }
+      }
+    }
+  }
 }
