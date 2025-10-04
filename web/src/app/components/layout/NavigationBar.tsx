@@ -14,6 +14,7 @@ type NavigationBarProps = {
 
 const NavigationBar = ({ menu }: NavigationBarProps) => {
   const { data: session, status } = useSession()
+  console.log(session)
 
   return (
     <nav className={styles.nav}>

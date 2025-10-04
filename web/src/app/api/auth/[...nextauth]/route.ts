@@ -1,6 +1,8 @@
 import { API } from "@/app/constants/api"
+import { findUser } from "@/app/data-access/users"
 import { jwtDecode } from "jwt-decode"
-import NextAuth, { NextAuthOptions } from "next-auth"
+import NextAuth, { NextAuthOptions, Session } from "next-auth"
+import { JWT } from "next-auth/jwt"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 interface MyClaims {
@@ -38,7 +40,7 @@ export const authOptions: NextAuthOptions = {
         const claims = jwtDecode<MyClaims>(token)
 
         return {
-          id: String(claims.id), 
+          id: String(claims.id),
           email: claims.email,
           name: claims.name,
           role: claims.role,
@@ -56,22 +58,45 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role
         token.accessToken = user.accessToken
       }
+      if (token) {
+        const { ok, data } = await findUser({
+          accessToken: token.accessToken as string,
+          where: token.id as string,
+        })
+
+        if (!ok) {
+          return null as unknown as JWT
+        } else {
+          token.id = data.id
+          token.email = data.email
+          token.name = data.name
+          token.role = data.role
+        }
+      }
       return token
     },
     async session({ session, token }) {
+      const { ok, data } = await findUser({
+        accessToken: token.accessToken as string,
+        where: token.id as string,
+      })
+
+      if (!ok) {
+        return null as unknown as Session
+      }
       session.accessToken = String(token.accessToken)
       session.user = {
-        id: String(token.id),
-        email:  String(token.email),
-        name: String(token.name),
-        role: String(token.role),
+        id: String(data.id),
+        email: String(data.email),
+        name: String(data.name),
+        role: String(data.role),
       }
       return session
     },
   },
   pages: {
     signIn: "/auth/login",
-  }
+  },
 }
 
 const handler = NextAuth(authOptions)

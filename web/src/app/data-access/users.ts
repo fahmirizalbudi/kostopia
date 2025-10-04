@@ -53,10 +53,15 @@ export const deleteUser = async (obj: { accessToken: string; where: number | str
   return res
 }
 
-export const findUser = async (obj: { where: number | string }): Promise<User> => {
+export const findUser = async (obj: { accessToken: string; where: number | string }): Promise<any> => {
   const res = await fetch(API + `/users/${obj.where}`, {
     cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
   })
   const json = await res.json()
-  return json.data
+  return { ok: res.ok, data: json.data as User }
 }
