@@ -31,7 +31,7 @@ const Rent = () => {
       const rooms = await getRoomsByDormitory({
         where: Number(id),
       })
-      setRooms(rooms)
+      setRooms(asc(rooms, FIELD_ID))
     }
     fetchRooms()
   }, [id])
@@ -42,13 +42,13 @@ const Rent = () => {
       schema: {
         room_id: Number(roomId),
         start_date: String(startDate),
-        duration_months: Number(durationMonths)
+        duration_months: Number(durationMonths),
       },
     })
     setRoomId(null)
     setStartDate("")
     setDurationMonths(null)
-    
+
     const json = await res.json()
     const rentalId = json.data.id
 
@@ -60,7 +60,7 @@ const Rent = () => {
     <Flex className={styles.rent}>
       <span className={styles.name}>Atur Penyewaan</span>
       <Flex className={styles.options}>
-        {asc(rooms?.map((room) => (
+        {rooms?.map((room) => (
           <Flex className={styles.option} key={room.id}>
             <input
               type="radio"
@@ -72,7 +72,7 @@ const Rent = () => {
             />
             <label htmlFor={String(room.id)}>{room.room_number}</label>
           </Flex>
-        )) as any[], FIELD_ID)}
+        ))}
       </Flex>
       <DatePicker placeholder="Mulai sewa (dd-mm-yyyy)" value={startDate} onChange={(e) => setStartDate(String(e.target.value))} />
       <TextBox
