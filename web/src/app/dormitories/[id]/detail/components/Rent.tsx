@@ -14,6 +14,8 @@ import nProgress from "nprogress"
 import { useSession } from "next-auth/react"
 import { createRental } from "@/app/data-access/rentals"
 import { useRouter } from "next/navigation"
+import { asc } from "@/app/utils/utils"
+import { FIELD_ID } from "@/app/constants/field"
 
 const Rent = () => {
   const { id } = useParams()
@@ -58,8 +60,8 @@ const Rent = () => {
     <Flex className={styles.rent}>
       <span className={styles.name}>Atur Penyewaan</span>
       <Flex className={styles.options}>
-        {rooms?.map((room) => (
-          <div className={styles.option} key={room.id}>
+        {asc(rooms?.map((room) => (
+          <Flex className={styles.option} key={room.id}>
             <input
               type="radio"
               id={String(room.id)}
@@ -69,8 +71,8 @@ const Rent = () => {
               onChange={(e) => setRoomId(Number(e.target.value))}
             />
             <label htmlFor={String(room.id)}>{room.room_number}</label>
-          </div>
-        ))}
+          </Flex>
+        )) as any[], FIELD_ID)}
       </Flex>
       <DatePicker placeholder="Mulai sewa (dd-mm-yyyy)" value={startDate} onChange={(e) => setStartDate(String(e.target.value))} />
       <TextBox

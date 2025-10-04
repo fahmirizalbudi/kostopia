@@ -337,16 +337,24 @@
           }
 
           .options {
-            gap: 12px;
+            column-gap: 4px;
+            row-gap: 12px;
+            flex: 1;
+            flex-wrap: wrap;
           }
 
           .option {
+            flex: 1;
+
             input {
               display: none;
             }
 
             label {
-              display: inline-block;
+              flex: 1;
+              display: flex;
+              align-items: center;
+              justify-content: center;
               padding: 8px 12px;
               border-radius: 8px;
               background: #f2f2f2;
