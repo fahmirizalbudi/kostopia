@@ -131,3 +131,9 @@ func CancelRentalIfNotProceed(dbParam *sql.DB) error {
 	_, err := dbParam.Exec(sqlStatement)
 	return err
 }
+
+func CancelRentalIfTransactionIsRejected(dbParam *sql.DB) error {
+	sqlStatement := "UPDATE rentals SET status = 'cancelled' FROM transactions WHERE rentals.id = transactions.rental_id AND transactions.status = 'rejected' AND rentals.status = 'pending';"
+	_, err := dbParam.Exec(sqlStatement)
+	return err
+}

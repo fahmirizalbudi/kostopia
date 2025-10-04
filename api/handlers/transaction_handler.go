@@ -294,6 +294,8 @@ func TransactionStatus(c *gin.Context) {
 	switch status {
 	case constants.TRANSACTION_STATUS_SUCCESS:
 		err = repo.ChangeTransactionStatus(configs.DB, id, constants.TRANSACTION_STATUS_SUCCESS)
+	case constants.TRANSACTION_STATUS_REJECTED:
+		err = repo.ChangeTransactionStatus(configs.DB, id, constants.TRANSACTION_STATUS_REJECTED)
 	default:
 		err = repo.ChangeTransactionStatus(configs.DB, id, constants.TRANSACTION_STATUS_PENDING)
 		status = constants.TRANSACTION_STATUS_PENDING

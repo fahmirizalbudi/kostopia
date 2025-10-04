@@ -26,6 +26,9 @@ func Run() {
 		if err := repo.RejectTransactionIfEwalletAndMoreThanThirtyMinutes(configs.DB); err != nil {
 			panic(err)
 		}
+		if err := repo.CancelRentalIfTransactionIsRejected(configs.DB); err != nil {
+			panic(err)
+		}
 		count++
 		fmt.Println("Job is executing... run ke:", count)
 	})

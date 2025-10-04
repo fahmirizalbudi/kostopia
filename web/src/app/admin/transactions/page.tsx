@@ -14,6 +14,7 @@ import TransactionProof from "./components/TransactionProof"
 import TransactionIsSuccess from "./components/TransactionIsSuccess"
 import TransactionReceipt from "./components/TransactionReceipt"
 import TransactionInformation from "./components/TransactionInformation"
+import TransactionReject from "./components/TransactionReject"
 
 const Transactions = async () => {
   const session = await getServerSession(authOptions)
@@ -79,7 +80,10 @@ const Transactions = async () => {
                 {transaction.status === "success" && <TransactionReceipt {...transaction} />}
                 {transaction.method === "transfer" && <TransactionProof {...transaction} />}
                 {(transaction.method === "cash" || transaction.method === "transfer") && transaction.status === "pending" && (
-                  <TransactionIsSuccess {...transaction} />
+                  <>
+                    <TransactionReject {...transaction} />
+                    <TransactionIsSuccess {...transaction} />
+                  </>
                 )}
               </TableCell>
             </TableRow>
