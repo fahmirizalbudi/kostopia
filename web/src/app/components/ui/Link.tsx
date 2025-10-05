@@ -1,27 +1,22 @@
 "use client"
 
 import NextLink, { LinkProps } from "next/link"
-import { useRouter } from "next/navigation"
 import NProgress from "nprogress"
 import { MouseEvent } from "react"
+import { usePathname } from "next/navigation"
 
 type Props = LinkProps & {
   children: React.ReactNode
   className?: string
 }
 
-export default function Link({ children, onClick, href, ...props }: Props) {
-  const router = useRouter()
+export default function Link({ children, href, onClick, ...props }: Props) {
+  const pathname = usePathname()
 
-  const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    NProgress.start()
-    if (href) {
-      router.push(href as string)
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (href !== pathname) {
+      NProgress.start()
     }
-    setTimeout(() => {
-      NProgress.done()
-    }, 1000)
     onClick?.(e)
   }
 
