@@ -12,6 +12,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]/route"
 import Tabs from "../components/ui/Tabs"
 import { historyTabItems } from "../menu/history-tab"
+import { asc } from "../utils/utils"
+import { FIELD_ID } from "../constants/field"
 
 const Rentals = async () => {
   const session = await getServerSession(authOptions)
@@ -33,9 +35,10 @@ const Rentals = async () => {
         </Flex>
         <Break height={30} />
         <Flex className={styles.rentals}>
-          {rentals?.map((rental) => (
-            <RentalList {...rental} key={rental.id} />
-          ))}
+          {asc(
+            rentals?.map((rental) => <RentalList {...rental} key={rental.id} />),
+            FIELD_ID
+          )}
         </Flex>
       </section>
     </main>
