@@ -11,6 +11,7 @@ import { getTransactionMethodByRental, getTransactionStatusByRental } from "@/ap
 import PayButton from "./PayButton"
 import RenewalButton from "./RenewalButton"
 import Review from "./Review"
+import { getReviewsByDormitory } from "@/app/data-access/reviews"
 
 const RentalList = async (rental: Rental) => {
   const session = await getServerSession(authOptions)
@@ -27,9 +28,10 @@ const RentalList = async (rental: Rental) => {
   const transactionStatus = await getTransactionStatusByRental({
     where: Number(rental.id),
   })
-  const transactionMethod = await getTransactionMethodByRental({
-    where: Number(rental.id),
+  const reviews = await getReviewsByDormitory({
+    where: Number(room.dormitory_id),
   })
+  const hasReviewForRental = reviews?.some((r) => r.rental_id === rental.id)
 
   return (
     <>
@@ -122,11 +124,9 @@ const RentalList = async (rental: Rental) => {
           </Flex>
         </Flex>
         <div className={styles.rentalAction}>
-          {(transactionStatus === "no_transaction" && rental.status === "pending") && <PayButton rental={rental} />}
+          {transactionStatus === "no_transaction" && rental.status === "pending" && <PayButton rental={rental} />}
           {rental.status === "active" && <RenewalButton {...rental} />}
-          {rental.status === "finished" && (
-            <Review {...rental} />
-          )}
+          {rental.status === "finished" && !hasReviewForRental && <Review {...rental} />}
         </div>
       </Flex>
       <hr className={styles.lineDivider} />
