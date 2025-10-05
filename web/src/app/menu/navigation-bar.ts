@@ -18,6 +18,6 @@ export const menuNavigationBar: menuNavigationBarProps[] = [
   },
   {
     menu: "Kontak Kami",
-    linkTo: "/contact",
+    linkTo: "https://wa.me/081214696011",
   },
 ]
