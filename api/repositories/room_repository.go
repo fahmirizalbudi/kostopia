@@ -88,7 +88,7 @@ func GetRoomsByDormitoryID(dbParam *sql.DB, dormitoryId int) (response []res.Roo
 }
 
 func UpdateRoomStatusIfRentalIsActive(dbParam *sql.DB) error {
-	sqlStatement := "UPDATE rooms SET status = 'rented' FROM rentals WHERE rentals.room_id = rooms.id AND ((SELECT status FROM rentals ORDER BY id DESC LIMIT 1) = 'active')"
+	sqlStatement := "UPDATE rooms SET status = 'rented' FROM rentals WHERE rentals.room_id = rooms.id AND rentals.id = (SELECT id FROM rentals r2 WHERE r2.room_id = rooms.id ORDER BY id DESC LIMIT 1) AND rentals.status = 'active';"
 	_, err := dbParam.Exec(sqlStatement)
 	return err
 }

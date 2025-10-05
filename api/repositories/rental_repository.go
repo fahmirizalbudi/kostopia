@@ -139,7 +139,7 @@ func CancelRentalIfTransactionIsRejected(dbParam *sql.DB) error {
 }
 
 func FinishRentalOnEndDate(dbParam *sql.DB) error {
-	sqlStatement := "UPDATE rentals SET status = 'finished' WHERE DATE(end_date) >= CURRENT_DATE AND status = 'active'"
+	sqlStatement := "UPDATE rentals SET status = 'finished' WHERE DATE(end_date) = CURRENT_DATE AND status = 'active'"
 	_, err := dbParam.Exec(sqlStatement)
 	return err
 }
