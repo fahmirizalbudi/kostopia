@@ -4,12 +4,41 @@ import (
 	"api/types/structs/responses"
 	"bytes"
 	"html/template"
+	"time"
 
 	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
+func Rupiah(n int) string {
+	p := message.NewPrinter(language.Indonesian)
+	return p.Sprintf("Rp %d", n)
+}
+
+func FormatDateIndonesia(t time.Time) string {
+	bulan := map[time.Month]string{
+		time.January:   "Januari",
+		time.February:  "Februari",
+		time.March:     "Maret",
+		time.April:     "April",
+		time.May:       "Mei",
+		time.June:      "Juni",
+		time.July:      "Juli",
+		time.August:    "Agustus",
+		time.September: "September",
+		time.October:   "Oktober",
+		time.November:  "November",
+		time.December:  "Desember",
+	}
+	return t.Format("02") + " " + bulan[t.Month()] + " " + t.Format("2006")
+}
+
 func RenderReceiptHTML(transaction responses.TransactionWithRentalResponse) (string, error) {
-	tmpl, err := template.ParseFiles("templates/receipt.html")
+	tmpl, err := template.New("receipt.html").Funcs(template.FuncMap{
+		"rupiah":  Rupiah,
+		"tanggal": FormatDateIndonesia,
+	}).ParseFiles("templates/receipt.html")
 	if err != nil {
 		return "", err
 	}
