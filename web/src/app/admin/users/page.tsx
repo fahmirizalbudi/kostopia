@@ -44,8 +44,8 @@ const Users = async () => {
               <TableCell>{i + 1}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
-              <TableCell>{user.phone}</TableCell>
-              <TableCell>{user.address}</TableCell>
+              <TableCell>{user.phone?.trim() === "" ? "-" : user.phone}</TableCell>
+              <TableCell>{user.address?.trim() === "" ? "-" : user.address}</TableCell>
               <TableCell className={styles.actions}>
                 {/* <Button className={`${styles.action}`}>
                   <Image src={asset("edit.svg")} alt="Edit" width={18} height={18} />

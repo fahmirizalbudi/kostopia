@@ -100,12 +100,12 @@ const EditUser = (user: User) => {
           </Flex>
           <Flex className={formStyles.group}>
             <Label htmlFor="phone">Seluler :</Label>
-            <TextBox name="phone" type="text" value={formData.phone} placeholder="Masukkan seluler ..." onChange={handleChange} />
+            <TextBox name="phone" type="text" value={formData.phone?.trim()} placeholder="Masukkan seluler ..." onChange={handleChange} />
             <Error error={errors.phone} />
           </Flex>
           <Flex className={formStyles.group}>
             <Label htmlFor="address">Alamat :</Label>
-            <TextBox name="address" type="text" value={formData.address} placeholder="Masukkan alamat ..." onChange={handleChange} />
+            <TextBox name="address" type="text" value={formData.address?.trim()} placeholder="Masukkan alamat ..." onChange={handleChange} />
             <Error error={errors.address} />
           </Flex>
           <FormAction onCancel={toggleOpen} />
