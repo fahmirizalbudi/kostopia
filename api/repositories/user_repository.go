@@ -36,6 +36,12 @@ func CreateUser(dbParam *sql.DB, userRequest req.UserRequest) (response res.User
 	return
 }
 
+func RegisterUser(dbParam *sql.DB, userRequest req.UserRequest) error {
+	sqlStatement := "INSERT INTO users (name, email, password, role, phone, address) VALUES ($1, $2, $3, $4, '', '')"
+	_, err := dbParam.Exec(sqlStatement, userRequest.Name, userRequest.Email, userRequest.Password, userRequest.Role)
+	return err
+}
+
 func GetUserByID(dbParam *sql.DB, id int) (response res.UserResponse, err error) {
 	sqlStatement := "SELECT id, name, email, role, phone, address, created_at, updated_at FROM users WHERE id = $1"
 	err = dbParam.QueryRow(sqlStatement, id).Scan(&response.ID, &response.Name, &response.Email, &response.Role, &response.Phone, &response.Address, &response.CreatedAt, &response.UpdatedAt)

@@ -18,6 +18,6 @@ func main() {
 	go jobs.Run()
 	defer configs.DB.Close()
 
-	router.Setup().Run()
+	router.Setup().Run("0.0.0.0:8080")
 	select {}
 }

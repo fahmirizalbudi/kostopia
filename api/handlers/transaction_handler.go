@@ -108,7 +108,7 @@ func TransactionMidtrans(c *gin.Context) {
 			Phone: rental.Tenant.Phone,
 		},
 		Callbacks: &snap.Callbacks{
-			Finish: fmt.Sprintf("http://localhost:3000/payment/success?id=%s", repo.GetNewTransactionID(configs.DB)),
+			Finish: fmt.Sprintf("http://192.168.43.205:3000/payment/success?id=%s", repo.GetNewTransactionID(configs.DB)),
 		},
 	}
 

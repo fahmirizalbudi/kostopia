@@ -32,8 +32,6 @@ func Register(c *gin.Context) {
 	v.Required(userRequest.Name, "name")
 	v.Required(userRequest.Email, "email")
 	v.Required(userRequest.Password, "password")
-	v.Required(userRequest.Phone, "phone")
-	v.Required(userRequest.Address, "address")
 	if v.Errors() {
 		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, structs.Payload{
 			Message: "Validation error",
@@ -46,7 +44,7 @@ func Register(c *gin.Context) {
 	userRequest.Role = constants.TENANT_ROLE
 	userRequest.Password = password.Hash(userRequest.Password)
 
-	_, err = repo.CreateUser(configs.DB, userRequest)
+	err = repo.RegisterUser(configs.DB, userRequest)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
 			Message: "Internal server error",
@@ -94,8 +92,8 @@ func Login(c *gin.Context) {
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, structs.Payload{
 			Message: "Invalid email or password",
-			Error: "Unauthorized",
-			Data: nil,
+			Error:   "Unauthorized",
+			Data:    nil,
 		})
 		return
 	}
@@ -104,8 +102,8 @@ func Login(c *gin.Context) {
 	if !ok {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, structs.Payload{
 			Message: "Invalid email or password",
-			Error: "Unauthorized",
-			Data: nil,
+			Error:   "Unauthorized",
+			Data:    nil,
 		})
 		return
 	}

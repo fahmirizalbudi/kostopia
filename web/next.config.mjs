@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost']
+    domains: ['localhost', 'http://192.168.43.205']
   }
 };
 

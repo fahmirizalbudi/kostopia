@@ -9,12 +9,23 @@ import formStyles from "@/app/components/forms/Action.module.scss"
 import Image from "next/image"
 import { asset } from "@/app/lib/asset"
 import Error from "@/app/components/forms/Error"
-import { getSession, signIn } from "next-auth/react"
-import Link from "@/app/components/ui/Link"
+import { User } from "@/app/types/user"
+import { API } from "@/app/constants/api"
+import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import nProgress from "nprogress"
+import Link from "@/app/components/ui/Link"
 
-const LoginPage = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" })
+const Register = () => {
+  const router = useRouter()
+  const [formData, setFormData] = useState<User>({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+    address: "",
+    phone: "",
+  })
   const [error, setError] = useState<string | undefined>()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,25 +34,23 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: formData.email,
-      password: formData.password,
+    const res = await fetch(API + "/auth/register", {
+      method: "POST",
+      body: JSON.stringify(formData),
     })
-
-    if (res?.ok) {
-      const session = await getSession()
-
-      if (session?.user?.role === "admin") {
-        window.location.href = "/admin"
-      } else {
-        window.location.href = "/"
-      }
-    } else {
-      toast.error("Gagal login !", {
+    if (res.ok) {
+      nProgress.start()
+      toast.success("Berhasil register !", {
         duration: 3000,
       })
+      setTimeout(() => {
+        router.push("/auth/login")
+      }, 1000)
+      return
     }
+    toast.error("Gagal register !", {
+      duration: 3000,
+    })
   }
 
   return (
@@ -52,10 +61,14 @@ const LoginPage = () => {
             <Image src={asset("logo.png")} alt="Logo" width={32} height={32} />
           </div>
           <h1 className={styles.title}>Selamat Datang</h1>
-          <p className={styles.subtitle}>Silahkan log in untuk melanjutkan</p>
+          <p className={styles.subtitle}>Silahkan register untuk mendaftar</p>
         </div>
 
         <form className={formStyles.form} onSubmit={handleSubmit}>
+          <Flex className={formStyles.group}>
+            <Label htmlFor="name">Nama :</Label>
+            <TextBox name="name" type="text" placeholder="Masukkan nama ..." onChange={handleChange} />
+          </Flex>
           <Flex className={formStyles.group}>
             <Label htmlFor="email">Email :</Label>
             <TextBox name="email" type="email" placeholder="Masukkan email ..." onChange={handleChange} />
@@ -67,14 +80,14 @@ const LoginPage = () => {
           </Flex>
 
           <button type="submit" className={styles.loginButton}>
-            Log In
+            Register
           </button>
         </form>
 
         <div className={styles.footer}>
-          Belum punya akun?{" "}
-          <Link href="/auth/register" className={styles.signupLink}>
-            Register
+          Sudah punya akun?{" "}
+          <Link href="/auth/login" className={styles.signupLink}>
+            Log In
           </Link>
         </div>
       </div>
@@ -82,4 +95,4 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+export default Register
