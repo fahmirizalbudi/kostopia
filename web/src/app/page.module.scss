@@ -12,7 +12,8 @@
     flex-direction: column;
 
     .motto {
-        width: 210.38px;
+        width: fit-content;
+        padding-inline: 26px;
         height: 40px;
         border: 1px solid $primary-color;
         color: $primary-color;

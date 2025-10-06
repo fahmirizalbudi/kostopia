@@ -7,6 +7,8 @@ import Button from "../ui/Button"
 import styles from "./NavigationBar.module.scss"
 import { useSession } from "next-auth/react"
 import Link from "../ui/Link"
+import Profile from "./Profile"
+import Flex from "./Flex"
 
 type NavigationBarProps = {
   menu: menuNavigationBarProps[]
@@ -14,7 +16,6 @@ type NavigationBarProps = {
 
 const NavigationBar = ({ menu }: NavigationBarProps) => {
   const { data: session, status } = useSession()
-  console.log(session)
 
   return (
     <nav className={styles.nav}>
@@ -22,17 +23,24 @@ const NavigationBar = ({ menu }: NavigationBarProps) => {
       <ul className={styles.menu}>
         {menu.map((item, i) => (
           <li key={i} className={styles.i}>
-            <Link href={item.linkTo} className={styles.anchor}>{item.menu}</Link>
+            <Link href={item.linkTo} className={styles.anchor}>
+              {item.menu}
+            </Link>
           </li>
         ))}
       </ul>
 
       {status === "authenticated" ? (
-        <Button className={styles.profile}>
-          <Image src={asset("profile.svg")} alt="Profile" width={16} height={16} />
-        </Button>
+        <Flex className={styles.right}>
+          <Link href="/rentals">
+            <Image src={asset("history.svg")} alt="Logo" width={25} height={25} />
+          </Link>
+          <Profile />
+        </Flex>
       ) : (
-        <Link className={styles.login} href="/auth/login">Log In</Link>
+        <Link className={styles.login} href="/auth/login">
+          Log In
+        </Link>
       )}
     </nav>
   )

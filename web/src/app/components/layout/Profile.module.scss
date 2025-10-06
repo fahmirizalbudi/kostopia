@@ -1,0 +1,52 @@
+@import "../../styles/variable.scss";
+
+.profile {
+  width: 40px;
+  height: 40px;
+  border: 1px solid $primary-color;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background-color: lighten($color: $primary-color, $amount: 75);
+  }
+}
+
+.helper {
+  font-size: 14px;
+  color: #888;
+  position: relative;
+}
+
+.profileWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: -15px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  z-index: 100;
+}
+
+.dropdown button {
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dropdown button:hover {
+  background: #f5f5f5;
+}

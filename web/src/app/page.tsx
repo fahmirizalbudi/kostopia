@@ -16,6 +16,10 @@ export default function Home() {
     searchParams.set("keywords", keywords)
   }
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+  }, [])
+
   return (
     <main>
       <NavigationBar menu={menuNavigationBar} />
