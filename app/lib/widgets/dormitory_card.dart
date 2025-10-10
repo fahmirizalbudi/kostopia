@@ -74,6 +74,28 @@ class DormitoryCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.location_on_outlined,
+                      size: 19,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        dormitory.address,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontFamily: "SFUIDisplay",
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8, top: 4),
                   child: Row(
@@ -91,12 +113,27 @@ class DormitoryCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    "Selengkapnya",
-                    style: TextStyle(
-                      color: Colors.blue[400],
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "SFUIDisplay",
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () {
+                        print(dormitory.id);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        child: Text(
+                          "Selengkapnya",
+                          style: TextStyle(
+                            color: Colors.blue[400],
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "SFUIDisplay",
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

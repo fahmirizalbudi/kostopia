@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Ramadhan",
+                      "Fahmirizal",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontFamily: 'SFProText',
