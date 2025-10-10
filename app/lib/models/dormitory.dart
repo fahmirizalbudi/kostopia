@@ -34,11 +34,9 @@ class Dormitory {
       price: json['price'] as int,
       facilities: json['facilities'] as String,
       googleMaps: json['google_maps'] as String,
-      previews: json['previews'] != null
-          ? (json['previews'] as List)
-                .map((item) => Preview.fromJson(item))
-                .toList()
-          : [],
+      previews: (json['previews'] as List<dynamic>)
+          .map((p) => Preview.fromJson(p))
+          .toList(),
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
     );

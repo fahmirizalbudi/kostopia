@@ -1,4 +1,5 @@
 import 'package:app/models/dormitory.dart';
+import 'package:app/screens/dormitory_screen.dart';
 import 'package:app/utils/currency.dart';
 import 'package:app/widgets/dormitory_facility.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class DormitoryCard extends StatelessWidget {
                   dormitory.name,
                   style: const TextStyle(
                     fontFamily: 'SFUIDisplay',
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                   ),
@@ -55,7 +56,7 @@ class DormitoryCard extends StatelessWidget {
                       TextSpan(
                         text: toRupiah(dormitory.price),
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontFamily: "SFUIDisplay",
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
@@ -85,7 +86,9 @@ class DormitoryCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        dormitory.address,
+                        dormitory.address.length > 30
+                            ? '${dormitory.address.substring(0, 28)}...'
+                            : dormitory.address,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -118,7 +121,13 @@ class DormitoryCard extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
-                        print(dormitory.id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DormitoryScreen(dormitory: dormitory),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
