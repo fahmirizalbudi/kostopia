@@ -20,7 +20,7 @@ func Register(c *gin.Context) {
 
 	err := c.BindJSON(&userRequest)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, structs.Payload{
+		c.AbortWithStatusJSON(http.StatusBadRequest, structs.Payload{
 			Message: "Invalid JSON data",
 			Error:   "Bad Request",
 			Data:    nil,
@@ -68,7 +68,7 @@ func Login(c *gin.Context) {
 
 	err := c.BindJSON(&loginRequest)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, structs.Payload{
+		c.AbortWithStatusJSON(http.StatusBadRequest, structs.Payload{
 			Message: "Invalid JSON data",
 			Error:   "Bad Request",
 			Data:    nil,
