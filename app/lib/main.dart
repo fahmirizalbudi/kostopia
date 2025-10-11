@@ -1,6 +1,6 @@
+import 'package:app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/home_screen.dart';
 
 void main() {
   String applicationTitle = "Ratun Kos";
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       title: title,
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }

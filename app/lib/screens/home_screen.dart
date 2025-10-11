@@ -1,3 +1,4 @@
+import 'package:app/auth/auth.dart';
 import 'package:app/models/dormitory.dart';
 import 'package:app/services/dormitory_service.dart';
 import 'package:app/widgets/dormitory_card.dart';
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Fahmirizal",
+                      Auth.getName() as String,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 16,
