@@ -198,7 +198,7 @@ class DormitoryScreen extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
             ),
-            builder: (context) => RentalSheet(),
+            builder: (context) => RentalSheet(dormitory: dormitory,),
           );
         },
         backgroundColor: Color(0xFF1F4B43),

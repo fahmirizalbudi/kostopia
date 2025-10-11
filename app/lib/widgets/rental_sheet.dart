@@ -1,28 +1,45 @@
+import 'package:app/models/dormitory.dart';
+import 'package:app/models/room.dart';
+import 'package:app/services/rental_service.dart';
+import 'package:app/services/room_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RentalSheet extends StatefulWidget {
-  const RentalSheet({super.key});
+  final Dormitory dormitory;
+
+  const RentalSheet({super.key, required this.dormitory});
 
   @override
   State<RentalSheet> createState() => _RentalSheetState();
 }
 
 class _RentalSheetState extends State<RentalSheet> {
-  String? selectedRoom;
+  int? selectedRoom;
   final durationController = TextEditingController(text: null);
   DateTime? startDate;
-  List<String> rooms = ["Kamar 1", "Kamar 2", "Kamar 3"];
+  List<Room> rooms = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     durationController.addListener(() => setState(() {}));
+    fetchRoomData(widget.dormitory.id);
   }
 
   @override
   void dispose() {
     durationController.dispose();
     super.dispose();
+  }
+
+  Future<void> fetchRoomData(int dormitoryId) async {
+    final roomData = await RoomService().fetchRooms(dormitoryId);
+    setState(() {
+      rooms = roomData;
+      isLoading = false;
+    });
   }
 
   @override
@@ -84,12 +101,15 @@ class _RentalSheetState extends State<RentalSheet> {
                     itemCount: rooms.length,
                     itemBuilder: (context, index) {
                       final room = rooms[index];
-                      final bool isSelected = selectedRoom == room;
+                      final bool isSelected = selectedRoom == room.id;
+                      final bool isDisabled = room.status == "rented";
 
                       return GestureDetector(
-                        onTap: () {
-                          setState(() => selectedRoom = room);
-                        },
+                        onTap: isDisabled
+                            ? null
+                            : () {
+                                setState(() => selectedRoom = room.id as int);
+                              },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 14,
@@ -100,11 +120,15 @@ class _RentalSheetState extends State<RentalSheet> {
                             border: Border.all(
                               color: isSelected
                                   ? const Color(0xFF1F4B43)
-                                  : Colors.grey.shade300,
+                                  : isDisabled
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade400,
                               width: 1,
                             ),
                             color: isSelected
                                 ? const Color(0xFF1F4B43).withOpacity(0.08)
+                                : isDisabled
+                                ? Colors.grey.shade200
                                 : Colors.white,
                           ),
                           child: Row(
@@ -115,16 +139,21 @@ class _RentalSheetState extends State<RentalSheet> {
                                     ? Icons.radio_button_checked
                                     : Icons.radio_button_off,
                                 size: 18,
-                                color: isSelected
+                                color: isDisabled
+                                    ? Colors.grey
+                                    : isSelected
                                     ? const Color(0xFF1F4B43)
                                     : Colors.grey,
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                room,
-                                style: const TextStyle(
+                                room.roomNumber as String,
+                                style: TextStyle(
                                   fontSize: 13.5,
                                   fontWeight: FontWeight.w500,
+                                  color: isDisabled
+                                      ? Colors.grey
+                                      : Colors.black,
                                 ),
                               ),
                             ],
@@ -219,12 +248,26 @@ class _RentalSheetState extends State<RentalSheet> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: isFilled
-                          ? () {
+                          ? () async {
                               Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              final messenger = ScaffoldMessenger.of(context);
+                              final (ok, dormitoryId) = await RentalService()
+                                  .createRental({
+                                    "room_id": selectedRoom,
+                                    "start_date": DateFormat(
+                                      'yyyy-MM-dd',
+                                    ).format(startDate as DateTime),
+                                    "duration_months": int.parse(
+                                      durationController.text,
+                                    ),
+                                  });
+                              print(dormitoryId);
+                              messenger.showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    "Kamar: $selectedRoom\nMulai: $startDate\nDurasi: ${durationController.text} bulan",
+                                    ok
+                                        ? "Penyewaan berhasil dibuat!"
+                                        : "Penyewaan gagal dibuat. Silakan coba lagi.",
                                   ),
                                 ),
                               );
