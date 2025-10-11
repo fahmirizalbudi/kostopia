@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   intl: ^0.20.2
   carousel_slider: ^5.1.1
+  google_fonts: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -75,21 +76,6 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: SFProText
-      fonts:
-        - asset: fonts/SFProText-Regular.ttf
-          weight: 400
-        - asset: fonts/SFProText-Medium.ttf
-          weight: 500
-        - asset: fonts/SFProText-Semibold.ttf
-          weight: 600
-    - family: SFUIDisplay
-      fonts:
-        - asset: fonts/SFUIDisplay-Medium.otf
-          weight: 500
-        - asset: fonts/SFUIDisplay-Bold.ttf
-          weight: 600
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

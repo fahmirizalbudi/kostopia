@@ -30,7 +30,7 @@ class DormitoryCard extends StatelessWidget {
                       "192.168.43.205",
                     )
                   : "https://placehold.co/400x200/png",
-              height: 180,
+              height: 220,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -43,8 +43,7 @@ class DormitoryCard extends StatelessWidget {
                 Text(
                   dormitory.name,
                   style: const TextStyle(
-                    fontFamily: 'SFUIDisplay',
-                    fontSize: 14,
+                    fontSize: 15.5,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                   ),
@@ -55,20 +54,18 @@ class DormitoryCard extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: toRupiah(dormitory.price),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontFamily: "SFUIDisplay",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 15.5,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                         ),
                       ),
-                      const TextSpan(
+                      TextSpan(
                         text: " / Bulan",
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
-                          fontFamily: "SFUIDisplay",
                         ),
                       ),
                     ],
@@ -92,7 +89,6 @@ class DormitoryCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
-                          fontFamily: "SFUIDisplay",
                         ),
                       ),
                     ),
@@ -139,7 +135,6 @@ class DormitoryCard extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.blue[400],
                             fontWeight: FontWeight.w500,
-                            fontFamily: "SFUIDisplay",
                           ),
                         ),
                       ),

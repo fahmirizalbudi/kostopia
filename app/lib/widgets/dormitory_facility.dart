@@ -20,7 +20,6 @@ class DormitoryFacility extends StatelessWidget {
           fontSize: 12,
           fontWeight: FontWeight.w500,
           color: Colors.black87,
-          fontFamily: "SFUIDisplay",
         ),
       ),
     );

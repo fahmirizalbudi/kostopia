@@ -42,7 +42,6 @@ class HomeScreen extends StatelessWidget {
                       "Fahmirizal",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontFamily: 'SFProText',
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
@@ -52,7 +51,6 @@ class HomeScreen extends StatelessWidget {
                       "Mau Cari Kos-kosan?",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontFamily: 'SFProText',
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: Color(0xffB2B2B2),
@@ -96,8 +94,7 @@ class HomeScreen extends StatelessWidget {
               final dormitories = snapshot.data!;
               return ListView.separated(
                 itemCount: dormitories.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 8),
+                separatorBuilder: (context, index) => const SizedBox(height: 8),
                 itemBuilder: (context, index) {
                   return DormitoryCard(dormitory: dormitories[index]);
                 },
