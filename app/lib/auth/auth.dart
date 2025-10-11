@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:app/screens/login_screen.dart';
+import 'package:flutter/material.dart';
+
 class Auth {
   static String? _accessToken;
 
@@ -29,5 +32,13 @@ class Auth {
     if (payload == null) return null;
 
     return payload['name'];
+  }
+
+  static logout(BuildContext context) {
+    _accessToken = null;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => LoginScreen()),
+    );
   }
 }

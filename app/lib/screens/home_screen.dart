@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
               if (value == 1) {
                 print("Profil");
               } else if (value == 2) {
-                print("Log Out");
+                Auth.logout(context);
               }
             },
             itemBuilder: (context) => [
