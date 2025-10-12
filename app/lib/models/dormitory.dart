@@ -8,7 +8,7 @@ class Dormitory {
   final int price;
   final String facilities;
   final String googleMaps;
-  final List<Preview> previews;
+  final List<Preview>? previews;
   final String createdAt;
   final String updatedAt;
 
@@ -34,9 +34,11 @@ class Dormitory {
       price: json['price'] as int,
       facilities: json['facilities'] as String,
       googleMaps: json['google_maps'] as String,
-      previews: (json['previews'] as List<dynamic>)
-          .map((p) => Preview.fromJson(p))
-          .toList(),
+      previews: json['previews'] != null
+          ? (json['previews'] as List<dynamic>)
+                .map((p) => Preview.fromJson(p))
+                .toList()
+          : null,
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
     );
