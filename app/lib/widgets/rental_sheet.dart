@@ -125,7 +125,7 @@ class _RentalSheetState extends State<RentalSheet> {
                               width: 1,
                             ),
                             color: isSelected
-                                ? const Color(0xFF1F4B43).withOpacity(0.08)
+                                ? const Color(0xFF1F4B43).withValues(alpha: 0.08)
                                 : isDisabled
                                 ? Colors.grey.shade200
                                 : Colors.white,

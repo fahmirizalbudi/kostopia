@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
             icon: Icon(Icons.more_vert, color: Colors.black, size: 20),
             onSelected: (value) {
               if (value == 1) {
-                print("Profil");
+                //TODO : "Create profile page"
               } else if (value == 2) {
                 Auth.logout(context);
               }

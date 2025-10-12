@@ -128,19 +128,19 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        _DetailItem(
+                        _detailItem(
                           "Mulai Sewa",
                           DateFormat(
                             'yyyy-MM-dd',
                           ).format(DateTime.parse(rental?.startDate as String)),
                         ),
                         const SizedBox(height: 8),
-                        _DetailItem(
+                        _detailItem(
                           "Lama Sewa",
                           "${rental?.durationMonths} Bulan",
                         ),
                         const Divider(height: 28, thickness: 0.5),
-                        _DetailItem(
+                        _detailItem(
                           "Total Pembayaran",
                           toRupiah(
                             (dormitory?.price as int) *
@@ -162,11 +162,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
                   Column(
                     children: [
-                      _PaymentOption("Cash"),
+                      _paymentOption("Cash"),
                       const SizedBox(height: 10),
-                      _PaymentOption("Transfer"),
+                      _paymentOption("Transfer"),
                       const SizedBox(height: 10),
-                      _PaymentOption("E-Wallet"),
+                      _paymentOption("E-Wallet"),
                     ],
                   ),
 
@@ -214,7 +214,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
     );
   }
 
-  Widget _DetailItem(String label, String value, {bool bold = false}) {
+  Widget _detailItem(String label, String value, {bool bold = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -234,7 +234,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
     );
   }
 
-  Widget _PaymentOption(String label) {
+  Widget _paymentOption(String label) {
     final normalizedValue = label.replaceAll("-", "").toLowerCase();
     final isSelected = selectedPayment == normalizedValue;
 
