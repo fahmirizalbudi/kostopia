@@ -6,6 +6,7 @@ import 'package:app/services/dormitory_service.dart';
 import 'package:app/services/rental_service.dart';
 import 'package:app/services/room_service.dart';
 import 'package:app/utils/currency.dart';
+import 'package:app/widgets/cash_dialog.dart';
 import 'package:app/widgets/proof_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -184,6 +185,12 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   context: context,
                                   builder: (context) =>
                                       ProofDialog(rental: rental as Rental),
+                                );
+                              } else if (selectedPayment == "cash") {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      CashDialog(rental: rental as Rental),
                                 );
                               }
                             },

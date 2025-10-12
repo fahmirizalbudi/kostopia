@@ -22,7 +22,7 @@ class ProofDialog extends StatelessWidget {
           children: [
             const Text(
               "Upload Bukti Transfer",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 16.5, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 16),
             ListTile(
@@ -30,6 +30,7 @@ class ProofDialog extends StatelessWidget {
               title: const Text("Pilih dari Gallery"),
               onTap: () async {
                 final messenger = ScaffoldMessenger.of(context);
+                Navigator.pop(context);
                 final proof = await pickImage(ImageSource.gallery);
                 final (ok, transactionId) = await TransactionService()
                     .createTransaction({
@@ -56,7 +57,6 @@ class ProofDialog extends StatelessWidget {
                     ),
                   );
                 }
-                Navigator.pop(context);
               },
             ),
             ListTile(
