@@ -1,5 +1,6 @@
 import 'package:app/models/dormitory.dart';
 import 'package:app/models/room.dart';
+import 'package:app/screens/transaction_screen.dart';
 import 'package:app/services/rental_service.dart';
 import 'package:app/services/room_service.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,6 @@ class _RentalSheetState extends State<RentalSheet> {
   final durationController = TextEditingController(text: null);
   DateTime? startDate;
   List<Room> rooms = [];
-  bool isLoading = true;
 
   @override
   void initState() {
@@ -38,7 +38,6 @@ class _RentalSheetState extends State<RentalSheet> {
     final roomData = await RoomService().fetchRooms(dormitoryId);
     setState(() {
       rooms = roomData;
-      isLoading = false;
     });
   }
 
@@ -249,9 +248,12 @@ class _RentalSheetState extends State<RentalSheet> {
                     child: ElevatedButton(
                       onPressed: isFilled
                           ? () async {
-                              Navigator.pop(context);
-                              final messenger = ScaffoldMessenger.of(context);
-                              final (ok, dormitoryId) = await RentalService()
+                              final parentContext = context;
+                              Navigator.pop(parentContext);
+                              final messenger = ScaffoldMessenger.of(
+                                parentContext,
+                              );
+                              final (ok, rentalId) = await RentalService()
                                   .createRental({
                                     "room_id": selectedRoom,
                                     "start_date": DateFormat(
@@ -261,7 +263,6 @@ class _RentalSheetState extends State<RentalSheet> {
                                       durationController.text,
                                     ),
                                   });
-                              print(dormitoryId);
                               messenger.showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -271,6 +272,15 @@ class _RentalSheetState extends State<RentalSheet> {
                                   ),
                                 ),
                               );
+                              if (ok && rentalId != null) {
+                                Navigator.push(
+                                  parentContext,
+                                  MaterialPageRoute(
+                                    builder: (parentContext) =>
+                                        TransactionScreen(rentalId: rentalId),
+                                  ),
+                                );
+                              }
                             }
                           : null,
                       style: ElevatedButton.styleFrom(

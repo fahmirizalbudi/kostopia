@@ -16,4 +16,22 @@ class RoomService {
 
     return List.empty();
   }
+
+  Future<Room?> getById(int id, String? accessToken) async {
+    final response = await http.get(
+      Uri.parse("http://192.168.43.205:8080/api/rooms/$id"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $accessToken",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+      final data = jsonData['data'];
+      return Room.fromJson(data);
+    } else {
+      return null;
+    }
+  }
 }
