@@ -6,6 +6,7 @@ import 'package:app/services/dormitory_service.dart';
 import 'package:app/services/rental_service.dart';
 import 'package:app/services/room_service.dart';
 import 'package:app/utils/currency.dart';
+import 'package:app/widgets/proof_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -178,13 +179,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       onPressed: selectedPayment == null
                           ? null
                           : () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Pembayaran dengan $selectedPayment berhasil!',
-                                  ),
-                                ),
-                              );
+                              if (selectedPayment == "transfer") {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      ProofDialog(rental: rental as Rental),
+                                );
+                              }
                             },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1F4B43),

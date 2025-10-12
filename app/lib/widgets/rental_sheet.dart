@@ -125,7 +125,9 @@ class _RentalSheetState extends State<RentalSheet> {
                               width: 1,
                             ),
                             color: isSelected
-                                ? const Color(0xFF1F4B43).withValues(alpha: 0.08)
+                                ? const Color(
+                                    0xFF1F4B43,
+                                  ).withValues(alpha: 0.08)
                                 : isDisabled
                                 ? Colors.grey.shade200
                                 : Colors.white,
@@ -248,11 +250,7 @@ class _RentalSheetState extends State<RentalSheet> {
                     child: ElevatedButton(
                       onPressed: isFilled
                           ? () async {
-                              final parentContext = context;
-                              Navigator.pop(parentContext);
-                              final messenger = ScaffoldMessenger.of(
-                                parentContext,
-                              );
+                              final messenger = ScaffoldMessenger.of(context);
                               final (ok, rentalId) = await RentalService()
                                   .createRental({
                                     "room_id": selectedRoom,
@@ -272,15 +270,14 @@ class _RentalSheetState extends State<RentalSheet> {
                                   ),
                                 ),
                               );
-                              if (ok && rentalId != null) {
-                                Navigator.push(
-                                  parentContext,
-                                  MaterialPageRoute(
-                                    builder: (parentContext) =>
-                                        TransactionScreen(rentalId: rentalId),
-                                  ),
-                                );
-                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      TransactionScreen(rentalId: rentalId),
+                                ),
+                              );
+                              // Navigator.pop(context);
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
