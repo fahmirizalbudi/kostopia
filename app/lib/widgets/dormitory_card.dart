@@ -24,8 +24,8 @@ class DormitoryCard extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             child: Image.network(
-              dormitory.previews.isNotEmpty
-                  ? dormitory.previews[0].url.replaceAll(
+              dormitory.previews!.isNotEmpty
+                  ? dormitory.previews![0].url.replaceAll(
                       "localhost",
                       "192.168.43.205",
                     )

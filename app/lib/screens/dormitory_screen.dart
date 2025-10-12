@@ -53,7 +53,7 @@ class DormitoryScreen extends StatelessWidget {
                 enlargeCenterPage: false,
               ),
               items:
-                  (dormitory.previews.isNotEmpty
+                  (dormitory.previews!.isNotEmpty
                           ? dormitory.previews
                           : [
                               Preview(
@@ -63,7 +63,7 @@ class DormitoryScreen extends StatelessWidget {
                                 createdAt: "",
                               ),
                             ])
-                      .map((preview) {
+                      ?.map((preview) {
                         return ClipRRect(
                           child: Image.network(
                             preview.url.replaceAll(
@@ -198,7 +198,7 @@ class DormitoryScreen extends StatelessWidget {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
             ),
-            builder: (context) => RentalSheet(dormitory: dormitory,),
+            builder: (context) => RentalSheet(dormitory: dormitory),
           );
         },
         backgroundColor: Color(0xFF1F4B43),
