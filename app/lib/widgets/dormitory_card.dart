@@ -3,6 +3,7 @@ import 'package:app/screens/dormitory_screen.dart';
 import 'package:app/utils/currency.dart';
 import 'package:app/widgets/dormitory_facility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DormitoryCard extends StatelessWidget {
   final Dormitory dormitory;
@@ -27,7 +28,7 @@ class DormitoryCard extends StatelessWidget {
               dormitory.previews!.isNotEmpty
                   ? dormitory.previews![0].url.replaceAll(
                       "localhost",
-                      "192.168.43.205",
+                      dotenv.env['API_IP'] ?? "https://placehold.co/400x200/png",
                     )
                   : "https://placehold.co/400x200/png",
               height: 220,

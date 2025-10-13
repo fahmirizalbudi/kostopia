@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/models/dormitory.dart';
 
 class DormitoryService {
-  final String baseUrl = "http://192.168.43.205:8080/api/dormitories";
+  late final String baseUrl = "${dotenv.env['API_URL']}/api/dormitories";
 
   Future<List<Dormitory>> fetchDormitories() async {
     final response = await http.get(Uri.parse("$baseUrl/previews"));

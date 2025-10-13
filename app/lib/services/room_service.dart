@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:app/models/room.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class RoomService {
   Future<List<Room>> fetchRooms(int dormitoryId) async {
-    final String url =
-        "http://192.168.43.205:8080/api/dormitories/$dormitoryId/rooms";
+    late final String url =
+        "${dotenv.env['API_URL']}/api/dormitories/$dormitoryId/rooms";
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -18,8 +19,9 @@ class RoomService {
   }
 
   Future<Room?> getById(int id, String? accessToken) async {
+    late final String url = "${dotenv.env['API_URL']}/api/rooms/$id";
     final response = await http.get(
-      Uri.parse("http://192.168.43.205:8080/api/rooms/$id"),
+      Uri.parse(url),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $accessToken",

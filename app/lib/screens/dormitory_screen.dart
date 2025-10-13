@@ -5,6 +5,7 @@ import 'package:app/widgets/rental_sheet.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide Preview;
 import 'package:app/models/preview.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DormitoryScreen extends StatelessWidget {
   final Dormitory dormitory;
@@ -68,7 +69,7 @@ class DormitoryScreen extends StatelessWidget {
                           child: Image.network(
                             preview.url.replaceAll(
                               "localhost",
-                              "192.168.43.205",
+                              dotenv.env['API_IP'] ?? "https://placehold.co/400x200/png",
                             ),
                             width: double.infinity,
                             fit: BoxFit.cover,

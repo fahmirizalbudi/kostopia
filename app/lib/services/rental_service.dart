@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:app/auth/auth.dart';
 import 'package:app/models/rental.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class RentalService {
-  final String baseUrl = "http://192.168.43.205:8080/api/rentals";
+  late final String baseUrl = "${dotenv.env['API_URL']}/api/rentals";
 
   Future<(bool, int?)> createRental(Map<String, dynamic> rental) async {
     final response = await http.post(

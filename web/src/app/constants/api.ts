@@ -1,1 +1,1 @@
-export const API = process.env.GO_API_URL || "http://192.168.43.205:8080/api"
+export const API = process.env.NEXT_PUBLIC_GO_API_URL

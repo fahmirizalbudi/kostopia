@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:app/auth/auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
 class TransactionService {
-  final String baseUrl = "http://192.168.43.205:8080/api/transactions";
+  late final String baseUrl = "${dotenv.env['API_URL']}/api/transactions";
 
   Future<(bool, String?)> createTransaction(
     Map<String, dynamic> transaction,
