@@ -5,7 +5,7 @@ import styles from "./SideNavigation.module.scss"
 import { asset } from "@/app/lib/asset"
 import { MENU_SIDE_HEADER, MENU_SIDE_LINK, menuSideNavigationProps } from "@/app/menu/side-navigation"
 import { usePathname } from "next/navigation"
-import Link from "next/link"
+import Link from "@/app/components/ui/Link"
 
 type SideNavigationHeaderProps = {
   text: string
