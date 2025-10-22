@@ -28,7 +28,7 @@ class DormitoryCard extends StatelessWidget {
               dormitory.previews!.isNotEmpty
                   ? dormitory.previews![0].url.replaceAll(
                       "localhost",
-                      dotenv.env['API_IP'] ?? "https://placehold.co/400x200/png",
+                      dotenv.env['API_IP'] ?? "localhost",
                     )
                   : "https://placehold.co/400x200/png",
               height: 220,

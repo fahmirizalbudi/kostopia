@@ -1,5 +1,6 @@
 import 'package:app/auth/auth.dart';
 import 'package:app/models/dormitory.dart';
+import 'package:app/screens/history_screen.dart';
 import 'package:app/services/dormitory_service.dart';
 import 'package:app/widgets/dormitory_card.dart';
 import 'package:flutter/material.dart';
@@ -68,14 +69,18 @@ class HomeScreen extends StatelessWidget {
             icon: Icon(Icons.more_vert, color: Colors.black, size: 20),
             onSelected: (value) {
               if (value == 1) {
-                //TODO : "Create profile page"
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HistoryScreen()),
+                );
               } else if (value == 2) {
                 Auth.logout(context);
               }
             },
             itemBuilder: (context) => [
-              PopupMenuItem(value: 1, child: Text("Profil")),
-              PopupMenuItem(value: 2, child: Text("Log Out")),
+              PopupMenuItem(value: 1, child: Text("Histori")),
+              PopupMenuItem(value: 2, child: Text("Profil")),
+              PopupMenuItem(value: 3, child: Text("Log Out")),
             ],
           ),
         ],

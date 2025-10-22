@@ -2,6 +2,7 @@ import 'package:app/auth/auth.dart';
 import 'package:app/models/dormitory.dart';
 import 'package:app/models/rental.dart';
 import 'package:app/models/room.dart';
+import 'package:app/screens/history_screen.dart';
 import 'package:app/services/dormitory_service.dart';
 import 'package:app/services/rental_service.dart';
 import 'package:app/services/room_service.dart';
@@ -179,18 +180,26 @@ class _TransactionScreenState extends State<TransactionScreen> {
                     child: ElevatedButton(
                       onPressed: selectedPayment == null
                           ? null
-                          : () {
+                          : () async {
                               if (selectedPayment == "transfer") {
-                                showDialog(
+                                await showDialog(
                                   context: context,
                                   builder: (context) =>
                                       ProofDialog(rental: rental as Rental),
                                 );
                               } else if (selectedPayment == "cash") {
-                                showDialog(
+                                await showDialog(
                                   context: context,
                                   builder: (context) =>
                                       CashDialog(rental: rental as Rental),
+                                );
+                              }
+                              if (context.mounted) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HistoryScreen(),
+                                  ),
                                 );
                               }
                             },

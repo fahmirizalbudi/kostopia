@@ -38,4 +38,26 @@ class RentalService {
       return null;
     }
   }
+
+  Future<List<Rental>> getMy(String accessToken) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/me"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${Auth.getAccessToken()}",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+      if (jsonData["data"] != null) {
+        final List<dynamic> rentalList = jsonData["data"];
+        return rentalList.map((json) => Rental.fromJson(json)).toList();
+      } else {
+        return List.empty();
+      }
+    } else {
+      return List.empty();
+    }
+  }
 }
