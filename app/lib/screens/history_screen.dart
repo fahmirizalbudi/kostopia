@@ -1,7 +1,7 @@
 import 'package:app/auth/auth.dart';
+import 'package:app/fragments/rentals_fragment.dart';
 import 'package:app/models/rental.dart';
 import 'package:app/services/rental_service.dart';
-import 'package:app/widgets/rental_card.dart';
 import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -76,12 +76,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: rentals.length,
-                itemBuilder: (context, index) {
-                  final rental = rentals[index];
-                  return RentalCard(rental: rental);
-                },
+            : TabBarView(
+                children: [
+                  RentalsFragment(rentals: rentals),
+                  Center(
+                    child: Text(
+                      'Belum ada transaksi',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ],
               ),
       ),
     );
