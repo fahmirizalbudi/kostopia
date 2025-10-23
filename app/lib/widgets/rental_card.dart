@@ -139,7 +139,7 @@ class _StatusChip extends StatelessWidget {
       bgColor = const Color(0xFFD4EDDA);
       textColor = const Color(0xFF155724);
       displayLabel = 'Selesai';
-    } else if (s == 'canceled' || s == 'ditolak' || s == 'dibatalkan') {
+    } else if (s == 'cancelled' || s == 'ditolak' || s == 'dibatalkan') {
       bgColor = const Color(0xFFF8D7DA);
       textColor = const Color(0xFF721C24);
       displayLabel = 'Dibatalkan';
