@@ -1,7 +1,10 @@
 import 'package:app/auth/auth.dart';
 import 'package:app/fragments/rentals_fragment.dart';
+import 'package:app/fragments/transactions_fragment.dart';
 import 'package:app/models/rental.dart';
+import 'package:app/models/transaction.dart';
 import 'package:app/services/rental_service.dart';
+import 'package:app/services/transaction_service.dart';
 import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -13,6 +16,7 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   List<Rental> rentals = [];
+  List<Transaction> transactions = [];
   bool isLoading = true;
 
   @override
@@ -22,9 +26,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Future<void> fetchRentals() async {
-    final data = await RentalService().getMy(Auth.getAccessToken() as String);
+    final rentalsData = await RentalService().getMy(
+      Auth.getAccessToken() as String,
+    );
+    final transactionsData = await TransactionService().getMy(
+      Auth.getAccessToken() as String,
+    );
+
     setState(() {
-      rentals = data;
+      rentals = rentalsData;
+      transactions = transactionsData;
       isLoading = false;
     });
   }
@@ -79,12 +90,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             : TabBarView(
                 children: [
                   RentalsFragment(rentals: rentals),
-                  Center(
-                    child: Text(
-                      'Belum ada transaksi',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
+                  TransactionsFragment(transactions: transactions),
                 ],
               ),
       ),
