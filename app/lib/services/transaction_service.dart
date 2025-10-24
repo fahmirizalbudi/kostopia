@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:app/auth/auth.dart';
 import 'package:app/models/transaction.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -73,5 +74,62 @@ class TransactionService {
     } else {
       return List.empty();
     }
+  }
+
+  Future<(String?, String?)> snapMidtrans(
+    String accessToken,
+    int rentalId,
+    int monthPaid,
+    String purpose,
+  ) async {
+    final response = await http.post(
+      Uri.parse("$baseUrl/midtrans"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $accessToken",
+      },
+      body: json.encode({
+        "rental_id": rentalId,
+        "month_paid": monthPaid,
+        "purpose": purpose,
+        "method": "ewallet",
+        "status": "pending",
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = json.decode(response.body);
+
+      if (jsonData["data"] != null) {
+        final Map<String, dynamic> data = jsonData["data"];
+        final redirectUrl = data["snap_response"]["redirect_url"];
+
+        final (_, transactionId) = await TransactionService()
+            .createTransaction({
+              "rental_id": rentalId,
+              "month_paid": monthPaid,
+              "purpose": purpose,
+              "method": "ewallet",
+              "status": "pending",
+              "proof": data["midtrans_unique"] as String,
+            });
+
+        return (redirectUrl as String?, transactionId);
+      } else {
+        return (null, null);
+      }
+    } else {
+      return (null, null);
+    }
+  }
+
+  Future<void> changeStatus(String transactionId, String to) async {
+    final response = await http.patch(
+      Uri.parse("$baseUrl/$transactionId/status?to=$to"),
+      headers: {"Authorization": "Bearer ${Auth.getAccessToken()}"},
+    );
+    debugPrint("$baseUrl/$transactionId/status?to=$to");
+    debugPrint("Response code: ${response.statusCode}");
+    debugPrint("Response body: ${response.body}");
   }
 }

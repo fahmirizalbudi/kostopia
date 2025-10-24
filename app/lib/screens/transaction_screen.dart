@@ -2,14 +2,19 @@ import 'package:app/auth/auth.dart';
 import 'package:app/models/dormitory.dart';
 import 'package:app/models/rental.dart';
 import 'package:app/models/room.dart';
+import 'package:app/models/preview.dart';
 import 'package:app/screens/history_screen.dart';
+import 'package:app/screens/midtrans_screen.dart';
 import 'package:app/services/dormitory_service.dart';
+import 'package:app/services/preview_service.dart';
 import 'package:app/services/rental_service.dart';
 import 'package:app/services/room_service.dart';
 import 'package:app/utils/currency.dart';
 import 'package:app/widgets/cash_dialog.dart';
 import 'package:app/widgets/proof_dialog.dart';
-import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart' hide Preview;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 
 class TransactionScreen extends StatefulWidget {
@@ -26,6 +31,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Rental? rental;
   Room? room;
   Dormitory? dormitory;
+  List<Preview> previews = [];
 
   @override
   void initState() {
@@ -44,11 +50,15 @@ class _TransactionScreenState extends State<TransactionScreen> {
     final dormitoryData = await DormitoryService().getById(
       roomData?.dormitoryId as int,
     );
+    final previewsData = await PreviewService().getByDormitoryId(
+      dormitoryData?.id as int,
+    );
 
     setState(() {
       rental = rentalData;
       room = roomData;
       dormitory = dormitoryData;
+      previews = previewsData;
     });
   }
 
@@ -89,18 +99,42 @@ class _TransactionScreenState extends State<TransactionScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0),
-              ),
-              child: Image.network(
-                "https://placehold.co/400x200/png",
-                width: double.infinity,
+            CarouselSlider(
+              options: CarouselOptions(
                 height: 240,
-                fit: BoxFit.cover,
+                viewportFraction: 1.0,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: false,
               ),
+              items:
+                  (previews.isNotEmpty
+                          ? previews
+                          : [
+                              Preview(
+                                id: 0,
+                                dormitoryId: dormitory?.id ?? 0,
+                                url: "https://placehold.co/400x200/png",
+                                createdAt: "",
+                              ),
+                            ])
+                      .map((preview) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(0),
+                          child: Image.network(
+                            preview.url.replaceAll(
+                              "localhost",
+                              dotenv.env['API_IP'] ??
+                                  "https://placehold.co/400x200/png",
+                            ),
+                            width: double.infinity,
+                            height: 240,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      })
+                      .toList(),
             ),
+
             const SizedBox(height: 16),
 
             Padding(
@@ -193,8 +227,20 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   builder: (context) =>
                                       CashDialog(rental: rental as Rental),
                                 );
+                              } else if (selectedPayment == "ewallet") {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MidtransScreen(
+                                      rental: rental as Rental,
+                                    ),
+                                  ),
+                                );
                               }
-                              if (context.mounted) {
+                              await Future.delayed(const Duration(seconds: 2));
+                              if (context.mounted &&
+                                  (selectedPayment == "transfer" ||
+                                      selectedPayment == "cash")) {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

@@ -73,9 +73,7 @@ class HomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (context) => HistoryScreen()),
                 );
-              } else if (value == 2) {
-                Auth.logout(context);
-              }
+              } else if (value == 2) {}
             },
             itemBuilder: (context) => [
               PopupMenuItem(value: 1, child: Text("Histori")),
