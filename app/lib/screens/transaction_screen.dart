@@ -228,24 +228,26 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                       CashDialog(rental: rental as Rental),
                                 );
                               } else if (selectedPayment == "ewallet") {
-                                Navigator.pushReplacement(
+                                Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MidtransScreen(
                                       rental: rental as Rental,
                                     ),
                                   ),
+                                  (route) => false,
                                 );
                               }
                               await Future.delayed(const Duration(seconds: 2));
                               if (context.mounted &&
                                   (selectedPayment == "transfer" ||
                                       selectedPayment == "cash")) {
-                                Navigator.pushReplacement(
+                                Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const HistoryScreen(),
                                   ),
+                                  (route) => false,
                                 );
                               }
                             },

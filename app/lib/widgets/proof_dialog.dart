@@ -59,14 +59,6 @@ class ProofDialog extends StatelessWidget {
                 }
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.camera_alt_outlined),
-              title: const Text("Ambil dari Kamera"),
-              onTap: () {
-                Navigator.pop(context);
-                pickImage(ImageSource.camera);
-              },
-            ),
           ],
         ),
       ),

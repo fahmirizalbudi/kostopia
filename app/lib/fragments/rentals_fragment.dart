@@ -4,16 +4,25 @@ import 'package:flutter/material.dart';
 
 class RentalsFragment extends StatelessWidget {
   final List<Rental> rentals;
-  const RentalsFragment({super.key, required this.rentals});
+  final Future<void> Function() onRefresh;
+  const RentalsFragment({
+    super.key,
+    required this.rentals,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: rentals.length,
-      itemBuilder: (context, index) {
-        final rental = rentals[index];
-        return RentalCard(rental: rental);
-      },
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: rentals.length,
+        itemBuilder: (context, index) {
+          final rental = rentals[index];
+          return RentalCard(rental: rental);
+        },
+      ),
     );
   }
 }

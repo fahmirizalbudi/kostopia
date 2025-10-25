@@ -290,9 +290,9 @@ class _RentalSheetState extends State<RentalSheet> {
                       child: const Text(
                         "Lanjutkan",
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
                           color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),

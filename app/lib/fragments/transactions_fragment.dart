@@ -4,16 +4,25 @@ import 'package:flutter/material.dart';
 
 class TransactionsFragment extends StatelessWidget {
   final List<Transaction> transactions;
-  const TransactionsFragment({super.key, required this.transactions});
+  final Future<void> Function() onRefresh;
+  const TransactionsFragment({
+    super.key,
+    required this.transactions,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: transactions.length,
-      itemBuilder: (context, index) {
-        final transaction = transactions[index];
-        return TransactionCard(transaction: transaction);
-      },
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView.builder(
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: transactions.length,
+        itemBuilder: (context, index) {
+          final transaction = transactions[index];
+          return TransactionCard(transaction: transaction);
+        },
+      ),
     );
   }
 }
