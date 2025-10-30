@@ -10,11 +10,12 @@ type TextBoxProps = {
   className?: string
   icon?: string
   iconSize?: number
+  iconGap?: number
 }
 
-const TextBox = ({ type, placeholder, onChange, name, value, className, icon, iconSize }: TextBoxProps) => (
+const TextBox = ({ type, placeholder, onChange, name, value, className, icon, iconSize, iconGap }: TextBoxProps) => (
   <div className={`${styles.textbox} ${className}`}>
-    {icon && <Image src={icon} width={iconSize} height={iconSize} alt="Icon" />}
+    {icon && <Image src={icon} width={iconSize} height={iconSize} alt="Icon" style={{ marginInlineEnd: iconGap }} />}
     <input type={type} placeholder={placeholder} onChange={onChange} name={name} value={value} id={name} autoComplete="off" />
   </div>
 )

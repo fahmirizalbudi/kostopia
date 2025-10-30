@@ -2,20 +2,32 @@
 
 .appbar {
   width: calc(100% - $sidebar-width);
-  height: $appbar-height;
+  height: $nav-height;
   margin-left: $sidebar-width;
   padding: 8px 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  .magnify {
-    cursor: pointer;
+  .search {
+    width: 350px;
+  }
+
+  .greeting {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 150%;
+    color: #121212;
+    letter-spacing: -1px;
+
+    .welcome {
+      font-weight: 500;
+    }
   }
 
   .profile {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border: 1px solid $primary-color;
     border-radius: 50%;
     background-color: transparent;
