@@ -66,3 +66,44 @@ export function transformRentalsToMonthlyData(rentals: Rental[]): { name: string
       renters,
     }))
 }
+
+export const filter = <T>() => ({
+  arrays: [] as T[],
+
+  fromData(param: T[]) {
+    this.arrays = param
+    return this
+  },
+
+  byKeywords(keywords?: string) {
+    if (!keywords) return this
+
+    const deepIncludes = (obj: any, kw: string): boolean => {
+      if (obj == null) return false
+
+      if (typeof obj === "string") {
+        return obj.toLowerCase().includes(kw.toLowerCase())
+      }
+
+      if (Array.isArray(obj)) {
+        return obj.some((item) => deepIncludes(item, kw))
+      }
+
+      if (typeof obj === "object") {
+        return Object.entries(obj).some(([key, value]) => {
+          if (key === "created_at" || key === "updated_at") return false
+          return deepIncludes(value, kw)
+        })
+      }
+
+      return false
+    }
+
+    this.arrays = this.arrays.filter((item) => deepIncludes(item, keywords))
+    return this
+  },
+
+  get() {
+    return this.arrays
+  },
+})

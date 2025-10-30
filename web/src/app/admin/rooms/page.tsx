@@ -5,7 +5,7 @@ import styles from "./page.module.scss"
 import Break from "../components/Break"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/Table"
 import { FIELD_ID } from "@/app/constants/field"
-import { asc } from "@/app/utils/utils"
+import { asc, filter } from "@/app/utils/utils"
 import { fetchRooms } from "@/app/data-access/rooms"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
@@ -17,11 +17,20 @@ import DeleteRoom from "./components/DeleteRoom"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 
-const Rooms = async () => {
+type RoomsProps = {
+  searchParams?: {
+    keywords?: string
+  }
+}
+
+const Rooms = async ({ searchParams }: RoomsProps) => {
   const session = await getServerSession(authOptions)
   const rooms = await fetchRooms({
     accessToken: String(session?.accessToken),
   })
+
+  const keywords = searchParams?.keywords?.toLowerCase()
+  const filteredRooms = filter<Room>().fromData(rooms).byKeywords(keywords).get()
 
   return (
     <SafeView>
@@ -45,7 +54,7 @@ const Rooms = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(rooms, FIELD_ID)?.map((room: Room, i: number) => (
+          {asc(filteredRooms, FIELD_ID)?.map((room: Room, i: number) => (
             <TableRow key={room.id}>
               <TableCell>{i + 1}</TableCell>
               <TableCell>{room.dormitory?.name}</TableCell>

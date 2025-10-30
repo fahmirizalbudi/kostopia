@@ -4,7 +4,7 @@ import styles from "./page.module.scss"
 import Cumbs from "../components/Cumbs"
 import Break from "../components/Break"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/Table"
-import { asc, rupiah } from "@/app/utils/utils"
+import { asc, filter, rupiah } from "@/app/utils/utils"
 import { FIELD_ID } from "@/app/constants/field"
 import { Dormitory } from "@/app/types/dormitory"
 import { fetchDormitories } from "@/app/data-access/dormitories"
@@ -15,8 +15,17 @@ import PreviewsDormitory from "./components/PreviewsDormitory"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 
-const Dormitories = async () => {
+type DormitoriesProps = {
+  searchParams?: {
+    keywords?: string
+  }
+}
+
+const Dormitories = async ({ searchParams }: DormitoriesProps) => {
   const dormitories = await fetchDormitories()
+
+  const keywords = searchParams?.keywords?.toLowerCase()
+  const filteredDormitories = filter<Dormitory>().fromData(dormitories).byKeywords(keywords).get()
 
   return (
     <SafeView>
@@ -41,7 +50,7 @@ const Dormitories = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(dormitories, FIELD_ID)?.map((dormitory: Dormitory, i: number) => (
+          {asc(filteredDormitories, FIELD_ID)?.map((dormitory: Dormitory, i: number) => (
             <TableRow key={dormitory.id}>
               <TableCell>{i + 1}</TableCell>
               <TableCell>{dormitory.name}</TableCell>

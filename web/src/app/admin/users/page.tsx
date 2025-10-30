@@ -8,7 +8,7 @@ import { User } from "@/app/types/user"
 import AddUser from "./components/AddUser"
 import EditUser from "./components/EditUser"
 import DeleteUser from "./components/DeleteUser"
-import { asc } from "@/app/utils/utils"
+import { asc, filter } from "@/app/utils/utils"
 import { FIELD_ID } from "@/app/constants/field"
 import { fetchUsers } from "@/app/data-access/users"
 import { getServerSession } from "next-auth"
@@ -16,11 +16,20 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 
-const Users = async () => {
+type UsersProps = {
+  searchParams?: {
+    keywords?: string
+  }
+}
+
+const Users = async ({ searchParams }: UsersProps) => {
   const session = await getServerSession(authOptions)
   const users = await fetchUsers({
     accessToken: session?.accessToken as string,
   })
+
+  const keywords = searchParams?.keywords?.toLowerCase()
+  const filteredUsers = filter<User>().fromData(users).byKeywords(keywords).get()
 
   return (
     <SafeView>
@@ -45,7 +54,7 @@ const Users = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(users, FIELD_ID)?.map((user: User, i: number) => (
+          {asc(filteredUsers, FIELD_ID)?.map((user: User, i: number) => (
             <TableRow key={user.id}>
               <TableCell>{i + 1}</TableCell>
               <TableCell>{user.name}</TableCell>

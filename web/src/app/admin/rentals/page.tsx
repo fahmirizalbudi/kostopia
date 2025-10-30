@@ -4,7 +4,7 @@ import SafeView from "../components/SafeView"
 import styles from "./page.module.scss"
 import Break from "../components/Break"
 import Flex from "@/app/components/layout/Flex"
-import { asc } from "@/app/utils/utils"
+import { asc, filter } from "@/app/utils/utils"
 import { FIELD_ID } from "@/app/constants/field"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
@@ -12,15 +12,23 @@ import { fetchRentals } from "@/app/data-access/rentals"
 import { Rental } from "@/app/types/rental"
 import { findDormitory } from "@/app/data-access/dormitories"
 import RentalInformation from "./components/RentalInformation"
-import Button from "@/app/components/ui/Button"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 
-const Rentals = async () => {
+type RentalsProps = {
+  searchParams?: {
+    keywords?: string
+  }
+}
+
+const Rentals = async ({ searchParams }: RentalsProps) => {
   const session = await getServerSession(authOptions)
   const rentals = await fetchRentals({
     accessToken: session?.accessToken as string,
   })
+
+  const keywords = searchParams?.keywords?.toLowerCase()
+  const filteredRentals = filter<Rental>().fromData(rentals).byKeywords(keywords).get()
 
   return (
     <SafeView>
@@ -45,7 +53,7 @@ const Rentals = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(rentals, FIELD_ID)?.map(async (rental: Rental, i: number) => {
+          {asc(filteredRentals, FIELD_ID)?.map(async (rental: Rental, i: number) => {
             const dormitory = await findDormitory({
               where: Number(rental.room?.dormitory_id),
             })

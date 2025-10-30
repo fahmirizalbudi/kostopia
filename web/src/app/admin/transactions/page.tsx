@@ -4,7 +4,7 @@ import SafeView from "../components/SafeView"
 import styles from "./page.module.scss"
 import Break from "../components/Break"
 import Flex from "@/app/components/layout/Flex"
-import { asc } from "@/app/utils/utils"
+import { asc, filter } from "@/app/utils/utils"
 import { FIELD_ID } from "@/app/constants/field"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
@@ -18,11 +18,20 @@ import TransactionReject from "./components/TransactionReject"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 
-const Transactions = async () => {
+type TransactionsProps = {
+  searchParams?: {
+    keywords?: string
+  }
+}
+
+const Transactions = async ({ searchParams }: TransactionsProps) => {
   const session = await getServerSession(authOptions)
   const transactions = await fetchTransactions({
     accessToken: session?.accessToken as string,
   })
+
+  const keywords = searchParams?.keywords?.toLowerCase()
+  const filteredTransactions = filter<Transaction>().fromData(transactions).byKeywords(keywords).get()
 
   return (
     <SafeView>
@@ -48,7 +57,7 @@ const Transactions = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(transactions, FIELD_ID)?.map(async (transaction: Transaction, i: number) => (
+          {asc(filteredTransactions, FIELD_ID)?.map(async (transaction: Transaction, i: number) => (
             <TableRow key={transaction.id}>
               <TableCell>{i + 1}</TableCell>
               <TableCell>{transaction.id}</TableCell>
