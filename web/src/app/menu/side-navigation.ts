@@ -20,6 +20,10 @@ export const menuSideNavigation: menuSideNavigationProps[] = [
     type: MENU_SIDE_LINK
   },
   {
+    text: "MASTER DATA",
+    type: MENU_SIDE_HEADER
+  },
+  {
     text: "Pengguna",
     linkTo: "/admin/users",
     icon: "pengguna.svg",
@@ -38,7 +42,7 @@ export const menuSideNavigation: menuSideNavigationProps[] = [
     type: MENU_SIDE_LINK
   },
   {
-    text: "OTHERS",
+    text: "TRADE",
     type: MENU_SIDE_HEADER
   },
   {
@@ -51,6 +55,16 @@ export const menuSideNavigation: menuSideNavigationProps[] = [
     text: "Transaksi",
     linkTo: "/admin/transactions",
     icon: "transaksi.svg",
+    type: MENU_SIDE_LINK
+  },
+  {
+    text: "REPORT",
+    type: MENU_SIDE_HEADER
+  },
+  {
+    text: "Laporan",
+    linkTo: "/admin/report",
+    icon: "penyewaan.svg",
     type: MENU_SIDE_LINK
   },
 ]
