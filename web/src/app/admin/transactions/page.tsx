@@ -15,6 +15,8 @@ import TransactionIsSuccess from "./components/TransactionIsSuccess"
 import TransactionReceipt from "./components/TransactionReceipt"
 import TransactionInformation from "./components/TransactionInformation"
 import TransactionReject from "./components/TransactionReject"
+import ExportCSV from "@/app/components/ui/ExportCSV"
+import ExportPDF from "@/app/components/ui/ExportPDF"
 
 const Transactions = async () => {
   const session = await getServerSession(authOptions)
@@ -26,6 +28,10 @@ const Transactions = async () => {
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Transaksi" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
+        <Flex gap={10}>
+          <ExportPDF />
+          <ExportCSV />
+        </Flex>
       </Flex>
       <Break height={30} />
       <Table>

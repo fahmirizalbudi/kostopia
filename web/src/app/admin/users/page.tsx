@@ -13,6 +13,8 @@ import { FIELD_ID } from "@/app/constants/field"
 import { fetchUsers } from "@/app/data-access/users"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import ExportPDF from "@/app/components/ui/ExportPDF"
+import ExportCSV from "@/app/components/ui/ExportCSV"
 
 const Users = async () => {
   const session = await getServerSession(authOptions)
@@ -24,7 +26,11 @@ const Users = async () => {
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Pengguna" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
-        <AddUser />
+        <Flex gap={10}>
+          <ExportPDF />
+          <ExportCSV />
+          <AddUser />
+        </Flex>
       </Flex>
       <Break height={30} />
       <Table>

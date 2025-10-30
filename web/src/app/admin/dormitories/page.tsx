@@ -12,6 +12,8 @@ import AddDormitory from "./components/AddDormitory"
 import EditDormitory from "./components/EditDormitory"
 import DeleteDormitory from "./components/DeleteDormitory"
 import PreviewsDormitory from "./components/PreviewsDormitory"
+import ExportCSV from "@/app/components/ui/ExportCSV"
+import ExportPDF from "@/app/components/ui/ExportPDF"
 
 const Dormitories = async () => {
   const dormitories = await fetchDormitories()
@@ -20,7 +22,11 @@ const Dormitories = async () => {
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Kos" description="Manajemen data untuk melihat, menambah, atau menghapus kos." />
-        <AddDormitory />
+        <Flex gap={10}>
+          <ExportPDF />
+          <ExportCSV />
+          <AddDormitory />
+        </Flex>
       </Flex>
       <Break height={30} />
       <Table>
@@ -40,7 +46,9 @@ const Dormitories = async () => {
               <TableCell>{i + 1}</TableCell>
               <TableCell>{dormitory.name}</TableCell>
               <TableCell>{dormitory.address}</TableCell>
-              <TableCell>{Number(dormitory?.description?.length) > 100 ? dormitory?.description?.substring(0, 100) + "..." : dormitory?.description}</TableCell>
+              <TableCell>
+                {Number(dormitory?.description?.length) > 100 ? dormitory?.description?.substring(0, 100) + "..." : dormitory?.description}
+              </TableCell>
               <TableCell>{rupiah(dormitory.price as number)}</TableCell>
               <TableCell className={styles.actions}>
                 <EditDormitory {...dormitory} />

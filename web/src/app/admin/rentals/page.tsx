@@ -12,6 +12,9 @@ import { fetchRentals } from "@/app/data-access/rentals"
 import { Rental } from "@/app/types/rental"
 import { findDormitory } from "@/app/data-access/dormitories"
 import RentalInformation from "./components/RentalInformation"
+import Button from "@/app/components/ui/Button"
+import ExportPDF from "@/app/components/ui/ExportPDF"
+import ExportCSV from "@/app/components/ui/ExportCSV"
 
 const Rentals = async () => {
   const session = await getServerSession(authOptions)
@@ -23,6 +26,10 @@ const Rentals = async () => {
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Penyewaan" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
+        <Flex gap={10}>
+          <ExportPDF />
+          <ExportCSV />
+        </Flex>
       </Flex>
       <Break height={30} />
       <Table>

@@ -1,0 +1,41 @@
+@import "../../styles/variable.scss";
+
+.pdf {
+  border-radius: 8px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #b71009;
+  border: 1px solid #b71009;
+  background-color: #fff;
+  height: fit-content;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #b71009;
+    color: #fff;
+  }
+}
+
+.csv {
+  border-radius: 8px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #087741;
+  border: 1px solid #087741;
+  background-color: #fff;
+  height: fit-content;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #087741;
+    color: #fff;
+  }
+}
