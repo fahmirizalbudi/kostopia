@@ -30,13 +30,41 @@ const Rentals = async ({ searchParams }: RentalsProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredRentals = filter<Rental>().fromData(rentals).byKeywords(keywords).get()
 
+  const rentalsReport = await Promise.all(
+    rentals.map(async (rental: Rental) => {
+      const dormitory = await findDormitory({
+        where: Number(rental.room?.dormitory_id),
+      })
+
+      return {
+        penyewa: rental.tenant?.name,
+        kamar: `${dormitory.name} - ${rental.room?.room_number}`,
+        "TANGGAL MULAI": new Date(rental.start_date as string).toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        "DURASI SEWA": `${rental.duration_months} Bulan`,
+        "TANGGAL SELESAI": new Date(rental.end_date as string).toLocaleDateString("id-ID", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+        status:
+          rental.status === "pending" ? "Menunggu" : rental.status === "active" ? "Aktif" : rental.status === "finished" ? "Selesai" : "Dibatalkan",
+      }
+    })
+  )
+
   return (
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Penyewaan" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
         <Flex gap={10}>
-          <ExportPDF />
-          <ExportCSV />
+          <ExportPDF data={rentalsReport} filename="rentals.pdf" title="Rekap Data Penyewaan" />
+          <ExportCSV data={rentalsReport} filename="rentals.csv" title="Rekap Data Penyewaan" />
         </Flex>
       </Flex>
       <Break height={30} />

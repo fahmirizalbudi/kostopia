@@ -33,13 +33,30 @@ const Transactions = async ({ searchParams }: TransactionsProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredTransactions = filter<Transaction>().fromData(transactions).byKeywords(keywords).get()
 
+  const transactionsReport = transactions.map((transaction: Transaction) => ({
+    kode: transaction.id,
+    "HARGA KOS": transaction.dormitory_price,
+    "PEMBAYARAN BULAN": `${transaction.month_paid} Bulan`,
+    keperluan: transaction.purpose === "new" ? "Sewa Baru" : "Perpanjang Sewa",
+    jumlah: transaction.amount,
+    "METODE PEMBAYARAN": transaction.method === "ewallet" ? "E-Wallet" : transaction.method === "transfer" ? "Transfer" : "Cash",
+    status:
+      transaction.status === "no_transaction"
+        ? "-"
+        : transaction.status === "success"
+        ? "Lunas"
+        : transaction.status === "rejected"
+        ? "Ditolak"
+        : "Menunggu",
+  }))
+
   return (
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Transaksi" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
         <Flex gap={10}>
-          <ExportPDF />
-          <ExportCSV />
+          <ExportPDF data={transactionsReport} filename="transactions.pdf" title="Rekap Data Transaksi" />
+          <ExportCSV data={transactionsReport} filename="transactions.csv" title="Rekap Data Transaksi" />
         </Flex>
       </Flex>
       <Break height={30} />

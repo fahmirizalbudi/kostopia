@@ -32,13 +32,19 @@ const Rooms = async ({ searchParams }: RoomsProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredRooms = filter<Room>().fromData(rooms).byKeywords(keywords).get()
 
+  const roomsReport = rooms.map((room: Room) => ({
+    kos: room.dormitory?.name,
+    "NOMOR KAMAR": room.room_number,
+    status: room.status === "rented" ? "Disewa" : "Tersedia"
+  }))
+
   return (
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Kamar Kos" description="Manajemen data kamar, tambah, edit, dan hapus." />
         <Flex gap={10}>
-          <ExportPDF />
-          <ExportCSV />
+          <ExportPDF data={roomsReport} filename="rooms.pdf" title="Rekap Data Kamar Kos" />
+          <ExportCSV data={roomsReport} filename="rooms.csv" title="Rekap Data Kamar Kos" />
           <AddRoom />
         </Flex>
       </Flex>

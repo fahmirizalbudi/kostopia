@@ -31,13 +31,21 @@ const Users = async ({ searchParams }: UsersProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredUsers = filter<User>().fromData(users).byKeywords(keywords).get()
 
+  const reportUsers = users.map((user: User, i) => ({
+    nama: user.name,
+    email: user.email,
+    role: user.role === "admin" ? "Admin" : "Penyewa",
+    seluler: user.phone || "-",
+    alamat: user.address || "-",
+  }))
+
   return (
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Pengguna" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
         <Flex gap={10}>
-          <ExportPDF />
-          <ExportCSV />
+          <ExportPDF data={reportUsers} filename="users.pdf" title="Rekap Data Pengguna" />
+          <ExportCSV data={reportUsers} filename="users.csv" title="Rekap Data Pengguna" />
           <AddUser />
         </Flex>
       </Flex>
