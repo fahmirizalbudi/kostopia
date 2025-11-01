@@ -74,5 +74,7 @@ func Setup() *gin.Engine {
 	api.GET("/reviews/:id/dormitory", handlers.ReviewDormitory)
 	api.POST("/reviews", handlers.ReviewStore)
 
+	api.GET("/report", handlers.ReportIndex)
+
 	return router
 }
