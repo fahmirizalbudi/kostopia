@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation"
 import { Modal } from "@/app/components/ui/Modal"
 import FormAction from "@/app/components/forms/FormAction"
 import FileDialog from "@/app/components/forms/FileDialog"
-import toast from "react-hot-toast"
 import Error from "@/app/components/forms/Error"
 import { useSession } from "next-auth/react"
 import { attachProof, createTransaction } from "@/app/data-access/transactions"
@@ -88,7 +87,7 @@ const AttachProof = ({ btnSytle, rental, renewal, monthPaid }: AttachProofProps)
         Bayar Sekarang!
       </Button>
       {isOpen && (
-        <Modal title="Tambah Preview" isOpen={isOpen} onClose={toggleOpen}>
+        <Modal title="Unggah Bukti" isOpen={isOpen} onClose={toggleOpen}>
           <form className={formStyles.form} onSubmit={handleSubmit}>
             <Flex className={formStyles.group}>
               <Label htmlFor="name">Bukti Transfer :</Label>
