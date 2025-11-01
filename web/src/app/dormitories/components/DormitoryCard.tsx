@@ -4,7 +4,7 @@ import Image from "next/image"
 import styles from "./DormitoryCard.module.scss"
 import { asset } from "@/app/lib/asset"
 import { Dormitory } from "@/app/types/dormitory"
-import Link from "next/link"
+import Link from "@/app/components/ui/Link"
 
 const DormitoryCard = (dormitoriesWithPreview: Dormitory) => {
   return (

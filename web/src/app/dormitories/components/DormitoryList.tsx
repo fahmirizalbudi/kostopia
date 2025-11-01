@@ -5,7 +5,7 @@ import styles from "./DormitoryList.module.scss"
 import Image from "next/image"
 import { Dormitory } from "@/app/types/dormitory"
 import { asset } from "@/app/lib/asset"
-import Link from "next/link"
+import Link from "@/app/components/ui/Link"
 
 const DormitoryList = (dormitoriesWithPreview: Dormitory) => {
   return (
