@@ -15,7 +15,7 @@ const TransactionReceipt = (transaction: Transaction) => {
     router.push(`${API}/transactions/${transaction.id}/receipt`)
   }
 
-  return <Action icon={asset("receipt.svg")} size={18} as="Edit" onAction={handleAction} />
+  return <Action icon={asset("receipt.svg")} size={18} as="Kuitansi" onAction={handleAction} />
 }
 
 export default TransactionReceipt

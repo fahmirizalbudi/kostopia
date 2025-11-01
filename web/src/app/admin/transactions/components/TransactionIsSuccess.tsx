@@ -33,7 +33,7 @@ const TransactionIsSuccess = (transaction: Transaction) => {
 
   return (
     <>
-      <Action icon={asset("check.svg")} size={18} as="Edit" onAction={toggleOpen} />
+      <Action icon={asset("check.svg")} size={18} as="Konfirmasi Pembayaran" onAction={toggleOpen} />
       {isOpen && (
         <Modal title="Konfirmasi Pembayaran" isOpen={isOpen} onClose={toggleOpen}>
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

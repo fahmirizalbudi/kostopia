@@ -51,7 +51,7 @@ const Review = (rental: Rental) => {
 
   return (
     <>
-      <Action icon={asset("star.svg")} size={18} as="Edit" onAction={toggleOpen} />
+      <Action icon={asset("star.svg")} size={18} as="Rating" onAction={toggleOpen} />
       {isOpen && (
         <Modal title="Berikan Ulasan" isOpen={isOpen} onClose={toggleOpen}>
           <form onSubmit={handleSubmit} className={styles.form}>

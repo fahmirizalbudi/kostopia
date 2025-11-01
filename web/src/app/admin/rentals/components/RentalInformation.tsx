@@ -27,7 +27,7 @@ const RentalInformation = (rental: Rental) => {
 
   return (
     <>
-      <Action icon={asset("info.svg")} size={18} as="Edit" onAction={toggleOpen} />
+      <Action icon={asset("info.svg")} size={18} as="Informasi" onAction={toggleOpen} />
       {isOpen && (
         <Modal title="Rincian Sewa" isOpen={isOpen} onClose={toggleOpen}>
           <div className={styles.container}>

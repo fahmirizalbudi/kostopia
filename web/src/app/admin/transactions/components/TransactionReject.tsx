@@ -33,7 +33,7 @@ const TransactionReject = (transaction: Transaction) => {
 
   return (
     <>
-      <Action icon={asset("stop.svg")} size={18} as="Edit" onAction={toggleOpen} />
+      <Action icon={asset("stop.svg")} size={18} as="Tolak Pembayaran" onAction={toggleOpen} />
       {isOpen && (
         <Modal title="Tolak Pembayaran" isOpen={isOpen} onClose={toggleOpen}>
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

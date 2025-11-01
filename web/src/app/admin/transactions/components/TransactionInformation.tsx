@@ -14,7 +14,7 @@ const TransactionInformation = (transaction: Transaction) => {
 
   return (
     <>
-      <Action icon={asset("info.svg")} size={18} as="Edit" onAction={toggleOpen} />
+      <Action icon={asset("info.svg")} size={18} as="Informasi" onAction={toggleOpen} />
       {isOpen && (
         <Modal title="Rincian Transaksi" isOpen={isOpen} onClose={toggleOpen}>
           <div className={styles.container}>

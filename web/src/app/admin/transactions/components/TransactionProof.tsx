@@ -10,7 +10,7 @@ const TransactionProof = (transaction: Transaction) => {
 
   const toggleOpen = () => router.push(transaction.proof as string)
 
-  return <Action icon={asset("upload_02.svg")} size={18} as="Edit" onAction={toggleOpen} />
+  return <Action icon={asset("upload_02.svg")} size={18} as="Bukti Pembayaran" onAction={toggleOpen} />
 }
 
 export default TransactionProof

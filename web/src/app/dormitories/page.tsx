@@ -13,6 +13,7 @@ import DormitoryCard from "./components/DormitoryCard"
 import DormitoryList from "./components/DormitoryList"
 import { Option } from "../components/forms/ComboBox"
 import Link from "next/link"
+import Tooltip from "../components/ui/Tooltip"
 
 type DormitoriesProps = {
   searchParams?: {
@@ -110,24 +111,28 @@ const Dormitories = async ({ searchParams }: DormitoriesProps) => {
         <Flex className={styles.header}>
           <span className={styles.titleSection}>Cari Kos</span>
           <Flex className={styles.decorations}>
-            <Link href="/dormitories?type=list">
-              <Image
-                alt="Decoration"
-                width={40}
-                height={40}
-                src={asset(searchParams?.type === "list" ? "deco_02_active.svg" : "deco_02.svg")}
-                className={styles.decoration}
-              />
-            </Link>
-            <Link href="/dormitories">
-              <Image
-                alt="Decoration"
-                width={40}
-                height={40}
-                src={asset(searchParams?.type === undefined ? "deco_active.svg" : "deco.svg")}
-                className={styles.decoration}
-              />
-            </Link>
+            <Tooltip text="Ganti ke tampilan daftar">
+              <Link href="/dormitories?type=list">
+                <Image
+                  alt="Decoration"
+                  width={40}
+                  height={40}
+                  src={asset(searchParams?.type === "list" ? "deco_02_active.svg" : "deco_02.svg")}
+                  className={styles.decoration}
+                />
+              </Link>
+            </Tooltip>
+            <Tooltip text="Ganti ke tampilan grid">
+              <Link href="/dormitories">
+                <Image
+                  alt="Decoration"
+                  width={40}
+                  height={40}
+                  src={asset(searchParams?.type === undefined ? "deco_active.svg" : "deco.svg")}
+                  className={styles.decoration}
+                />
+              </Link>
+            </Tooltip>
           </Flex>
         </Flex>
         <Break height={30} />

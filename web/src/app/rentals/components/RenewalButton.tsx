@@ -15,7 +15,7 @@ const RenewalButton = (rental: Rental) => {
     router.push(`/rentals/${rental.id}/renewal`)
   }
 
-  return <Action icon={asset("extend.svg")} size={18} as="Edit" onAction={handleAction} />
+  return <Action icon={asset("extend.svg")} size={18} as="Perpanjang Sewa" onAction={handleAction} />
 }
 
 export default RenewalButton
