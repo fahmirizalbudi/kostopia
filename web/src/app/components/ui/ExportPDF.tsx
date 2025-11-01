@@ -9,9 +9,10 @@ type ExportPDFProps = {
   data: any[]
   filename?: string
   title?: string
+  btnName?: string
 }
 
-const ExportPDF = ({ data, filename = "data.pdf", title = "Data Tabel" }: ExportPDFProps) => {
+const ExportPDF = ({ btnName = "Export PDF", data, filename = "data.pdf", title = "Data Tabel" }: ExportPDFProps) => {
   const handleExport = () => {
     if (!data || data.length === 0) {
       alert("Tidak ada data untuk diexport!")
@@ -19,14 +20,14 @@ const ExportPDF = ({ data, filename = "data.pdf", title = "Data Tabel" }: Export
     }
 
     const doc = new jsPDF({
-      orientation: "portrait",
+      orientation: "landscape",
       unit: "mm",
       format: "a4",
     })
 
     doc.setFont("helvetica", "bold")
     doc.setFontSize(14)
-    doc.text(title, 105, 15, { align: "center" })
+    doc.text(title, doc.internal.pageSize.getWidth() / 2, 15, { align: "center" })
 
     doc.setFont("helvetica", "normal")
     doc.setFontSize(10)
@@ -35,7 +36,7 @@ const ExportPDF = ({ data, filename = "data.pdf", title = "Data Tabel" }: Export
       month: "long",
       year: "numeric",
     })
-    doc.text(`Tanggal: ${today}`, 14, 25)
+    doc.text(`Tanggal Cetak: ${today}`, 14, 25)
 
     const keys = Object.keys(data[0]).filter((key) => !["created_at", "updated_at"].includes(key))
 
@@ -86,7 +87,7 @@ const ExportPDF = ({ data, filename = "data.pdf", title = "Data Tabel" }: Export
 
   return (
     <Button className={styles.pdf} onClick={handleExport}>
-      Export PDF
+      {btnName}
     </Button>
   )
 }

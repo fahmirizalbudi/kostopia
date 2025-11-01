@@ -7,9 +7,10 @@ type ExportCSVProps = {
   data?: any[]
   filename?: string
   title?: string
+  btnName?: string
 }
 
-const ExportCSV = ({ data, filename = "data.csv", title = "Data Tabel" }: ExportCSVProps) => {
+const ExportCSV = ({ btnName = "Export CSV", data, filename = "data.csv", title = "Data Tabel" }: ExportCSVProps) => {
   const handleExport = () => {
     if (!data || data.length === 0) {
       alert("Tidak ada data untuk diexport!")
@@ -19,7 +20,7 @@ const ExportCSV = ({ data, filename = "data.csv", title = "Data Tabel" }: Export
     const keys = Object.keys(data[0]).filter((key) => !["created_at", "updated_at"].includes(key))
 
     const headerTitle = [`"${title}"`, "", ""].join(",")
-    const dateRow = [`"Tanggal: ${new Date().toLocaleDateString("id-ID")}"`, "", ""].join(",")
+    const dateRow = [`"Tanggal Cetak: ${new Date().toLocaleDateString("id-ID")}"`, "", ""].join(",")
 
     const csvHeader = keys.map((key) => `"${key.replace(/_/g, " ").toUpperCase()}"`).join(",")
 
@@ -46,7 +47,7 @@ const ExportCSV = ({ data, filename = "data.csv", title = "Data Tabel" }: Export
 
   return (
     <Button className={styles.csv} onClick={handleExport}>
-      Export CSV
+      {btnName}
     </Button>
   )
 }
