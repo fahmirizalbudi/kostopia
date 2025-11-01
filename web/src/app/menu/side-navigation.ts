@@ -64,7 +64,7 @@ export const menuSideNavigation: menuSideNavigationProps[] = [
   {
     text: "Laporan",
     linkTo: "/admin/report",
-    icon: "penyewaan.svg",
+    icon: "laporan.svg",
     type: MENU_SIDE_LINK
   },
 ]

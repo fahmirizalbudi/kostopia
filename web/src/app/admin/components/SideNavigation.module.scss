@@ -18,6 +18,11 @@
     transition: all 0.3s ease;
     pointer-events: all;
 
+    .brand {
+        position: relative;
+        top: 20px;
+    }
+
     .container {
         height: 100%;
         display: flex;
@@ -30,19 +35,6 @@
             width: 269px;
             display: flex;
             align-items: center;
-
-            .close {
-                display: none;
-                cursor: pointer;
-                position: absolute;
-                right: 1.3rem;
-                top: 1.97rem;
-
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.1);
-                    clip-path: circle();
-                }
-            }
         }
 
         .content {
@@ -52,6 +44,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             overscroll-behavior: contain;
+            margin-top: 12px;
 
             &::-webkit-scrollbar {
                 width: 4px;

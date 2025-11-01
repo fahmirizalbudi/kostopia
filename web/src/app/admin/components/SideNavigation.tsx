@@ -45,19 +45,25 @@ const SideNavigation = ({ menu }: SideNavigationProps) => {
       <nav className={styles.sidebar}>
         <div className={styles.container}>
           <div className={styles.logo}>
-            <Image src={asset("logo.png")} alt="Logo" width={35} height={35} priority />
-            <Image src={asset("close.png")} alt="Close" className={styles.close} width={19} height={19} />
+            <Image src={asset("favicon.png")} alt="" width={153.067} height={58} className={styles.brand} />
           </div>
           <div className={styles.content}>
             <ul className={styles.menu}>
-              {menu.map((item, i) => (
+              {menu.map((item, i) =>
                 item.type === MENU_SIDE_HEADER ? (
                   <SideNavigationHeader key={i} text={item.text} />
-                ) :
-                item.type === MENU_SIDE_LINK && (
-                  <SideNavigationList key={i} icon={asset(item.icon ?? "")} label={item.text} linkTo={item.linkTo ?? "#"} isActive={item.linkTo === "/admin" ? pathname === "/admin" : pathname.startsWith(String(item.linkTo))}  />
+                ) : (
+                  item.type === MENU_SIDE_LINK && (
+                    <SideNavigationList
+                      key={i}
+                      icon={asset(item.icon ?? "")}
+                      label={item.text}
+                      linkTo={item.linkTo ?? "#"}
+                      isActive={item.linkTo === "/admin" ? pathname === "/admin" : pathname.startsWith(String(item.linkTo))}
+                    />
+                  )
                 )
-              ))}
+              )}
             </ul>
           </div>
         </div>
