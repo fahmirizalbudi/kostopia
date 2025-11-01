@@ -1,0 +1,22 @@
+@import "../../styles/variable.scss";
+
+.actions {
+  display: flex;
+  gap: 14px;
+}
+
+.header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.method {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-left: 4px;
+  background-color: #e0e0e0;
+  color: #6c6c6c;
+}
