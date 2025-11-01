@@ -63,6 +63,11 @@ const Profile = () => {
     router.refresh()
   }
 
+  const logout = () => {
+    signOut()
+    router.push("/")
+  }
+
   return (
     <>
       <Button className={styles.profile} onClick={toggleDropdown}>
@@ -78,7 +83,7 @@ const Profile = () => {
             >
               Profile
             </button>
-            <button onClick={() => signOut()}>Logout</button>
+            <button onClick={() => logout()}>Logout</button>
           </div>
         )}
       </Button>

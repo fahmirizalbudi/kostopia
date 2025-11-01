@@ -2,7 +2,7 @@ import Image from "next/image"
 import styles from "./TextBox.module.scss"
 
 type TextBoxProps = {
-  type: "text" | "email" | "number" | "hidden"
+  type: "text" | "email" | "number" | "hidden" | "password"
   placeholder: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   name?: string

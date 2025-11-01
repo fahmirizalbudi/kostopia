@@ -44,7 +44,7 @@ func Register(c *gin.Context) {
 	userRequest.Role = constants.TENANT_ROLE
 	userRequest.Password = password.Hash(userRequest.Password)
 
-	err = repo.RegisterUser(configs.DB, userRequest)
+	_, err = repo.CreateUser(configs.DB, userRequest)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
 			Message: "Internal server error",

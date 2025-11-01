@@ -1,150 +1,96 @@
-$primary-color: #1F4B43;
-$primary-light: #2A6356;
-$primary-dark: #164136;
-$secondary-color: #F8F9FA;
-$accent-color: #E8F4F1;
-$text-dark: #2D3748;
-$text-light: #718096;
-$white: #FFFFFF;
+@import "../../styles/variable.scss";
 
-.loginContainer {
-  min-height: 100vh;
+.login-container {
+  display: flex;
+  max-width: 100%;
+  background: #fff;
+  margin: auto;
+  width: 100%;
+  height: 100vh;
+  overflow: none;
+}
+
+.login-container .login-form {
+  width: 50%;
+  box-sizing: border-box;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.login-container .login-form .login-form-inner {
+  max-width: 550px;
+  width: 95%;
+}
+
+.loginHeader {
+  flex-direction: column;
+  width: 100%;
+  margin-top: 42px;
+  gap: 12px;
+}
+
+.headerTitle {
+  font-family: "SF Pro Text";
+  font-weight: 700;
+  color: rgba($color: #000000, $alpha: 0.9);
+}
+
+.headerDescription {
+  text-align: justify;
+  color: #333;
+}
+
+.loginBody {
+  flex-direction: column;
+  margin-top: 42px;
+}
+
+.login-container .onboarding {
+  flex: 2;
+  background: #DEF7E5;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, $accent-color 0%, $secondary-color 100%);
-  padding: 1rem;
-  font-family: monospace;
+  width: 50%;
+  padding: 100px;
+  border-left: 1px solid rgb(229, 234, 239);
 }
-
-.loginCard {
-  background: $white;
-  border-radius: 16px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 420px;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, $primary-color 0%, $primary-light 100%);
-  }
-
-  @media (max-width: 480px) {
-    padding: 2rem 1.5rem;
-    margin: 1rem;
-  }
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 2rem;
-
-  .logo {
-    width: 64px;
-    height: 64px;
-    border: 2px solid $primary-color;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    color: $white;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: $text-dark;
-    margin: 0 0 0.5rem;
-    letter-spacing: -0.025em;
-    font-family: "SF Pro Rounded";
-    letter-spacing: 0.1px;
-  }
-
-  .subtitle {
-    color: $text-light;
-    font-size: 1rem;
-    margin: 0;
-  }
-}
-
 
 .loginButton {
-  margin-top: 0.25rem;
-  width: 100%;
-  background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%);
-  color: $white;
+  margin-top: 8px;
   border: none;
-  border-radius: 12px;
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: 600;
+  background-color: $primary-color;
+  color: #fff;
+  border-radius: 6px;
+  padding: 15px;
+  font-size: 15px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-  }
+  transition: all 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(31, 75, 67, 0.3);
-
-    &::before {
-      left: 100%;
-    }
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-
-    &:hover {
-      transform: none;
-      box-shadow: none;
-    }
+    background-color: darken($color: $primary-color, $amount: 2);
   }
 }
 
-.footer {
-  text-align: center;
-  color: $text-light;
-  font-size: 0.875rem;
-  margin-top: 1.25rem;
+.login-container .onboarding {
+  display: flex;
+}
 
-  .signupLink {
+.cta {
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: end;
+
+  .text {
+    color: #333;
+    font-size: 15px;
+  }
+
+  .link {
     color: $primary-color;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: $primary-dark;
-      text-decoration: underline;
-    }
+    font-weight: 500;
   }
 }
