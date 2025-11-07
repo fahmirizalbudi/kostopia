@@ -80,8 +80,10 @@ const FilterDormitory = ({ facilities, prices }: FilterDormitoryProps) => {
       />
       <ComboBox options={prices} value={findOption(prices, price)} onChange={(option) => setPrice(option)} placeholder="Rentang harga" />
       <ComboBox options={facilities} placeholder="Fasilitas" value={findOption(facilities, facility)} onChange={(option) => setFacility(option)} />
-      <Action icon={asset("reload.svg")} size={18} as="Refresh" className={styles.action} onAction={handleRefresh} />
-      <Action icon={asset("search_02.svg")} size={19} as="Cari" className={styles.action} onAction={handleSearch} />
+      <Flex gap={16} className={styles.refreshSearch}>
+        <Action icon={asset("reload.svg")} size={18} as="Refresh" className={styles.action} onAction={handleRefresh} />
+        <Action icon={asset("search_02.svg")} size={19} as="Cari" className={styles.action} onAction={handleSearch} />
+      </Flex>
     </Flex>
   )
 }

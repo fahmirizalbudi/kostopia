@@ -105,3 +105,102 @@
         }
     }
 }
+
+@media (max-width: 1024px) {
+    .hero {
+        .display {
+            font-size: 48px;
+        }
+
+        .search {
+            width: 500px;
+            height: 65px;
+
+            .input {
+                font-size: 16px;
+            }
+
+            .handle {
+                width: 65px !important;
+                height: 55px;
+            }
+        }
+
+        .description {
+            font-size: 15px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        background-position: center;
+
+        .display {
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .motto {
+            font-size: 12px;
+            height: 34px;
+            padding-inline: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .search {
+            width: 100%;
+            max-width: 90% !important;
+            height: 60px;
+            padding-left: 18px;
+            padding-right: 4px;
+            margin-bottom: 35px;
+
+            .input {
+                font-size: 15px;
+            }
+
+            .handle {
+                width: 60px !important;
+                height: 50px;
+            }
+        }
+
+        .params {
+            gap: 8px;
+
+            .menu {
+                height: 30px;
+                padding: 0 12px;
+
+                .anchor {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        .display {
+            font-size: 28px;
+        }
+
+        .search {
+            height: 55px;
+            max-width: 100%;
+            gap: 0.5rem;
+        }
+
+        .handle {
+            width: 105px;
+            height: 45px;
+        }
+    }
+}

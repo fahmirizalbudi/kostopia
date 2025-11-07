@@ -12,6 +12,10 @@
         display: flex;
         gap: 40px;
         list-style-type: none;
+
+        .mobileAuth {
+            display: none;
+        }
     }
 
     .i {
@@ -47,6 +51,10 @@
         gap: 32px;
     }
 
+    .burger {
+        display: none;
+    }
+
     .profile {
         width: 40px;
         height: 40px;
@@ -75,6 +83,168 @@
 
         &:hover {
             background-color: darken($color: $primary-color, $amount: 2.5);
+        }
+    }
+}
+
+@media (max-width: 1400px) {
+    .nav {
+        padding-inline: 2rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .nav {
+        position: relative;
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            list-style-type: none;
+            background: #fff;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 70%;
+            max-width: 320px;
+            height: 100vh;
+            padding: 100px 30px 40px 30px;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 1000;
+
+            &.active {
+                right: 0;
+            }
+
+            .i {
+                font-size: 17px;
+
+                .anchor {
+                    color: $primary-color;
+                    text-decoration: none;
+                }
+            }
+
+            .mobileAuth {
+                margin-top: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+
+                .textLink {
+                    text-decoration: none;
+                    color: $primary-color;
+                    font-weight: 500;
+                    font-size: 16px;
+                    border: 1px solid #ebebeb;
+                    border-radius: 8px;
+                    padding: 10px 15px;
+                    text-align: center;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background-color: rgb(233, 242, 241);
+                        color: #018c79;
+                    }
+                }
+
+                .login {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+        .desktopRight {
+            display: none;
+        }
+
+        .burger {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+            position: relative;
+
+            span {
+                width: 100%;
+                height: 3px;
+                background: $primary-color;
+                border-radius: 2px;
+                transition: all 0.3s ease;
+            }
+
+            &.open span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            &.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            &.open span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .nav {
+        padding-inline: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav {
+        padding-inline: 1rem;
+
+        img {
+            width: 140px;
+            height: auto;
+        }
+
+        .menu {
+            width: 80%;
+            padding: 90px 25px 25px 25px;
+        }
+
+        .burger {
+            width: 20px;
+            height: 20px;
+            gap: 4px;
+
+            span {
+                height: 2.5px;
+                transition: all 0.3s ease;
+                transform-origin: center;
+            }
+
+            &.open span:nth-child(1) {
+                transform: translateY(6px) rotate(45deg);
+            }
+
+            &.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            &.open span:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+        }
+
+        .textLink {
+            font-size: 15px;
+            padding: 8px 12px;
         }
     }
 }

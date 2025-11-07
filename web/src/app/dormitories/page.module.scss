@@ -62,3 +62,106 @@
   gap: 30px;
   flex-direction: column;
 }
+
+@media (max-width: 1400px) {
+  .container {
+    padding-inline: 2rem;
+  }
+
+  .titleSection {
+    font-size: 32px;
+  }
+
+  .dormitories {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .decorations {
+    a:first-child {
+      display: none !important;
+    }
+  }
+
+  .filterContainer {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+
+    .search,
+    .orderBy {
+      width: 100%;
+    }
+
+    .refreshSearch {
+      justify-content: flex-end;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-inline: 1.5rem;
+  }
+
+  .titleSection {
+    font-size: 28px;
+  }
+
+  .decorations {
+    align-self: flex-end;
+  }
+
+  .filterContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .dormitories {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .dormitoriesList {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-inline: 1rem;
+    padding-block: 20px;
+  }
+
+  .titleSection {
+    font-size: 26px;
+  }
+
+  .decorations {
+    gap: 10px;
+
+    .decoration {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .filterContainer {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .search,
+  .orderBy {
+    width: 100%;
+  }
+
+  .dormitories {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .dormitoriesList {
+    gap: 16px;
+  }
+}

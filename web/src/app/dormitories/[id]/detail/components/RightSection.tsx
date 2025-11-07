@@ -22,8 +22,10 @@ const RightSection = async (dormitoryDetail: Dormitory) => {
             <span className={styles.name}>{dormitoryDetail.name}</span>
             <Flex className={styles.ratingSection}>
               <span className={styles.rentBadge}>For Rent</span>
-              <RatingReview rating={averageOfRating} size={20} className={styles.ratingStar} />
-              <span className={styles.reviewCount}>({reviewer} Reviews)</span>
+              <Flex gap={16}>
+                <RatingReview rating={averageOfRating} size={20} className={styles.ratingStar} />
+                <span className={styles.reviewCount}>({reviewer} Reviews)</span>
+              </Flex>
             </Flex>
             <div className={styles.location}>
               <Image src={asset("location.svg")} width={24} height={24} alt="Location" />
