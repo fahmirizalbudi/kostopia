@@ -45,7 +45,7 @@ const SideNavigation = ({ menu }: SideNavigationProps) => {
       <nav className={styles.sidebar}>
         <div className={styles.container}>
           <div className={styles.logo}>
-            <Image src={asset("favicon.png")} alt="" width={153.067} height={58} className={styles.brand} />
+            <Image src={asset("favicon.svg")} alt="" width={153.067} height={58} className={styles.brand} />
           </div>
           <div className={styles.content}>
             <ul className={styles.menu}>

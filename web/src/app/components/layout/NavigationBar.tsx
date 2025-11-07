@@ -18,7 +18,7 @@ const NavigationBar = ({ menu }: NavigationBarProps) => {
 
   return (
     <nav className={styles.nav}>
-      <Image src={asset("favicon.png")} alt="" width={153.067} height={58} />
+      <Image src={asset("favicon.svg")} alt="" width={153.067} height={58} />
       <ul className={styles.menu}>
         {menu.map((item, i) => (
           <li key={i} className={styles.i}>
