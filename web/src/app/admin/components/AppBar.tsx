@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import TextBox from "@/app/components/forms/TextBox"
-import Button from "@/app/components/ui/Button"
-import Image from "next/image"
 import { asset } from "@/app/lib/asset"
 import styles from "./AppBar.module.scss"
 import DatePicker from "@/app/components/forms/DatePicker"
@@ -18,6 +16,15 @@ const AppBar = () => {
   const [startDate, setStartDate] = useState(searchParams.get("start_date") || "")
   const [endDate, setEndDate] = useState(searchParams.get("end_date") || "")
   const [keywords, setKeywords] = useState(searchParams.get("keywords") || "")
+  const [scrolled, setScrolled] = useState<Boolean>(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -39,7 +46,7 @@ const AppBar = () => {
   }, [keywords, startDate, endDate])
 
   return (
-    <nav className={styles.appbar}>
+    <nav className={`${styles.appbar} ${scrolled ? styles.scrolled : ""}`}>
       {(pathname === "/admin/report" || pathname === "/admin/transactions") && (
         <Flex className={styles.dateFilter}>
           <TextBox
@@ -70,7 +77,14 @@ const AppBar = () => {
         />
       )}
 
-      {pathname === "/admin" && <span></span>}
+      {pathname === "/admin" && (
+        <div className={styles.greeting}>
+            <span className={styles.welcome}>Halo, Admin 👋</span>
+            <p className={styles.date}>
+              {new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+            </p>
+        </div>
+      )}
       <Profile />
     </nav>
   )
