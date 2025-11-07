@@ -32,10 +32,10 @@ const Rooms = async ({ searchParams }: RoomsProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredRooms = filter<Room>().fromData(rooms).byKeywords(keywords).get()
 
-  const roomsReport = rooms.map((room: Room) => ({
+  const roomsReport = filteredRooms?.map((room: Room) => ({
     kos: room.dormitory?.name,
     "NOMOR KAMAR": room.room_number,
-    status: room.status === "rented" ? "Disewa" : "Tersedia"
+    status: room.status === "rented" ? "Disewa" : "Tersedia",
   }))
 
   return (
@@ -43,8 +43,16 @@ const Rooms = async ({ searchParams }: RoomsProps) => {
       <Flex className={styles.header}>
         <Cumbs heading="Kamar Kos" description="Manajemen data kamar, tambah, edit, dan hapus." />
         <Flex gap={10}>
-          <ExportPDF data={roomsReport} filename="rooms.pdf" title="Rekap Data Kamar Kos" />
-          <ExportCSV data={roomsReport} filename="rooms.csv" title="Rekap Data Kamar Kos" />
+          <ExportPDF
+            data={roomsReport}
+            filename={`rooms${keywords ? `-${keywords}` : ""}.pdf`}
+            title={`Rekap Data Kamar Kos${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
+          <ExportCSV
+            data={roomsReport}
+            filename={`rooms${keywords ? `-${keywords}` : ""}.csv`}
+            title={`Rekap Data Kamar Kos${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
           <AddRoom />
         </Flex>
       </Flex>

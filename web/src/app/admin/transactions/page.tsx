@@ -21,6 +21,8 @@ import ExportPDF from "@/app/components/ui/ExportPDF"
 type TransactionsProps = {
   searchParams?: {
     keywords?: string
+    start_date?: string
+    end_date?: string
   }
 }
 
@@ -31,9 +33,28 @@ const Transactions = async ({ searchParams }: TransactionsProps) => {
   })
 
   const keywords = searchParams?.keywords?.toLowerCase()
-  const filteredTransactions = filter<Transaction>().fromData(transactions).byKeywords(keywords).get()
+  let filteredTransactions = filter<Transaction>().fromData(transactions).byKeywords(keywords).get()
 
-  const transactionsReport = transactions?.map((transaction: Transaction) => ({
+  const startDate = searchParams?.start_date
+  const endDate = searchParams?.end_date
+
+  filteredTransactions = filteredTransactions?.filter((transaction: any) => {
+    if (!startDate && !endDate) return true
+
+    const date = new Date(transaction.created_at)
+    const transactionDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()) // hapus jam
+
+    const start = startDate ? new Date(startDate) : null
+    const end = endDate ? new Date(endDate) : null
+    const startDay = start ? new Date(start.getFullYear(), start.getMonth(), start.getDate()) : null
+    const endDay = end ? new Date(end.getFullYear(), end.getMonth(), end.getDate()) : null
+
+    if (startDay && transactionDate < startDay) return false
+    if (endDay && transactionDate > endDay) return false
+    return true
+  })
+
+  const transactionsReport = filteredTransactions?.map((transaction: Transaction) => ({
     kode: transaction.id,
     "HARGA KOS": transaction.dormitory_price,
     "PEMBAYARAN BULAN": `${transaction.month_paid} Bulan`,
@@ -55,8 +76,20 @@ const Transactions = async ({ searchParams }: TransactionsProps) => {
       <Flex className={styles.header}>
         <Cumbs heading="Transaksi" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
         <Flex gap={10}>
-          <ExportPDF data={transactionsReport} filename="transactions.pdf" title="Rekap Data Transaksi" />
-          <ExportCSV data={transactionsReport} filename="transactions.csv" title="Rekap Data Transaksi" />
+          <ExportPDF
+            data={transactionsReport}
+            filename={`transactions${keywords ? `-${keywords}` : ""}${startDate || endDate ? `-${startDate || ""}_to_${endDate || ""}` : ""}.pdf`}
+            title={`Rekap Data Transaksi${keywords ? ` (kata kunci: ${keywords})` : ""}${
+              startDate || endDate ? ` (${startDate || "?"} s.d. ${endDate || "?"})` : ""
+            }`}
+          />
+          <ExportCSV
+            data={transactionsReport}
+            filename={`transactions${keywords ? `-${keywords}` : ""}${startDate || endDate ? `-${startDate || ""}_to_${endDate || ""}` : ""}.csv`}
+            title={`Rekap Data Transaksi${keywords ? ` (kata kunci: ${keywords})` : ""}${
+              startDate || endDate ? ` (${startDate || "?"} s.d. ${endDate || "?"})` : ""
+            }`}
+          />
         </Flex>
       </Flex>
       <Break height={30} />

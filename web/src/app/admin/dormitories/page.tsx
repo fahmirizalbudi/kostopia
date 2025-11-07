@@ -27,7 +27,7 @@ const Dormitories = async ({ searchParams }: DormitoriesProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredDormitories = filter<Dormitory>().fromData(dormitories).byKeywords(keywords).get()
 
-  const reportDormitories = dormitories.map((dormitory: Dormitory) => ({
+  const reportDormitories = filteredDormitories?.map((dormitory: Dormitory) => ({
     nama: dormitory.name,
     alamat: dormitory.address,
     deskripsi: dormitory.description,
@@ -40,8 +40,16 @@ const Dormitories = async ({ searchParams }: DormitoriesProps) => {
       <Flex className={styles.header}>
         <Cumbs heading="Kos" description="Manajemen data untuk melihat, menambah, atau menghapus kos." />
         <Flex gap={10}>
-          <ExportPDF data={reportDormitories} filename="dormitories.pdf" title="Rekap Data Kos" />
-          <ExportCSV data={reportDormitories} filename="dormitories.csv" title="Rekap Data Kos" />
+          <ExportPDF
+            data={reportDormitories}
+            filename={`dormitories${keywords ? `-${keywords}` : ""}.pdf`}
+            title={`Rekap Data Kos${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
+          <ExportCSV
+            data={reportDormitories}
+            filename={`dormitories${keywords ? `-${keywords}` : ""}.csv`}
+            title={`Rekap Data Kos${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
           <AddDormitory />
         </Flex>
       </Flex>

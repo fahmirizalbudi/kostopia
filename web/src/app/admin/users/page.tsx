@@ -31,7 +31,7 @@ const Users = async ({ searchParams }: UsersProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredUsers = filter<User>().fromData(users).byKeywords(keywords).get()
 
-  const reportUsers = users.map((user: User, i) => ({
+  const reportUsers = filteredUsers?.map((user: User, i) => ({
     nama: user.name,
     email: user.email,
     role: user.role === "admin" ? "Admin" : "Penyewa",
@@ -44,8 +44,16 @@ const Users = async ({ searchParams }: UsersProps) => {
       <Flex className={styles.header}>
         <Cumbs heading="Pengguna" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
         <Flex gap={10}>
-          <ExportPDF data={reportUsers} filename="users.pdf" title="Rekap Data Pengguna" />
-          <ExportCSV data={reportUsers} filename="users.csv" title="Rekap Data Pengguna" />
+          <ExportPDF
+            data={reportUsers}
+            filename={`users${keywords ? `-${keywords}` : ""}.pdf`}
+            title={`Rekap Data Pengguna${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
+          <ExportCSV
+            data={reportUsers}
+            filename={`users${keywords ? `-${keywords}` : ""}.csv`}
+            title={`Rekap Data Pengguna${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
           <AddUser />
         </Flex>
       </Flex>

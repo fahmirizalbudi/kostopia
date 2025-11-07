@@ -49,7 +49,7 @@ const Login = () => {
     <div className={styles["login-container"]}>
       <div className={styles["login-form"]}>
         <div className={styles["login-form-inner"]}>
-          <Image src={asset("favicon.png")} alt="" width={153.067} height={58} />
+          <Image src={asset("favicon.svg")} alt="" width={153.067} height={58} />
 
           <Flex className={styles.loginHeader}>
             <h1 className={styles.headerTitle}>Log In</h1>

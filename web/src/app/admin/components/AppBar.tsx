@@ -39,14 +39,24 @@ const AppBar = () => {
 
   return (
     <nav className={styles.appbar}>
-      {pathname === "/admin/report" && (
+      {(pathname === "/admin/report" || pathname === "/admin/transactions") && (
         <Flex className={styles.dateFilter}>
+          <TextBox
+            placeholder="Cari kata kunci ..."
+            type="text"
+            icon={asset("magnify.svg")}
+            iconSize={21}
+            iconGap={6}
+            className={styles.search}
+            onChange={(e) => setKeywords(e.target.value)}
+            value={keywords}
+          />
           <DatePicker placeholder="Mulai (dd-mm-yyyy)" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={styles.date} />
           <DatePicker placeholder="Sampai (dd-mm-yyyy)" value={endDate} onChange={(e) => setEndDate(e.target.value)} className={styles.date} />
         </Flex>
       )}
 
-      {pathname !== "/admin" && pathname !== "/admin/report" && (
+      {pathname !== "/admin" && pathname !== "/admin/report" && pathname !== "/admin/transactions" && (
         <TextBox
           placeholder="Cari kata kunci ..."
           type="text"

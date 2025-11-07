@@ -31,7 +31,7 @@ const Rentals = async ({ searchParams }: RentalsProps) => {
   const filteredRentals = filter<Rental>().fromData(rentals).byKeywords(keywords).get()
 
   const rentalsReport = await Promise?.all(
-    (rentals ?? [])?.map(async (rental: Rental) => {
+    (filteredRentals ?? [])?.map(async (rental: Rental) => {
       const dormitory = await findDormitory({
         where: Number(rental?.room?.dormitory_id),
       })
@@ -63,8 +63,16 @@ const Rentals = async ({ searchParams }: RentalsProps) => {
       <Flex className={styles.header}>
         <Cumbs heading="Penyewaan" description="Pusat data pengguna untuk melihat, menambah, atau mengelola akun." />
         <Flex gap={10}>
-          <ExportPDF data={rentalsReport} filename="rentals.pdf" title="Rekap Data Penyewaan" />
-          <ExportCSV data={rentalsReport} filename="rentals.csv" title="Rekap Data Penyewaan" />
+          <ExportPDF
+            data={rentalsReport}
+            filename={`rentals${keywords ? `-${keywords}` : ""}.pdf`}
+            title={`Rekap Data Penyewaan${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
+          <ExportCSV
+            data={rentalsReport}
+            filename={`rentals${keywords ? `-${keywords}` : ""}.csv`}
+            title={`Rekap Data Penyewaan${keywords ? ` (filter: ${keywords})` : ""}`}
+          />
         </Flex>
       </Flex>
       <Break height={30} />

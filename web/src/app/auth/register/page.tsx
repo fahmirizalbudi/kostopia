@@ -49,7 +49,7 @@ const Register = () => {
     <div className={styles["register-container"]}>
       <div className={styles["register-form"]}>
         <div className={styles["register-form-inner"]}>
-          <Image src={asset("favicon.png")} alt="" width={153.067} height={58} />
+          <Image src={asset("favicon.svg")} alt="" width={153.067} height={58} />
 
           <Flex className={styles.registerHeader}>
             <h1 className={styles.headerTitle}>Get Started</h1>

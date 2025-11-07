@@ -7,10 +7,11 @@ import Flex from "@/app/components/layout/Flex"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 import { API } from "@/app/constants/api"
-import { rupiah } from "@/app/utils/utils"
+import { filter, rupiah } from "@/app/utils/utils"
 
 type ReportProps = {
   searchParams?: {
+    keywords?: string
     start_date?: string
     end_date?: string
   }
@@ -23,10 +24,13 @@ const Report = async ({ searchParams }: ReportProps) => {
   const reportJSON = await reportRes.json()
   const report = reportJSON.data
 
+  const keywords = searchParams?.keywords
   const startDate = searchParams?.start_date
   const endDate = searchParams?.end_date
 
-  const filteredReport = report?.filter((report: any) => {
+  let filteredReport = filter<Report>().fromData(report).byKeywords(keywords).get()
+
+  filteredReport = filteredReport?.filter((report: any) => {
     if (!startDate && !endDate) return true
     const date = new Date(report.date)
     const start = startDate ? new Date(startDate) : null
@@ -63,59 +67,25 @@ const Report = async ({ searchParams }: ReportProps) => {
     "METODE PEMBAYARAN": report.method === "ewallet" ? "E-Wallet" : report.method === "transfer" ? "Transfer" : "Cash",
   }))
 
-  const formattedFilteredReport = filteredReport?.map((report: any) => ({
-    "TANGGAL TRANSAKSI": new Date(report.date as string).toLocaleDateString("id-ID", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }),
-    penyewa: report.tenant,
-    "KAMAR / UNIT": report.unit,
-    "DURASI SEWA": `${report.month_paid} Bulan`,
-    "TANGGAL MULAI": new Date(report.start_date as string).toLocaleDateString("id-ID", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }),
-    "TANGGAL SELESAI": new Date(report.end_date as string).toLocaleDateString("id-ID", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    }),
-    "JENIS TRANSAKSI": report.purpose,
-    jumlah: rupiah(report.amount),
-    "METODE PEMBAYARAN": report.method === "ewallet" ? "E-Wallet" : report.method === "transfer" ? "Transfer" : "Cash",
-  }))
-
-  const filterInfo =
-    startDate || endDate
-      ? `Periode: ${startDate ? new Date(startDate).toLocaleDateString("id-ID") : "–"} s/d ${
-          endDate ? new Date(endDate).toLocaleDateString("id-ID") : "–"
-        }`
-      : "Semua data (tanpa filter)"
-
   return (
     <SafeView>
       <Flex className={styles.header}>
         <Cumbs heading="Laporan" description="Menampilkan data penyewaan dan transaksi yang berhasil untuk memantau pendapatan." />
         <Flex gap={10}>
           <ExportPDF
-            data={formattedFilteredReport}
-            filename="filtered_report.pdf"
-            title={filterInfo}
-            btnName="Export PDF by Filter"
+            data={formattedReport}
+            filename={`report${keywords ? `-${keywords}` : ""}${startDate || endDate ? `-${startDate || ""}_to_${endDate || ""}` : ""}.pdf`}
+            title={`Rekap Laporan Penyewaan Transaksi${keywords ? ` (kata kunci: ${keywords})` : ""}${
+              startDate || endDate ? ` (${startDate || "?"} s.d. ${endDate || "?"})` : ""
+            }`}
           />
           <ExportCSV
-            data={formattedFilteredReport}
-            filename="filtered_report.csv"
-            title={filterInfo}
-            btnName="Export CSV by Filter"
+            data={formattedReport}
+            filename={`report${keywords ? `-${keywords}` : ""}${startDate || endDate ? `-${startDate || ""}_to_${endDate || ""}` : ""}.csv`}
+            title={`Rekap Laporan Penyewaan Transaksi${keywords ? ` (kata kunci: ${keywords})` : ""}${
+              startDate || endDate ? ` (${startDate || "?"} s.d. ${endDate || "?"})` : ""
+            }`}
           />
-          <ExportPDF data={formattedReport} filename="report.pdf" title="Rekap Laporan Penyewaan Transaksi" />
-          <ExportCSV data={formattedReport} filename="report.csv" title="Rekap Laporan Penyewaan Transaksi" />
         </Flex>
       </Flex>
       <Break height={30} />
