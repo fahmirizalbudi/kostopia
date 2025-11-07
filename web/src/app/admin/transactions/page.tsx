@@ -33,7 +33,7 @@ const Transactions = async ({ searchParams }: TransactionsProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredTransactions = filter<Transaction>().fromData(transactions).byKeywords(keywords).get()
 
-  const transactionsReport = transactions.map((transaction: Transaction) => ({
+  const transactionsReport = transactions?.map((transaction: Transaction) => ({
     kode: transaction.id,
     "HARGA KOS": transaction.dormitory_price,
     "PEMBAYARAN BULAN": `${transaction.month_paid} Bulan`,

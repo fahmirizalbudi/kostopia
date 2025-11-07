@@ -30,10 +30,10 @@ const Rentals = async ({ searchParams }: RentalsProps) => {
   const keywords = searchParams?.keywords?.toLowerCase()
   const filteredRentals = filter<Rental>().fromData(rentals).byKeywords(keywords).get()
 
-  const rentalsReport = await Promise.all(
-    rentals.map(async (rental: Rental) => {
+  const rentalsReport = await Promise?.all(
+    (rentals ?? [])?.map(async (rental: Rental) => {
       const dormitory = await findDormitory({
-        where: Number(rental.room?.dormitory_id),
+        where: Number(rental?.room?.dormitory_id),
       })
 
       return {

@@ -26,7 +26,7 @@ const Report = async ({ searchParams }: ReportProps) => {
   const startDate = searchParams?.start_date
   const endDate = searchParams?.end_date
 
-  const filteredReport = report.filter((report: any) => {
+  const filteredReport = report?.filter((report: any) => {
     if (!startDate && !endDate) return true
     const date = new Date(report.date)
     const start = startDate ? new Date(startDate) : null
@@ -36,7 +36,7 @@ const Report = async ({ searchParams }: ReportProps) => {
     return true
   })
 
-  const formattedReport = report.map((report: any) => ({
+  const formattedReport = report?.map((report: any) => ({
     "TANGGAL TRANSAKSI": new Date(report.date as string).toLocaleDateString("id-ID", {
       weekday: "long",
       day: "numeric",
@@ -63,7 +63,7 @@ const Report = async ({ searchParams }: ReportProps) => {
     "METODE PEMBAYARAN": report.method === "ewallet" ? "E-Wallet" : report.method === "transfer" ? "Transfer" : "Cash",
   }))
 
-  const formattedFilteredReport = filteredReport.map((report: any) => ({
+  const formattedFilteredReport = filteredReport?.map((report: any) => ({
     "TANGGAL TRANSAKSI": new Date(report.date as string).toLocaleDateString("id-ID", {
       weekday: "long",
       day: "numeric",
@@ -134,7 +134,7 @@ const Report = async ({ searchParams }: ReportProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredReport.map((report: any, i: number) => (
+          {filteredReport?.map((report: any, i: number) => (
             <TableRow key={i}>
               <TableCell>
                 {new Date(report.date as string).toLocaleDateString("id-ID", {

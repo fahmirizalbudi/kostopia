@@ -29,7 +29,7 @@ export const transformDataForTransactionMonthChart = (transactions: Transaction[
     monthlyData[month] = { revenue: 0 }
   })
 
-  transactions.forEach((transaction) => {
+  transactions?.forEach((transaction) => {
     const date = new Date(String(transaction.created_at))
     const month = MONTH_NAMES[date.getMonth()]
 
@@ -47,7 +47,7 @@ export const transformDataForTransactionMonthChart = (transactions: Transaction[
 export function transformRentalsToMonthlyData(rentals: Rental[]): { name: string; renters: number }[] {
   const monthlyMap: Map<string, number> = new Map()
 
-  rentals.forEach((rental) => {
+  rentals?.forEach((rental) => {
     if (rental.status !== "active" && rental.status !== "finished") return
 
     const date = new Date(String(rental.start_date))
@@ -99,7 +99,7 @@ export const filter = <T>() => ({
       return false
     }
 
-    this.arrays = this.arrays.filter((item) => deepIncludes(item, keywords))
+    this.arrays = this.arrays?.filter((item) => deepIncludes(item, keywords))
     return this
   },
 
