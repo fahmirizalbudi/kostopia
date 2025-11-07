@@ -1,0 +1,87 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.4rem;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgb(229, 234, 239);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.iconWrapper {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.content {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.title {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+
+.value {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.blue .iconWrapper {
+  background: rgba(59, 130, 246, 0.15);
+
+  svg {
+    color: #3b82f6;
+  }
+}
+
+.green .iconWrapper {
+  background: rgba(34, 197, 94, 0.15);
+
+  svg {
+    color: #22c55e;
+  }
+}
+
+.orange .iconWrapper {
+  background: rgba(249, 115, 22, 0.15);
+
+  svg {
+    color: #f97316;
+  }
+}
+
+.purple .iconWrapper {
+  background: rgba(168, 85, 247, 0.15);
+
+  svg {
+    color: #a855f7;
+  }
+}
+
+.teal .iconWrapper {
+  background: rgba(20, 184, 166, 0.15);
+
+  svg {
+    color: #14b8a6;
+  }
+}
