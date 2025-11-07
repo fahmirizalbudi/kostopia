@@ -4,5 +4,5 @@
   width: calc(100% - $sidebar-width);
   margin-left: $sidebar-width;
   padding: 18px 36px;
-  margin-top: -25px;
+  padding-top: $nav-height;
 }
