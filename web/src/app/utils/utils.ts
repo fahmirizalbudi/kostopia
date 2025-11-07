@@ -67,6 +67,26 @@ export function transformRentalsToMonthlyData(rentals: Rental[]): { name: string
     }))
 }
 
+export const calculateRevenue = (transactions: Transaction[]) => {
+  let revenue = 0
+
+  const now = new Date()
+  const currentMonth = now.getMonth()
+  const currentYear = now.getFullYear()
+
+  transactions?.forEach((transaction) => {
+    const date = new Date(String(transaction.created_at))
+    const month = date.getMonth()
+    const year = date.getFullYear()
+
+    if (transaction.status === "success" && month === currentMonth && year === currentYear) {
+      revenue += Number(transaction.amount)
+    }
+  })
+
+  return revenue
+}
+
 export const filter = <T>() => ({
   arrays: [] as T[],
 
