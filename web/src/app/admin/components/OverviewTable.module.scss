@@ -1,0 +1,63 @@
+.tableContainer {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid rgb(229, 234, 239);
+  padding: 1.5rem;
+  padding-inline: 2rem;
+  flex: 1;
+  width: 100%;
+  transition: border-color 0.2s ease;
+
+  .header {
+    margin-bottom: 1.5rem;
+
+    .title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: hsl(240 10% 3.9%);
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .description {
+      font-size: 0.875rem;
+      color: hsl(240 3.8% 46.1%);
+      margin-top: 0.25rem;
+    }
+  }
+
+  .tableWrapper {
+    margin-top: 32px;
+    width: 100%;
+    height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.statusPending,
+.statusPaid,
+.statusCanceled {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-left: 4px;
+}
+
+.statusPending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusPaid {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusCanceled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
