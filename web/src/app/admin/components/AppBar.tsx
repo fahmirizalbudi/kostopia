@@ -9,6 +9,7 @@ import { asset } from "@/app/lib/asset"
 import styles from "./AppBar.module.scss"
 import DatePicker from "@/app/components/forms/DatePicker"
 import Flex from "@/app/components/layout/Flex"
+import Profile from "@/app/components/layout/Profile"
 
 const AppBar = () => {
   const router = useRouter()
@@ -70,11 +71,7 @@ const AppBar = () => {
       )}
 
       {pathname === "/admin" && <span></span>}
-      <div>
-        <Button className={styles.profile}>
-          <Image src={asset("profile.svg")} alt="Profile" width={16} height={16} />
-        </Button>
-      </div>
+      <Profile />
     </nav>
   )
 }
