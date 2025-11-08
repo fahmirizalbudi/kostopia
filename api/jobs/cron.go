@@ -33,12 +33,11 @@ func Run() {
 			panic(err)
 		}
 		count++
-		fmt.Println("Job is executing... run ke:", count)
 	})
 	if err != nil {
 		fmt.Println("Error menambahkan cron:", err)
 		return
 	}
 	c.Start()
-	fmt.Println("Cron job sudah start")
+	fmt.Println("\033[1;33m[INFO] Cron job has started successfully!\033[0m")
 }

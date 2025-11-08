@@ -1,23 +1,13 @@
 package main
 
 import (
-	"api/configs"
-	"api/database/migrations"
-	"api/helpers"
-	"api/jobs"
-	"api/router"
-
-	migrate "github.com/rubenv/sql-migrate"
+	"api/bootstrap"
+	"api/utils"
+	"fmt"
 )
 
 func main() {
-	helpers.LoadENV()
-	configs.GetPostgresConnection()
-	configs.GetRedisConnection()
-	migrations.Run(configs.DB, migrate.Up)
-	go jobs.Run()
-	defer configs.DB.Close()
-
-	router.Setup().Run("0.0.0.0:8080")
-	select {}
+	utils.ClearScreen()
+	fmt.Println("\033[1;32m[SUCCESS] Server is running on http://localhost:8080!\033[0m")
+	bootstrap.Load()
 }

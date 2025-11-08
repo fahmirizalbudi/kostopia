@@ -21,13 +21,13 @@ func GetRedisConnection() {
 
 	Redis = redis.NewClient(&redis.Options{
 		Addr: os.Getenv("REDISHOST"),
-		DB: REDISDATABASE,
+		DB:   REDISDATABASE,
 	})
 
-	 _, err = Redis.Ping(utils.Ctx).Result()
-    if err != nil {
-        panic(err)
-    }
+	_, err = Redis.Ping(utils.Ctx).Result()
+	if err != nil {
+		panic(err)
+	}
 
-	fmt.Println("Redis connection established successfully.")
+	fmt.Println("\033[1;32m" + "[SUCCESS] Redis connection established successfully!" + "\033[0m")
 }

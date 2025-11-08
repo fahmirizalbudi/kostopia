@@ -1,14 +1,15 @@
 package configs
 
 import (
-	_ "github.com/lib/pq"
 	"database/sql"
 	"fmt"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 var (
-	DB *sql.DB
+	DB  *sql.DB
 	err error
 )
 
@@ -31,5 +32,5 @@ func GetPostgresConnection() {
 		panic(err)
 	}
 
-	fmt.Println("PostgreSQL connection established successfully.")
+	fmt.Println("\033[1;32m" + "[SUCCESS] PostgreSQL connection established successfully!" + "\033[0m")
 }
