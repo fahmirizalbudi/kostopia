@@ -13,6 +13,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ReviewIndex(c *gin.Context) {
+	reviews, err := repo.GetAllReviews(configs.DB)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, structs.Payload{
+			Message: "Internal server error",
+			Error:   "Internal Server Error",
+			Data:    nil,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structs.Payload{
+		Message: "Reviews retrieved successfully",
+		Error:   nil,
+		Data:    reviews,
+	})
+}
+
 func ReviewDormitory(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 

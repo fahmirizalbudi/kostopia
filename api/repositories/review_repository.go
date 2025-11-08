@@ -6,6 +6,29 @@ import (
 	"database/sql"
 )
 
+func GetAllReviews(dbParam *sql.DB) (response []res.AlterReviewResponse, err error) {
+	sqlStatement := "SELECT reviews.id, CONCAT(dormitories.name, ' - ', rooms.room_number) as place, reviews.rating, reviews.comment, users.name, reviews.created_at FROM reviews JOIN rentals ON reviews.rental_id = rentals.id JOIN rooms ON rentals.room_id = rooms.id JOIN dormitories ON rooms.dormitory_id = dormitories.id JOIN users ON rentals.tenant_id = users.id;"
+
+	rows, err := dbParam.Query(sqlStatement)
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		var review res.AlterReviewResponse
+
+		err = rows.Scan(&review.ID, &review.Place, &review.Rating, &review.Comment, &review.Reviewer, &review.CreatedAt)
+		if err != nil {
+			panic(err)
+		}
+
+		response = append(response, review)
+	}
+
+	return
+}
+
 func GetReviewsByDormitoryID(dbParam *sql.DB, dormitoryId int) (response []res.ReviewResponse, err error) {
 	sqlStatement := "SELECT reviews.id, reviews.rental_id, reviews.rating, reviews.comment, users.name, reviews.created_at FROM reviews JOIN rentals ON reviews.rental_id = rentals.id JOIN rooms ON rentals.room_id = rooms.id JOIN dormitories ON rooms.dormitory_id = dormitories.id JOIN users ON rentals.tenant_id = users.id WHERE dormitories.id = $1;"
 

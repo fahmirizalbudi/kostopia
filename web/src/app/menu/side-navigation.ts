@@ -58,8 +58,14 @@ export const menuSideNavigation: menuSideNavigationProps[] = [
     type: MENU_SIDE_LINK
   },
   {
-    text: "REPORT",
+    text: "SUMMARY",
     type: MENU_SIDE_HEADER
+  },
+  {
+    text: "Ulasan",
+    linkTo: "/admin/reviews",
+    icon: "reviews.svg",
+    type: MENU_SIDE_LINK
   },
   {
     text: "Laporan",

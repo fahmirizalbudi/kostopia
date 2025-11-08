@@ -1,6 +1,14 @@
 import { API } from "../constants/api"
 import { Review } from "../types/review"
 
+export const fetchReviews = async (): Promise<[]> => {
+  const res = await fetch(API + `/reviews`, {
+    cache: "no-store",
+  })
+  const json = await res.json()
+  return json?.data
+}
+
 export const getReviewsByDormitory = async (obj: { where: number | string }): Promise<Review[]> => {
   const res = await fetch(API + `/reviews/${obj.where}/dormitory`, {
     cache: "no-store",
