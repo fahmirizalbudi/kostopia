@@ -1,5 +1,6 @@
 import 'package:app/models/transaction.dart';
 import 'package:app/widgets/transaction_card.dart';
+import 'package:app/widgets/success_dialog.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsFragment extends StatelessWidget {
@@ -20,7 +21,18 @@ class TransactionsFragment extends StatelessWidget {
         itemCount: transactions.length,
         itemBuilder: (context, index) {
           final transaction = transactions[index];
-          return TransactionCard(transaction: transaction);
+          return InkWell(
+            onTap: () {
+              if (transaction.status!.toLowerCase() == 'success') {
+                showDialog(
+                  context: context,
+                  builder: (context) => SuccessDialog(transaction: transaction),
+                );
+              } else {}
+            },
+            borderRadius: BorderRadius.circular(12),
+            child: TransactionCard(transaction: transaction),
+          );
         },
       ),
     );
