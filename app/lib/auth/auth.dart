@@ -27,6 +27,13 @@ class Auth {
     return json.decode(decoded);
   }
 
+  static int? getID() {
+    final payload = _decodeJWT();
+    if (payload == null) return null;
+
+    return payload['id'] as int;
+  }
+
   static String? getName() {
     final payload = _decodeJWT();
     if (payload == null) return null;

@@ -1,6 +1,7 @@
 import 'package:app/auth/auth.dart';
 import 'package:app/models/dormitory.dart';
 import 'package:app/screens/history_screen.dart';
+import 'package:app/screens/profile_screen.dart';
 import 'package:app/services/dormitory_service.dart';
 import 'package:app/widgets/dormitory_card.dart';
 import 'package:app/widgets/exit_dialog.dart';
@@ -83,7 +84,12 @@ class HomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => HistoryScreen()),
                   );
-                } else if (value == 2) {}
+                } else if (value == 2) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  );
+                }
               },
               itemBuilder: (context) => [
                 PopupMenuItem(value: 1, child: Text("Histori")),
