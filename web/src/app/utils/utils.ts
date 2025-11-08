@@ -60,8 +60,8 @@ export function transformRentalsToMonthlyData(rentals: Rental[]): { name: string
   const monthOrder = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
 
   return Array.from(monthlyMap.entries())
-    .sort((a, b) => monthOrder.indexOf(a[0]) - monthOrder.indexOf(b[0]))
-    .map(([name, renters]) => ({
+    ?.sort((a, b) => monthOrder.indexOf(a[0]) - monthOrder.indexOf(b[0]))
+    ?.map(([name, renters]) => ({
       name,
       renters,
     }))

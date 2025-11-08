@@ -10,7 +10,7 @@ type OverviewTableProps = {
 
 export const OverviewTable = ({ data }: OverviewTableProps) => {
   const transactions: Transaction[] = data
-    .sort(
+    ?.sort(
       (a: { createdAt: string | number | Date }, b: { createdAt: string | number | Date }) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )
@@ -35,7 +35,7 @@ export const OverviewTable = ({ data }: OverviewTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {transactions.map(async (transaction: Transaction, i: number) => {
+          {transactions?.map(async (transaction: Transaction, i: number) => {
             const dormitory = await findDormitory({
               where: transaction.rental?.room?.dormitory_id as number,
             })

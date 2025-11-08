@@ -26,16 +26,16 @@ const Beranda = async () => {
   })
   const dormitories = await fetchDormitories()
   const rooms = await fetchRooms({
-    accessToken: session?.accessToken as string
+    accessToken: session?.accessToken as string,
   })
 
   const rentalData = transformRentalsToMonthlyData(rentals)
   const transactionData = transformDataForTransactionMonthChart(transactions)
 
-  const dormitoriesCount = dormitories.length
-  const roomsCount = rooms.length
-  const roomsAvailableCount = rooms.filter(room => room.status === "available").length
-  const roomsRentedCount = rooms.filter(room => room.status === "rented").length
+  const dormitoriesCount = dormitories?.length
+  const roomsCount = rooms?.length
+  const roomsAvailableCount = rooms?.filter((room) => room.status === "available").length
+  const roomsRentedCount = rooms?.filter((room) => room.status === "rented").length
   const revenue: number = calculateRevenue(transactions)
   const formattedRevenue = rupiah(revenue)
 

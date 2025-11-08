@@ -19,7 +19,15 @@ export const TransactionMonthChart = ({ data }: LineChartProps) => {
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 5.9% 90%)" vertical={false} />
             <XAxis dataKey="name" stroke="hsl(240 3.8% 46.1%)" fontSize={12} tickLine={false} axisLine={false} />
-            <YAxis stroke="hsl(240 3.8% 46.1%)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value.toLocaleString("id-ID")}`} />
+            <YAxis
+              stroke="hsl(240 3.8% 46.1%)"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(value) => `${value.toLocaleString("id-ID")}`}
+              domain={[0, "dataMax + 100000"]}
+              allowDataOverflow
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: "hsl(0 0% 100%)",
