@@ -29,5 +29,6 @@ func GetRedisConnection() {
 		panic(err)
 	}
 
-	fmt.Println("\033[1;32m" + "[SUCCESS] Redis connection established successfully!" + "\033[0m")
+	
+	fmt.Println("\033[32m" + "[SUCCESS] Redis connection established successfully!" + "\033[0m")
 }

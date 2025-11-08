@@ -32,5 +32,5 @@ func GetPostgresConnection() {
 		panic(err)
 	}
 
-	fmt.Println("\033[1;32m" + "[SUCCESS] PostgreSQL connection established successfully!" + "\033[0m")
+	fmt.Println("\033[32m" + "[SUCCESS] PostgreSQL connection established successfully!" + "\033[0m")
 }

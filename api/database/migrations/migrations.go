@@ -21,5 +21,6 @@ func Run(dbParam *sql.DB, direction migrate.MigrationDirection) {
 		panic(errs)
 	}
 
-	fmt.Println("\033[1;33m[INFO] Migration success, applied", n, "migrations!\033[0m")
+	
+	fmt.Println("\033[33m[INFO] Migration success, applied", n, "migrations!\033[0m")
 }

@@ -8,6 +8,6 @@ import (
 
 func main() {
 	utils.ClearScreen()
-	fmt.Println("\033[1;32m[SUCCESS] Server is running on http://localhost:8080!\033[0m")
+	fmt.Println("\033[32m" + "[SUCCESS] Server is running on http://0.0.0.0:8080!" + "\033[0m")
 	bootstrap.Load()
 }
