@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-option"
 import Flex from "@/app/components/layout/Flex"
 import { findDormitory } from "@/app/data-access/dormitories"
 import { fetchDormitoryPreviews } from "@/app/data-access/dormitory-previews"

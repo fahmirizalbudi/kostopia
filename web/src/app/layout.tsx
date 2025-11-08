@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import "./styles/globals.scss"
 import ToasterProvider from "./components/ui/ToasterProvider"
 import { getServerSession } from "next-auth"
-import { authOptions } from "./api/auth/[...nextauth]/route"
+import { authOptions } from "./api/auth/[...nextauth]/auth-option"
 import SessionProviderWrapper from "./components/layout/ServerSessionWrapper"
 import ProgressBar from "./components/layout/ProgressBar"
 

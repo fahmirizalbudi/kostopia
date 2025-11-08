@@ -12,7 +12,7 @@ import { asc, filter } from "@/app/utils/utils"
 import { FIELD_ID } from "@/app/constants/field"
 import { fetchUsers } from "@/app/data-access/users"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-option"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 

@@ -1,8 +1,6 @@
 import SafeView from "@/app/admin/components/SafeView"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import Flex from "@/app/components/layout/Flex"
 import { fetchDormitoryPreviews } from "@/app/data-access/dormitory-previews"
-import { getServerSession } from "next-auth"
 import styles from "./page.module.scss"
 import Cumbs from "@/app/admin/components/Cumbs"
 import Break from "@/app/admin/components/Break"
@@ -19,9 +17,7 @@ type PreviewsProps = {
 }
 
 const Previews = async ({ params }: PreviewsProps) => {
-  const session = await getServerSession(authOptions)
   const dormitoryPreviews = await fetchDormitoryPreviews({
-    accessToken: String(session?.accessToken),
     where: Number(params?.id),
   })
   const dormitoryPreview: DormitoryPreview = { id: Number(params?.id) }
