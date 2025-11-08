@@ -56,6 +56,7 @@ class ProofDialog extends StatelessWidget {
                       ),
                     ),
                   );
+                  await Future.delayed(const Duration(seconds: 4));
                 }
               },
             ),

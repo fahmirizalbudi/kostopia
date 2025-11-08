@@ -1,5 +1,7 @@
 import 'package:app/models/dormitory.dart';
+import 'package:app/models/review.dart';
 import 'package:app/screens/home_screen.dart';
+import 'package:app/services/review_service.dart';
 import 'package:app/utils/currency.dart';
 import 'package:app/widgets/dormitory_facility.dart';
 import 'package:app/widgets/exit_dialog.dart';
@@ -8,11 +10,33 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide Preview;
 import 'package:app/models/preview.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 
-class DormitoryScreen extends StatelessWidget {
+class DormitoryScreen extends StatefulWidget {
   final Dormitory dormitory;
-
   const DormitoryScreen({super.key, required this.dormitory});
+
+  @override
+  State<DormitoryScreen> createState() => _DormitoryScreenState();
+}
+
+class _DormitoryScreenState extends State<DormitoryScreen> {
+  List<Review> reviews = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData(widget.dormitory.id);
+  }
+
+  Future<void> fetchData(int dormitoryId) async {
+    final reviewsData = await ReviewService().getReviewsByDormitory(
+      dormitoryId,
+    );
+    setState(() {
+      reviews = reviewsData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,12 +92,12 @@ class DormitoryScreen extends StatelessWidget {
                   enlargeCenterPage: false,
                 ),
                 items:
-                    (dormitory.previews!.isNotEmpty
-                            ? dormitory.previews
+                    (widget.dormitory.previews!.isNotEmpty
+                            ? widget.dormitory.previews
                             : [
                                 Preview(
                                   id: 0,
-                                  dormitoryId: dormitory.id,
+                                  dormitoryId: widget.dormitory.id,
                                   url: "https://placehold.co/400x200/png",
                                   createdAt: "",
                                 ),
@@ -100,7 +124,7 @@ class DormitoryScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      dormitory.name,
+                      widget.dormitory.name,
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -112,7 +136,7 @@ class DormitoryScreen extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: toRupiah(dormitory.price),
+                            text: toRupiah(widget.dormitory.price),
                             style: Theme.of(context).textTheme.bodyMedium!
                                 .copyWith(
                                   fontSize: 17,
@@ -146,7 +170,7 @@ class DormitoryScreen extends StatelessWidget {
                         const SizedBox(width: 6),
                         Expanded(
                           child: Text(
-                            dormitory.address,
+                            widget.dormitory.address,
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
@@ -171,7 +195,7 @@ class DormitoryScreen extends StatelessWidget {
                     Wrap(
                       spacing: 6,
                       runSpacing: 6,
-                      children: dormitory.facilities
+                      children: widget.dormitory.facilities
                           .split(",")
                           .map((f) => DormitoryFacility(facility: f.trim()))
                           .toList(),
@@ -189,8 +213,8 @@ class DormitoryScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      dormitory.description.isNotEmpty
-                          ? dormitory.description
+                      widget.dormitory.description.isNotEmpty
+                          ? widget.dormitory.description
                           : "Belum ada deskripsi untuk kos ini.",
                       style: const TextStyle(
                         fontSize: 14,
@@ -198,7 +222,102 @@ class DormitoryScreen extends StatelessWidget {
                         height: 1.5,
                       ),
                     ),
-                    SizedBox(height: 40),
+
+                    const SizedBox(height: 20),
+
+                    if (reviews.isNotEmpty) ...[
+                      Text(
+                        "Ulasan Penghuni",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      Column(
+                        children: reviews.map((review) {
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.03),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      review.reviewer as String,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: List.generate(5, (index) {
+                                        if (index < review.rating!.floor()) {
+                                          return const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                            size: 16,
+                                          );
+                                        } else if (index <
+                                            (review.rating ?? 0)) {
+                                          return const Icon(
+                                            Icons.star_half,
+                                            color: Colors.amber,
+                                            size: 16,
+                                          );
+                                        } else {
+                                          return const Icon(
+                                            Icons.star_border,
+                                            color: Colors.grey,
+                                            size: 16,
+                                          );
+                                        }
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  review.comment as String,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.black87,
+                                    height: 1.4,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  DateFormat('yyyy-MM-dd').format(
+                                    DateTime.parse(review.createdAt as String),
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
                   ],
                 ),
               ),
@@ -214,12 +333,12 @@ class DormitoryScreen extends StatelessWidget {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
               ),
-              builder: (context) => RentalSheet(dormitory: dormitory),
+              builder: (context) => RentalSheet(dormitory: widget.dormitory),
             );
           },
           backgroundColor: Color(0xFF1F4B43),
           elevation: 4,
-          child: const Icon(Icons.money, color: Colors.white, size: 26),
+          child: const Icon(Icons.add, color: Colors.white, size: 26),
         ),
       ),
     );
