@@ -8,8 +8,15 @@ import 'package:flutter/material.dart';
 
 class MidtransScreen extends StatefulWidget {
   final Rental rental;
+  final String purpose;
+  final int duration;
 
-  const MidtransScreen({super.key, required this.rental});
+  const MidtransScreen({
+    super.key,
+    required this.rental,
+    required this.purpose,
+    required this.duration,
+  });
 
   @override
   State<MidtransScreen> createState() => _MidtransScreenState();
@@ -26,12 +33,15 @@ class _MidtransScreenState extends State<MidtransScreen> {
   }
 
   Future<void> initMidtrans() async {
+    int duration = widget.purpose == "new"
+        ? widget.rental.durationMonths as int
+        : widget.duration;
     final (redirectUrlData, transactionIdData) = await TransactionService()
         .snapMidtrans(
           Auth.getAccessToken() as String,
           widget.rental.id as int,
-          widget.rental.durationMonths as int,
-          "new",
+          duration,
+          widget.purpose,
         );
     setState(() {
       redirectUrl = redirectUrlData;

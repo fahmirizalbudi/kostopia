@@ -4,7 +4,15 @@ import 'package:flutter/material.dart';
 
 class CashDialog extends StatelessWidget {
   final Rental rental;
-  const CashDialog({super.key, required this.rental});
+  final String purpose;
+  final int duration;
+
+  const CashDialog({
+    super.key,
+    required this.rental,
+    required this.purpose,
+    required this.duration,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +64,14 @@ class CashDialog extends StatelessWidget {
                   onPressed: () async {
                     final messenger = ScaffoldMessenger.of(context);
                     Navigator.pop(context);
+                    int duration = purpose == "new"
+                        ? rental.durationMonths as int
+                        : this.duration;
                     final (ok, _) = await TransactionService()
                         .createTransaction({
                           "rental_id": rental.id,
-                          "month_paid": rental.durationMonths,
-                          "purpose": "new",
+                          "month_paid": duration,
+                          "purpose": purpose,
                           "method": "cash",
                           "status": "pending",
                         });

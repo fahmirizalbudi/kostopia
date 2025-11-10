@@ -1,77 +1,96 @@
-import 'package:app/auth/auth.dart';
-import 'package:app/models/dormitory.dart';
-import 'package:app/models/rental.dart';
-import 'package:app/models/room.dart';
-import 'package:app/models/preview.dart';
 import 'package:app/screens/history_screen.dart';
 import 'package:app/screens/midtrans_screen.dart';
-import 'package:app/services/dormitory_service.dart';
-import 'package:app/services/preview_service.dart';
 import 'package:app/services/rental_service.dart';
-import 'package:app/services/room_service.dart';
-import 'package:app/utils/currency.dart';
 import 'package:app/widgets/cash_dialog.dart';
 import 'package:app/widgets/proof_dialog.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide Preview;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
+import 'package:app/models/dormitory.dart';
+import 'package:app/models/room.dart';
+import 'package:app/models/preview.dart';
+import 'package:app/utils/currency.dart';
+import 'package:app/services/dormitory_service.dart';
+import 'package:app/services/room_service.dart';
+import 'package:app/services/preview_service.dart';
+import 'package:app/models/rental.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:app/auth/auth.dart';
 
-class TransactionScreen extends StatefulWidget {
-  final int? rentalId;
+class RenewalScreen extends StatefulWidget {
+  final int rentalId;
 
-  const TransactionScreen({super.key, required this.rentalId});
+  const RenewalScreen({super.key, required this.rentalId});
 
   @override
-  State<TransactionScreen> createState() => _TransactionScreenState();
+  State<RenewalScreen> createState() => _RenewalScreenState();
 }
 
-class _TransactionScreenState extends State<TransactionScreen> {
+class _RenewalScreenState extends State<RenewalScreen> {
   String? selectedPayment;
   Rental? rental;
   Room? room;
   Dormitory? dormitory;
   List<Preview> previews = [];
+  late TextEditingController durationController;
+
+  int durationMonths = 1;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    if (widget.rentalId != null) {
-      fetchData(widget.rentalId!);
-    }
+    durationMonths = 1;
+    durationController = TextEditingController(text: durationMonths.toString());
+    fetchData();
   }
 
-  Future<void> fetchData(int rentalId) async {
-    final rentalData = await RentalService().getById(rentalId);
+  @override
+  void dispose() {
+    durationController.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchData() async {
+    final rentalData = await RentalService().getById(widget.rentalId);
     final roomData = await RoomService().getById(
       rentalData?.roomId as int,
       Auth.getAccessToken(),
     );
-    final dormitoryData = await DormitoryService().getById(
+    final dormData = await DormitoryService().getById(
       roomData?.dormitoryId as int,
     );
-    final previewsData = await PreviewService().getByDormitoryId(
-      dormitoryData?.id as int,
+    final previewData = await PreviewService().getByDormitoryId(
+      dormData?.id as int,
     );
 
     setState(() {
       rental = rentalData;
       room = roomData;
-      dormitory = dormitoryData;
-      previews = previewsData;
+      dormitory = dormData;
+      previews = previewData;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (rental == null || room == null || dormitory == null) {
+    if (isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
+
+    if (rental == null || room == null || dormitory == null) {
+      return const Scaffold(body: Center(child: Text("Data tidak ditemukan.")));
+    }
+
+    final startDate = DateFormat('dd MMM yyyy').format(DateTime.now());
+    final totalPrice = (dormitory!.price * durationMonths);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "Rincian Transaksi",
+          "Perpanjangan Sewa",
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.black,
@@ -137,56 +156,80 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
             const SizedBox(height: 16),
 
-            Padding(
+            Container(
               padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${dormitory?.name} - ${room?.roomNumber}",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                  Text(
+                    "${dormitory?.name} - ${room?.roomNumber}",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 12),
+                  _detailItem("Perpanjang Mulai", startDate),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Lama Perpanjangan",
+                        style: TextStyle(fontSize: 14, color: Colors.black87),
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 70,
+                            height: 36,
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 6,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              controller: durationController,
+                              onChanged: (v) {
+                                final parsed = int.tryParse(v);
+                                if (parsed != null && parsed > 0) {
+                                  setState(() => durationMonths = parsed);
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 12),
-                        _detailItem(
-                          "Mulai Sewa",
-                          DateFormat(
-                            'yyyy-MM-dd',
-                          ).format(DateTime.parse(rental?.startDate as String)),
-                        ),
-                        const SizedBox(height: 8),
-                        _detailItem(
-                          "Lama Sewa",
-                          "${rental?.durationMonths} Bulan",
-                        ),
-                        const Divider(height: 28, thickness: 0.5),
-                        _detailItem(
-                          "Total Pembayaran",
-                          toRupiah(
-                            (dormitory?.price as int) *
-                                (rental?.durationMonths as int),
+                          const SizedBox(width: 8),
+                          const Text(
+                            "Bulan",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
                           ),
-                          bold: true,
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(height: 28, thickness: 0.5),
+                  _detailItem("Harga per Bulan", toRupiah(dormitory!.price)),
+                  const SizedBox(height: 8),
+                  _detailItem(
+                    "Total Perpanjangan",
+                    toRupiah(totalPrice),
+                    bold: true,
                   ),
 
                   const SizedBox(height: 30),
@@ -219,18 +262,18 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 await showDialog(
                                   context: context,
                                   builder: (context) => ProofDialog(
-                                    duration: 0,
                                     rental: rental as Rental,
-                                    purpose: "new",
+                                    purpose: "renewal",
+                                    duration: durationMonths,
                                   ),
                                 );
                               } else if (selectedPayment == "cash") {
                                 await showDialog(
                                   context: context,
                                   builder: (context) => CashDialog(
-                                    duration: 0,
                                     rental: rental as Rental,
-                                    purpose: "new",
+                                    purpose: "renewal",
+                                    duration: durationMonths,
                                   ),
                                 );
                               } else if (selectedPayment == "ewallet") {
@@ -238,9 +281,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MidtransScreen(
-                                      duration: 0,
-                                      purpose: "new",
+                                      purpose: "renewal",
                                       rental: rental as Rental,
+                                      duration: durationMonths,
                                     ),
                                   ),
                                   (route) => false,
@@ -265,11 +308,9 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        disabledBackgroundColor: Colors.grey.shade300,
-                        disabledForegroundColor: Colors.grey.shade600,
                       ),
                       child: const Text(
-                        "Bayar Sekarang",
+                        "Perpanjang Sekarang",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,

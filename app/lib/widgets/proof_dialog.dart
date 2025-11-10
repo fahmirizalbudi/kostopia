@@ -8,7 +8,15 @@ import 'package:image_picker/image_picker.dart';
 
 class ProofDialog extends StatelessWidget {
   final Rental rental;
-  const ProofDialog({super.key, required this.rental});
+  final String purpose;
+  final int duration;
+
+  const ProofDialog({
+    super.key,
+    required this.rental,
+    required this.purpose,
+    required this.duration,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +40,14 @@ class ProofDialog extends StatelessWidget {
                 final messenger = ScaffoldMessenger.of(context);
                 Navigator.pop(context);
                 final proof = await pickImage(ImageSource.gallery);
+                int duration = purpose == "new"
+                    ? rental.durationMonths as int
+                    : this.duration;
                 final (ok, transactionId) = await TransactionService()
                     .createTransaction({
                       "rental_id": rental.id,
-                      "month_paid": rental.durationMonths,
-                      "purpose": "new",
+                      "month_paid": duration,
+                      "purpose": purpose,
                       "method": "transfer",
                       "status": "pending",
                     });
