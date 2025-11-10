@@ -26,9 +26,14 @@ class RentalsFragment extends StatelessWidget {
               if (rental.status!.toLowerCase() == 'active') {
                 showDialog(
                   context: context,
-                  builder: (context) => RentalAction(rental: rental),
+                  builder: (context) => RentalAction(rental: rental, type: "active",),
                 );
-              } else {}
+              } else if (rental.status!.toLowerCase() == 'finished') {
+                showDialog(
+                  context: context,
+                  builder: (context) => RentalAction(rental: rental, type: "finished"),
+                );
+              }
             },
             borderRadius: BorderRadius.circular(12),
             child: RentalCard(rental: rental),

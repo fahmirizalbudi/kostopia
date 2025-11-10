@@ -17,4 +17,23 @@ class ReviewService {
       return List.empty();
     }
   }
+
+  Future<http.Response> createReview({
+    required String accessToken,
+    required Map<String, dynamic> body,
+  }) async {
+    final url = Uri.parse("${dotenv.env['API_URL']}/api/reviews");
+
+    final response = await http.post(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer $accessToken",
+      },
+      body: jsonEncode(body),
+    );
+
+    return response;
+  }
 }
