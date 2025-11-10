@@ -8,9 +8,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { asc } from "@/app/utils/utils"
 import { DormitoryPreview } from "@/app/types/dormitory-preview"
 import { FIELD_ID } from "@/app/constants/field"
-import Link from "next/link"
 import DeleteDormitoryPreview from "./components/DeleteDormitoryPreview"
 import AddDormitoryPreview from "./components/AddDormitoryPreview"
+import PreviewModal from "./components/PreviewModal"
 
 type PreviewsProps = {
   params?: { id: string }
@@ -42,9 +42,7 @@ const Previews = async ({ params }: PreviewsProps) => {
             <TableRow key={dormitoryPreview.id}>
               <TableCell>{i + 1}</TableCell>
               <TableCell>
-                <Link className={styles.link} href={String(dormitoryPreview.url)}>
-                  Kos Preview {i + 1}
-                </Link>
+                <PreviewModal imageSrc={dormitoryPreview.url as string} imageTitle={`Kos Preview ${i + 1}`} />
               </TableCell>
               <TableCell className={styles.actions}>
                 <DeleteDormitoryPreview {...dormitoryPreview} />

@@ -12,4 +12,17 @@
 
 .link {
   text-decoration: none;
+  cursor: pointer;
+  color: #0000EE;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 280px;
+  position: relative;
+  padding-bottom: 18px;
+
+  & img {
+    border-radius: 6px;
+  }
 }
