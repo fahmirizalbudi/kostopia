@@ -1,8 +1,10 @@
 import 'package:app/auth/auth.dart';
 import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/register_screen.dart';
 import 'package:app/services/auth_service.dart';
 import 'package:app/widgets/exit_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,14 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
+                const SizedBox(height: 32),
+                Center(child: SvgPicture.asset('assets/favicon.svg', height: 60)),
+                const SizedBox(height: 32),
                 const Text(
                   'Log In',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'Hi! Welcome back, you’ve been missed',
+                  'Selamat datang kembali, senang melihatmu lagi.',
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const SizedBox(height: 32),
@@ -80,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextField(
                   obscureText: true,
                   decoration: InputDecoration(
-                    hintText: "",
+                    hintText: "Masukkan password",
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14.5,
@@ -102,13 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.visiblePassword,
                 ),
 
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text('Forgot Password?'),
-                  ),
-                ),
+                SizedBox(height: 32),
 
                 SizedBox(
                   width: double.infinity,
@@ -184,7 +182,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Text("Don’t have an account? "),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
                       child: Text(
                         "Sign Up",
                         style: TextStyle(
