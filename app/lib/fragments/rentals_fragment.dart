@@ -23,7 +23,7 @@ class RentalsFragment extends StatelessWidget {
           final rental = rentals[index];
           return InkWell(
             onTap: () {
-              if (rental.status!.toLowerCase() == 'finished') {
+              if (rental.status!.toLowerCase() == 'active') {
                 showDialog(
                   context: context,
                   builder: (context) => RentalAction(rental: rental),
