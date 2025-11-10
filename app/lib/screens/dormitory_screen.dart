@@ -333,7 +333,7 @@ class _DormitoryScreenState extends State<DormitoryScreen> {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
               ),
-              builder: (context) => RentalSheet(dormitory: widget.dormitory),
+              builder: (context) => RentalSheet(dormitory: widget.dormitory, rootContext: context,),
             );
           },
           backgroundColor: Color(0xFF1F4B43),

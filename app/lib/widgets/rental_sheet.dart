@@ -7,9 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class RentalSheet extends StatefulWidget {
+  final BuildContext rootContext;
   final Dormitory dormitory;
 
-  const RentalSheet({super.key, required this.dormitory});
+  const RentalSheet({
+    super.key,
+    required this.dormitory,
+    required this.rootContext,
+  });
 
   @override
   State<RentalSheet> createState() => _RentalSheetState();
@@ -251,6 +256,29 @@ class _RentalSheetState extends State<RentalSheet> {
                       onPressed: isFilled
                           ? () async {
                               final messenger = ScaffoldMessenger.of(context);
+
+                              final duration =
+                                  int.tryParse(durationController.text) ?? 0;
+                              if (duration <= 0) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    title: const Text("Durasi tidak valid"),
+                                    content: const Text(
+                                      "Durasi sewa harus lebih dari 0 bulan.",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("OK"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                                return;
+                              }
+
                               final (ok, rentalId) = await RentalService()
                                   .createRental({
                                     "room_id": selectedRoom,
