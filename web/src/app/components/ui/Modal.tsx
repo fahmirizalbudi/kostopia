@@ -40,7 +40,9 @@ export const Modal = ({ title, isOpen, children, onClose, maxContent }: ModalPro
             ×
           </span>
         </header>
-        <main className={styles.content} style={{ maxHeight: maxContent ?? 'auto' }}>{children}</main>
+        <main className={`${styles.content} ${maxContent ? styles.withOverflow : ""}`} style={{ maxHeight: maxContent ?? "auto" }}>
+          {children}
+        </main>
       </div>
     </div>
   )

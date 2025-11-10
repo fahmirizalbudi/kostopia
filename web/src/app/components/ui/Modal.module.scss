@@ -66,6 +66,9 @@
 
     .content {
       width: 100%;
+    }
+
+    .content.withOverflow {
       overflow-y: auto;
     }
   }
