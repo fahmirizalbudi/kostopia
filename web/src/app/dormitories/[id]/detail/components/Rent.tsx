@@ -56,6 +56,17 @@ const Rent = () => {
     router.push(`/rentals/${rentalId}/transaction`)
   }
 
+  const isInvalidDate = (() => {
+    if (!startDate) return true
+
+    const parsed = new Date(String(startDate))
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    parsed.setHours(0, 0, 0, 0)
+
+    return parsed < today
+  })()
+
   return (
     <Flex className={styles.rent}>
       <span className={styles.name}>Atur Penyewaan</span>
@@ -83,7 +94,11 @@ const Rent = () => {
         value={durationMonths ? Number(durationMonths) : ""}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDurationMonths(Number(e.target.value))}
       />
-      <Button className={styles.rentNow} onClick={handleClick} disabled={(!roomId || !durationMonths || !startDate)}>
+      <Button
+        className={styles.rentNow}
+        onClick={handleClick}
+        disabled={!roomId || !durationMonths || !startDate || (durationMonths as number) <= 0 || isInvalidDate}
+      >
         Sewa Sekarang!
       </Button>
     </Flex>

@@ -16,7 +16,7 @@ type TextBoxProps = {
 const TextBox = ({ type, placeholder, onChange, name, value, className, icon, iconSize, iconGap }: TextBoxProps) => (
   <div className={`${styles.textbox} ${className}`}>
     {icon && <Image src={icon} width={iconSize} height={iconSize} alt="Icon" style={{ marginInlineEnd: iconGap }} />}
-    <input type={type} placeholder={placeholder} onChange={onChange} name={name} value={value} id={name} autoComplete="off" />
+    <input type={type} placeholder={placeholder} onChange={onChange} name={name} min={1} value={value} id={name} autoComplete="off" />
   </div>
 )
 
