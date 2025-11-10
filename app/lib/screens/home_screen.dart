@@ -90,6 +90,8 @@ class HomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => ProfileScreen()),
                   );
+                } else {
+                  Auth.logout(context);
                 }
               },
               itemBuilder: (context) => [
