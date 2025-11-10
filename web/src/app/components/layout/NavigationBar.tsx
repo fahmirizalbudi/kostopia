@@ -9,6 +9,7 @@ import Link from "../ui/Link"
 import Profile from "./Profile"
 import Flex from "./Flex"
 import { useState } from "react"
+import Tooltip from "../ui/Tooltip"
 
 type NavigationBarProps = {
   menu: menuNavigationBarProps[]
@@ -55,7 +56,9 @@ const NavigationBar = ({ menu }: NavigationBarProps) => {
         {status === "authenticated" ? (
           <Flex className={styles.right}>
             <Link href="/rentals">
-              <Image src={asset("history.svg")} alt="Riwayat" width={25} height={25} />
+              <Tooltip text="Histori" placement="bottom">
+                <Image src={asset("clock.svg")} alt="Riwayat" width={25} height={25} />
+              </Tooltip>
             </Link>
             <Profile />
           </Flex>
