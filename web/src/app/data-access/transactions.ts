@@ -7,8 +7,11 @@ export const fetchTransactions = async (obj: { accessToken: string }): Promise<T
       Authorization: `Bearer ${obj.accessToken}`,
     },
   })
-  const json = await res.json()
-  return json.data
+  if (res.ok) {
+    const json = await res.json()
+    return json.data
+  }
+  return undefined as unknown as Transaction[]
 }
 
 export const getTransactionStatusByRental = async (obj: { where: number }): Promise<string> => {
