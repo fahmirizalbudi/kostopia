@@ -668,3 +668,18 @@
     }
   }
 }
+
+.detailPreviewFlex {
+  flex-direction: column;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 265px;
+  position: relative;
+  padding-bottom: 18px;
+
+  & img {
+    border-radius: 6px;
+  }
+}

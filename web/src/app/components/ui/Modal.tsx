@@ -8,9 +8,10 @@ type ModalProps = {
   isOpen: Boolean
   children?: React.ReactNode
   onClose: () => void
+  maxContent?: number
 }
 
-export const Modal = ({ title, isOpen, children, onClose }: ModalProps) => {
+export const Modal = ({ title, isOpen, children, onClose, maxContent }: ModalProps) => {
   const [isVisible, setIsVisible] = useState(isOpen)
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const Modal = ({ title, isOpen, children, onClose }: ModalProps) => {
             ×
           </span>
         </header>
-        <main className={styles.content}>{children}</main>
+        <main className={styles.content} style={{ maxHeight: maxContent ?? 'auto' }}>{children}</main>
       </div>
     </div>
   )
