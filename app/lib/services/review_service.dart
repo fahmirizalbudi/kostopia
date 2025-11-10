@@ -11,7 +11,8 @@ class ReviewService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = json.decode(response.body);
-      final List<dynamic> dormList = jsonData['data'];
+      final List<dynamic>? dormList = jsonData['data'];
+      if (dormList == null) return List.empty();
       return dormList.map((json) => Review.fromJson(json)).toList();
     } else {
       return List.empty();
