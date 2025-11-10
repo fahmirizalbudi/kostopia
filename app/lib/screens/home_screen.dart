@@ -77,6 +77,7 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             PopupMenuButton<int>(
+              color: Colors.white,
               icon: Icon(Icons.more_vert, color: Colors.black, size: 20),
               onSelected: (value) {
                 if (value == 1) {
