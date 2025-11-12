@@ -53,7 +53,7 @@ const Register = () => {
 
           <Flex className={styles.registerHeader}>
             <h1 className={styles.headerTitle}>Get Started</h1>
-            <p className={styles.headerDescription}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates, eligendi!</p>
+            <p className={styles.headerDescription}>Silahkan mendaftar untuk melanjutkan ke dalam sistem aplikasi penyewaan.</p>
           </Flex>
 
           <Flex className={styles.registerBody}>

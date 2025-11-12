@@ -53,7 +53,7 @@ const Login = () => {
 
           <Flex className={styles.loginHeader}>
             <h1 className={styles.headerTitle}>Log In</h1>
-            <p className={styles.headerDescription}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptates, eligendi!</p>
+            <p className={styles.headerDescription}>Silahkan log in untuk melanjutkan ke dalam sistem aplikasi penyewaan.</p>
           </Flex>
 
           <Flex className={styles.loginBody}>
