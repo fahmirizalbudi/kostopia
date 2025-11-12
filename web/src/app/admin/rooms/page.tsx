@@ -16,6 +16,7 @@ import EditRoom from "./components/EditRoom"
 import DeleteRoom from "./components/DeleteRoom"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
+import IsExist from "@/app/components/layout/IsExist"
 
 type RoomsProps = {
   searchParams?: {
@@ -68,18 +69,20 @@ const Rooms = async ({ searchParams }: RoomsProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(filteredRooms, FIELD_ID)?.map((room: Room, i: number) => (
-            <TableRow key={room.id}>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell>{room.dormitory?.name}</TableCell>
-              <TableCell>{room.room_number}</TableCell>
-              <TableCell>{room.status === RoomStatus.Available ? "Tersedia" : "Disewa"}</TableCell>
-              <TableCell className={styles.actions}>
-                <EditRoom {...room} />
-                <DeleteRoom {...room} />
-              </TableCell>
-            </TableRow>
-          ))}
+          <IsExist arr={filteredRooms}>
+            {asc(filteredRooms, FIELD_ID)?.map((room: Room, i: number) => (
+              <TableRow key={room.id}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{room.dormitory?.name}</TableCell>
+                <TableCell>{room.room_number}</TableCell>
+                <TableCell>{room.status === RoomStatus.Available ? "Tersedia" : "Disewa"}</TableCell>
+                <TableCell className={styles.actions}>
+                  <EditRoom {...room} />
+                  <DeleteRoom {...room} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>

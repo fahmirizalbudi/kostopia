@@ -6,6 +6,7 @@ import Break from "../components/Break"
 import Flex from "@/app/components/layout/Flex"
 import { fetchReviews } from "@/app/data-access/reviews"
 import { filter } from "@/app/utils/utils"
+import IsExist from "@/app/components/layout/IsExist"
 
 type ReviewsProps = {
   searchParams?: {
@@ -36,15 +37,17 @@ const Reviews = async ({ searchParams }: ReviewsProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredReviews?.map((review: any, i: number) => (
-            <TableRow>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell>{review.reviewer}</TableCell>
-              <TableCell>{review.place}</TableCell>
-              <TableCell>⭐ {review.rating}</TableCell>
-              <TableCell>{review.comment}</TableCell>
-            </TableRow>
-          ))}
+          <IsExist arr={filteredReviews}>
+            {filteredReviews?.map((review: any, i: number) => (
+              <TableRow>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{review.reviewer}</TableCell>
+                <TableCell>{review.place}</TableCell>
+                <TableCell>⭐ {review.rating}</TableCell>
+                <TableCell>{review.comment}</TableCell>
+              </TableRow>
+            ))}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>

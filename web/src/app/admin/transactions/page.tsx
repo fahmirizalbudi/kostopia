@@ -17,6 +17,7 @@ import TransactionInformation from "./components/TransactionInformation"
 import TransactionReject from "./components/TransactionReject"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 import ExportPDF from "@/app/components/ui/ExportPDF"
+import IsExist from "@/app/components/layout/IsExist"
 
 type TransactionsProps = {
   searchParams?: {
@@ -107,52 +108,54 @@ const Transactions = async ({ searchParams }: TransactionsProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(filteredTransactions, FIELD_ID)?.map(async (transaction: Transaction, i: number) => (
-            <TableRow key={transaction.id}>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell>{transaction.id}</TableCell>
-              <TableCell>{transaction.dormitory_price?.toLocaleString("id-ID")}</TableCell>
-              <TableCell>{transaction.month_paid} Bulan</TableCell>
-              <TableCell>{transaction.amount?.toLocaleString("id-ID")}</TableCell>
-              <TableCell>
-                <span className={styles.paymentMethod}>
-                  {transaction.method === "ewallet" ? "E-Wallet" : transaction.method === "transfer" ? "Transfer" : "Cash"}
-                </span>
-              </TableCell>
-              <TableCell>
-                <span
-                  className={
-                    transaction.status === "pending"
-                      ? styles.statusPending
+          <IsExist arr={filteredTransactions} customColSpan={8}>
+            {asc(filteredTransactions, FIELD_ID)?.map(async (transaction: Transaction, i: number) => (
+              <TableRow key={transaction.id}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{transaction.id}</TableCell>
+                <TableCell>{transaction.dormitory_price?.toLocaleString("id-ID")}</TableCell>
+                <TableCell>{transaction.month_paid} Bulan</TableCell>
+                <TableCell>{transaction.amount?.toLocaleString("id-ID")}</TableCell>
+                <TableCell>
+                  <span className={styles.paymentMethod}>
+                    {transaction.method === "ewallet" ? "E-Wallet" : transaction.method === "transfer" ? "Transfer" : "Cash"}
+                  </span>
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={
+                      transaction.status === "pending"
+                        ? styles.statusPending
+                        : transaction.status === "success"
+                        ? styles.statusPaid
+                        : transaction.status === "rejected"
+                        ? styles.statusCanceled
+                        : ""
+                    }
+                  >
+                    {transaction.status === "no_transaction"
+                      ? "-"
                       : transaction.status === "success"
-                      ? styles.statusPaid
+                      ? "Lunas"
                       : transaction.status === "rejected"
-                      ? styles.statusCanceled
-                      : ""
-                  }
-                >
-                  {transaction.status === "no_transaction"
-                    ? "-"
-                    : transaction.status === "success"
-                    ? "Lunas"
-                    : transaction.status === "rejected"
-                    ? "Ditolak"
-                    : "Menunggu"}
-                </span>
-              </TableCell>
-              <TableCell className={styles.actions}>
-                <TransactionInformation {...transaction} />
-                {transaction.status === "success" && <TransactionReceipt {...transaction} />}
-                {transaction.method === "transfer" && <TransactionProof {...transaction} />}
-                {(transaction.method === "cash" || transaction.method === "transfer") && transaction.status === "pending" && (
-                  <>
-                    <TransactionReject {...transaction} />
-                    <TransactionIsSuccess {...transaction} />
-                  </>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
+                      ? "Ditolak"
+                      : "Menunggu"}
+                  </span>
+                </TableCell>
+                <TableCell className={styles.actions}>
+                  <TransactionInformation {...transaction} />
+                  {transaction.status === "success" && <TransactionReceipt {...transaction} />}
+                  {transaction.method === "transfer" && <TransactionProof {...transaction} />}
+                  {(transaction.method === "cash" || transaction.method === "transfer") && transaction.status === "pending" && (
+                    <>
+                      <TransactionReject {...transaction} />
+                      <TransactionIsSuccess {...transaction} />
+                    </>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>

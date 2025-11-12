@@ -14,6 +14,7 @@ import { findDormitory } from "@/app/data-access/dormitories"
 import RentalInformation from "./components/RentalInformation"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
+import IsExist from "@/app/components/layout/IsExist"
 
 type RentalsProps = {
   searchParams?: {
@@ -89,41 +90,43 @@ const Rentals = async ({ searchParams }: RentalsProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(filteredRentals, FIELD_ID)?.map(async (rental: Rental, i: number) => {
-            const dormitory = await findDormitory({
-              where: Number(rental.room?.dormitory_id),
-            })
+          <IsExist arr={filteredRentals}>
+            {asc(filteredRentals, FIELD_ID)?.map(async (rental: Rental, i: number) => {
+              const dormitory = await findDormitory({
+                where: Number(rental.room?.dormitory_id),
+              })
 
-            return (
-              <TableRow key={rental.id}>
-                <TableCell>{i + 1}</TableCell>
-                <TableCell>{rental?.tenant?.name}</TableCell>
-                <TableCell>
-                  {new Date(rental.start_date as string).toLocaleDateString("id-ID", {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </TableCell>
-                <TableCell>{rental.duration_months} Bulan</TableCell>
-                <TableCell>
-                  {new Date(rental.end_date as string).toLocaleDateString("id-ID", {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </TableCell>
-                <TableCell>
-                  {dormitory.name} - {rental?.room?.room_number}
-                </TableCell>
-                <TableCell className={styles.actions}>
-                  <RentalInformation {...rental} />
-                </TableCell>
-              </TableRow>
-            )
-          })}
+              return (
+                <TableRow key={rental.id}>
+                  <TableCell>{i + 1}</TableCell>
+                  <TableCell>{rental?.tenant?.name}</TableCell>
+                  <TableCell>
+                    {new Date(rental.start_date as string).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </TableCell>
+                  <TableCell>{rental.duration_months} Bulan</TableCell>
+                  <TableCell>
+                    {new Date(rental.end_date as string).toLocaleDateString("id-ID", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    {dormitory.name} - {rental?.room?.room_number}
+                  </TableCell>
+                  <TableCell className={styles.actions}>
+                    <RentalInformation {...rental} />
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>

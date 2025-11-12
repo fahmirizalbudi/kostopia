@@ -14,6 +14,7 @@ import DeleteDormitory from "./components/DeleteDormitory"
 import PreviewsDormitory from "./components/PreviewsDormitory"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 import ExportPDF from "@/app/components/ui/ExportPDF"
+import IsExist from "@/app/components/layout/IsExist"
 
 type DormitoriesProps = {
   searchParams?: {
@@ -66,22 +67,24 @@ const Dormitories = async ({ searchParams }: DormitoriesProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(filteredDormitories, FIELD_ID)?.map((dormitory: Dormitory, i: number) => (
-            <TableRow key={dormitory.id}>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell>{dormitory.name}</TableCell>
-              <TableCell>{dormitory.address}</TableCell>
-              <TableCell>
-                {Number(dormitory?.description?.length) > 100 ? dormitory?.description?.substring(0, 100) + "..." : dormitory?.description}
-              </TableCell>
-              <TableCell>{rupiah(dormitory.price as number)}</TableCell>
-              <TableCell className={styles.actions}>
-                <EditDormitory {...dormitory} />
-                <DeleteDormitory {...dormitory} />
-                <PreviewsDormitory {...dormitory} />
-              </TableCell>
-            </TableRow>
-          ))}
+          <IsExist arr={filteredDormitories}>
+            {asc(filteredDormitories, FIELD_ID)?.map((dormitory: Dormitory, i: number) => (
+              <TableRow key={dormitory.id}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{dormitory.name}</TableCell>
+                <TableCell>{dormitory.address}</TableCell>
+                <TableCell>
+                  {Number(dormitory?.description?.length) > 100 ? dormitory?.description?.substring(0, 100) + "..." : dormitory?.description}
+                </TableCell>
+                <TableCell>{rupiah(dormitory.price as number)}</TableCell>
+                <TableCell className={styles.actions}>
+                  <EditDormitory {...dormitory} />
+                  <DeleteDormitory {...dormitory} />
+                  <PreviewsDormitory {...dormitory} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>

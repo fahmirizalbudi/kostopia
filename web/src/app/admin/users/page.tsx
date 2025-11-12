@@ -15,6 +15,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth-option"
 import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
+import IsExist from "@/app/components/layout/IsExist"
 
 type UsersProps = {
   searchParams?: {
@@ -70,22 +71,21 @@ const Users = async ({ searchParams }: UsersProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {asc(filteredUsers, FIELD_ID)?.map((user: User, i: number) => (
-            <TableRow key={user.id}>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.phone?.trim() === "" ? "-" : user.phone}</TableCell>
-              <TableCell>{user.address?.trim() === "" ? "-" : user.address}</TableCell>
-              <TableCell className={styles.actions}>
-                {/* <Button className={`${styles.action}`}>
-                  <Image src={asset("edit.svg")} alt="Edit" width={18} height={18} />
-                </Button> */}
-                <EditUser {...user} />
-                <DeleteUser {...user} />
-              </TableCell>
-            </TableRow>
-          ))}
+          <IsExist arr={filteredUsers}>
+            {asc(filteredUsers, FIELD_ID)?.map((user: User, i: number) => (
+              <TableRow key={user.id}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.phone?.trim() === "" ? "-" : user.phone}</TableCell>
+                <TableCell>{user.address?.trim() === "" ? "-" : user.address}</TableCell>
+                <TableCell className={styles.actions}>
+                  <EditUser {...user} />
+                  <DeleteUser {...user} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>

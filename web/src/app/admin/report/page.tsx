@@ -8,6 +8,7 @@ import ExportPDF from "@/app/components/ui/ExportPDF"
 import ExportCSV from "@/app/components/ui/ExportCSV"
 import { API } from "@/app/constants/api"
 import { filter, rupiah } from "@/app/utils/utils"
+import IsExist from "@/app/components/layout/IsExist"
 
 type ReportProps = {
   searchParams?: {
@@ -104,42 +105,46 @@ const Report = async ({ searchParams }: ReportProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredReport?.map((report: any, i: number) => (
-            <TableRow key={i}>
-              <TableCell>
-                {new Date(report.date as string).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </TableCell>
-              <TableCell>{report.tenant}</TableCell>
-              <TableCell>{report.unit}</TableCell>
-              <TableCell>{report.month_paid} Bulan</TableCell>
-              <TableCell>
-                {new Date(report.start_date as string).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </TableCell>
-              <TableCell>
-                {new Date(report.end_date as string).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </TableCell>
-              <TableCell>{report.purpose}</TableCell>
-              <TableCell>{rupiah(report.amount)}</TableCell>
-              <TableCell>
-                <span className={styles.method}>{report.method === "ewallet" ? "E-Wallet" : report.method === "transfer" ? "Transfer" : "Cash"}</span>
-              </TableCell>
-            </TableRow>
-          ))}
+          <IsExist arr={filteredReport} customColSpan={9}>
+            {filteredReport?.map((report: any, i: number) => (
+              <TableRow key={i}>
+                <TableCell>
+                  {new Date(report.date as string).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </TableCell>
+                <TableCell>{report.tenant}</TableCell>
+                <TableCell>{report.unit}</TableCell>
+                <TableCell>{report.month_paid} Bulan</TableCell>
+                <TableCell>
+                  {new Date(report.start_date as string).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </TableCell>
+                <TableCell>
+                  {new Date(report.end_date as string).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </TableCell>
+                <TableCell>{report.purpose}</TableCell>
+                <TableCell>{rupiah(report.amount)}</TableCell>
+                <TableCell>
+                  <span className={styles.method}>
+                    {report.method === "ewallet" ? "E-Wallet" : report.method === "transfer" ? "Transfer" : "Cash"}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </IsExist>
         </TableBody>
       </Table>
     </SafeView>
