@@ -16,7 +16,7 @@ const FileDialog = ({ name, placeholder, onChange, selectedFile }: FileDialogPro
         <Image height={24} width={24} alt="Upload File" src={asset("upload.svg")} />
         <span>{selectedFile || placeholder}</span>
       </label>
-      <input type="file" className={styles.file} name={name} id={name} placeholder={placeholder} onChange={onChange} />
+      <input type="file" className={styles.file} name={name} accept="image/*" id={name} placeholder={placeholder} onChange={onChange} />
     </>
   )
 }
