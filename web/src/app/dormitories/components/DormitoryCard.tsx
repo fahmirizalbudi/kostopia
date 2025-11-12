@@ -5,10 +5,31 @@ import styles from "./DormitoryCard.module.scss"
 import { asset } from "@/app/lib/asset"
 import { Dormitory } from "@/app/types/dormitory"
 import Link from "@/app/components/ui/Link"
+import { getReviewsByDormitory } from "@/app/data-access/reviews"
+import { useEffect, useState } from "react"
+import { Review } from "@/app/types/review"
 
 const DormitoryCard = (dormitoriesWithPreview: Dormitory) => {
+  const [reviews, setReviews] = useState<Review[]>()
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const reviews = await getReviewsByDormitory({
+        where: dormitoriesWithPreview.id as number,
+      })
+      setReviews(reviews)
+    }
+    fetchReviews()
+  })
+
+  const reviewer = reviews?.length ?? 0
+  const averageOfRating = reviewer === 0 ? 0 : Math.round((reviews!.reduce((sum, r) => sum + Number(r.rating), 0) / reviewer) * 10) / 10
+
   return (
     <div className={styles.dormitory}>
+      <div className={styles.ratingOverview}>
+        <span className={styles.ratingText}>{averageOfRating} / 5 ⭐</span>
+      </div>
       <div className={styles.dormitoryPreviewWrapper}>
         <Image
           src={dormitoriesWithPreview?.previews ? String(dormitoriesWithPreview?.previews[0]?.url) : asset("preview.png")}
@@ -42,7 +63,9 @@ const DormitoryCard = (dormitoriesWithPreview: Dormitory) => {
               <span className={styles.monthlyText}>/ Bulan</span>
             </span>
           </div>
-          <Link href={`/dormitories/${dormitoriesWithPreview.id}/detail`} className={styles.viewDetail}>Lihat Detail</Link>
+          <Link href={`/dormitories/${dormitoriesWithPreview.id}/detail`} className={styles.viewDetail}>
+            Lihat Detail
+          </Link>
         </div>
       </div>
     </div>
