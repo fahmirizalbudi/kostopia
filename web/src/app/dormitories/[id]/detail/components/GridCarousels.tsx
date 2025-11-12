@@ -7,6 +7,7 @@ import Image from "next/image"
 import { Modal } from "@/app/components/ui/Modal"
 import { useState } from "react"
 import Flex from "@/app/components/layout/Flex"
+import { ImagePopUp } from "./ImagePopUp"
 
 type GridCarouselsProps = {
   dormitoryPreviews: DormitoryPreview[]
@@ -14,28 +15,39 @@ type GridCarouselsProps = {
 
 const GridCarousels = ({ dormitoryPreviews }: GridCarouselsProps) => {
   const [isOpen, setIsOpen] = useState<Boolean>(false)
+  const [openedPreview, setOpenedPreview] = useState<string>("")
+  const [isPopUpOpen, setIsPopUpOpen] = useState<boolean>(false)
 
   const toggleOpen = () => {
     return setIsOpen(!isOpen)
+  }
+
+  const togglePopUpOpen = (url: string) => {
+    setOpenedPreview(url)
+    return setIsPopUpOpen(true)
+  }
+
+  const togglePopUpClose = () => {
+    return setIsPopUpOpen(false)
   }
 
   return (
     <Grid className={`${styles.carousels} ${dormitoryPreviews.length === 1 ? "" : dormitoryPreviews.length === 2 ? styles.two : styles.more}`}>
       {dormitoryPreviews[0] && (
         <div className={`${styles.carousel} ${dormitoryPreviews.length > 2 ? styles.carouselBig : ""}`}>
-          <Image src={dormitoryPreviews[0].url as string} alt="" fill />
+          <Image src={dormitoryPreviews[0].url as string} alt="" fill onClick={() => togglePopUpOpen(dormitoryPreviews[0].url as string)} />
         </div>
       )}
 
       {dormitoryPreviews[1] && (
         <div className={`${styles.carousel}`}>
-          <Image src={dormitoryPreviews[1].url as string} alt="" fill />
+          <Image src={dormitoryPreviews[1].url as string} alt="" fill onClick={() => togglePopUpOpen(dormitoryPreviews[1].url as string)} />
         </div>
       )}
 
       {dormitoryPreviews[2] && (
         <div className={`${styles.carousel} ${styles.smallTop}`}>
-          <Image src={dormitoryPreviews[2].url as string} alt="" fill />
+          <Image src={dormitoryPreviews[2].url as string} alt="" fill onClick={() => togglePopUpOpen(dormitoryPreviews[2].url as string)} />
         </div>
       )}
 
@@ -49,12 +61,23 @@ const GridCarousels = ({ dormitoryPreviews }: GridCarouselsProps) => {
             <Flex gap={30} className={styles.detailPreviewFlex}>
               {dormitoryPreviews.slice(3).map((dormitoryPreview: DormitoryPreview) => (
                 <figure className={styles.imagePreview} key={dormitoryPreview.id}>
-                  <Image src={String(dormitoryPreview.url)} alt={String(dormitoryPreview.id)} fill />
+                  <Image
+                    src={String(dormitoryPreview.url)}
+                    alt={String(dormitoryPreview.id)}
+                    fill
+                    onClick={() => togglePopUpOpen(dormitoryPreview.url as string)}
+                  />
                 </figure>
               ))}
             </Flex>
           </Modal>
         </>
+      )}
+
+      {isPopUpOpen && (
+        <ImagePopUp isOpen={isPopUpOpen} onClose={togglePopUpClose} fullscreen>
+          <Image src={openedPreview} alt="Opened Preview" fill />
+        </ImagePopUp>
       )}
     </Grid>
   )
