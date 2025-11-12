@@ -4,6 +4,7 @@ import styles from "./Table.module.scss"
 type TableProps = {
   children: React.ReactNode
   className?: string
+  colSpan?: number
 }
 
 export const Table = ({ children, className }: TableProps) => {
@@ -22,4 +23,8 @@ export const TableRow = ({ children, className }: TableProps) => <tr className={
 
 export const TableHead = ({ children, className }: TableProps) => <th className={`${styles.th} ${className || ""}`}>{children}</th>
 
-export const TableCell = ({ children, className }: TableProps) => <td className={`${styles.td} ${className || ""}`}>{children}</td>
+export const TableCell = ({ children, className, colSpan }: TableProps) => (
+  <td colSpan={colSpan} className={`${styles.td} ${className || ""}`}>
+    {children}
+  </td>
+)
