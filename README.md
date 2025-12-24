@@ -1,87 +1,116 @@
-# 🏠 Kostopia
+<div align="center">
+<a href="https://github.com/fahmirizalbudi/kostopia" target="blank">
+<img src="https://raw.githubusercontent.com/JjagoKoding/icon/064a2a9703fffc192857df071f2d6df2539f3767/kostopia.svg" width="280" alt="Logo" />
+</a>
 
-**Kostopia** adalah aplikasi web untuk manajemen dan pencarian kost, kontrakan, atau hunian sewa (boarding house / kost / apartemen) — dengan API dan front-end yang terpisah.  
+<br />
+<br />
 
----
+![](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![](https://img.shields.io/badge/typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![](https://img.shields.io/badge/Gin-00A393?style=for-the-badge&logo=gin&logoColor=white)
+![](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
+![](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+![](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![](https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![](https://img.shields.io/badge/Midtrans-183459?style=for-the-badge&logo=mastercard)
 
-## 🔎 Fitur (rencana / saat ini)
+</div>
 
-- CRUD data kost / hunian: tambah, edit, hapus, lihat detail.  
-- Daftar kost dengan filter (misalnya lokasi, harga, fasilitas, dsb.).  
-- Autentikasi & otorisasi (user / admin).  
-- API terpisah untuk backend (`/api`) dan front-end web (`/web`).  
-- Styling menggunakan SCSS / HTML / TypeScript (front-end) + Go (backend).  
+<br />
 
----
+## 🛏️ Kostopia
 
-## 🛠️ Teknologi
+Kostopia is a web and mobile application for renting boarding houses, rental houses, or rental housing. Built with Go to provide a backend, Next.js as the web application and Flutter for a mobile application. Key features include:
 
-- Backend: **Go** (Golang)  
-- API: RESTful, dijalankan di folder `/api`  
-- Front-end: **TypeScript + HTML + SCSS** (di folder `/web`)  
-- Struktur proyek terpisah antara API & UI  
+## 🖼️ Preview
 
----
+![](screenshot.png)
 
-## 🚀 Instalasi & Setup
+## ✨ Features
 
-### 1. Clone repository  
-```bash
-git clone https://github.com/fahmirizalbudi/kostopia.git
-cd kostopia
-````
+- **🔍 Advanced Search & Filter:** Easily find rooms based on specific criteria such as location, price range, facilities, and type.
+- **🗺️ Interactive Maps:** View boarding house locations directly on an integrated map for better navigation.
+- **📅 Easy Booking:** Schedule site visits or book rooms directly through the application.
+- **⭐ Reviews & Ratings:** Read honest reviews from previous tenants to make informed decisions.
+- **📊 Property Management:** Add and update room details, upload photos, and manage facilities easily.
+- **👥 Tenant Management:** Keep track of active tenants, rental periods, and due dates.
 
-### 2. Setup backend (Go / API)
+## 👩‍💻 Tech Stack
 
-* Masuk ke folder `api/`
+- **Next.js & TypeScript**: Used for the web platform, providing server-side rendering and type safety.
+- **Sass**: For modular and advanced CSS styling.
+- **Go**: A statically typed programming language designed for building scalable and high-performance server-side applications.
+- **Gin**: A high-performance web framework for Go, designed for building RESTful APIs and web applications.
+- **Flutter**: Used for the cross-platform mobile application (Android & iOS).
+- **PostgreSQL**: A powerful, open-source relational database system for storing and managing structured data.
+- **Redis**: An in-memory data structure store, used as a database, cache, and message broker to improve API performance.
+- **Midtrans**: Integrated payment gateway for handling secure transactions.
 
-* Jalankan build / server:
+## 📦 Getting Started
 
-  ```bash
-  go run main.go
-  ```
+To get a local copy of this project up and running, follow these steps.
 
-  atau build binary:
+### 🚀 Prerequisites
 
-  ```bash
-  go build -o kostopia-api
-  ./kostopia-api
-  ```
+- **Go** (v1.24.x or higher).
+- **Dart** (v.3.8.1 or higher) & **Flutter SDK**.
+- **Node.js** & **NPM**.
+- **PostgreSQL** (or another supported SQL database).
+- **Redis** (latest stable version).
 
-* Atur konfigurasi (env, database, dsb) sesuai pada file konfigurasi (jika tersedia).
+## 🛠️ Installation
 
-### 3. Setup front-end (web)
+1. **Clone the repository:**
 
-* Masuk ke folder `web/`
-* Install dependensi (jika pakai package manager seperti npm/yarn)
-* Jalankan web server lokal, atau buka file HTML di browser
+   ```bash
+   git clone https://github.com/fahmirizalbudi/kostopia.git
+   cd kliklelang
+   ```
 
----
+2. **Install dependencies:**
 
-## 📁 Struktur Direktori
+   ```bash
+   #api
+   cd api
+   go mod tidy
 
-```
-kostopia/
-├── api/        # Backend (Go) – REST API  
-├── web/        # Front-end (TypeScript + SCSS + HTML)  
-├── .gitignore  
-└── README.md   # Dokumentasi ini  
-```
+   #app
+   cd app
+   flutter pub get
 
----
+   #web
+   cd web
+   npm install
+   ```
 
-## ✅ Status Proyek
+3. **Start the development server:**
 
-* [x] Backend API dasar (struktur, routing)
-* [x] Autentikasi & otorisasi
-* [x] CRUD kost & penyewaan
-* [x] Front-end: daftar & detail kost, search / filter
-* [x] Styling & UI/UX
-* [x] Dokumentasi & panduan lebih lengkap
+   ```bash
+   #api
+   go run main.go
 
----
+   #app
+   flutter run
 
-## 📄 Lisensi & Kontak
+   #web
+   npm run dev
+   ```
 
-Project ini open-source — silakan digunakan, dikembangkan, atau dimodifikasi sesuai kebutuhan Anda.
-Untuk pertanyaan, kontribusi, atau kolaborasi, silakan buka issue di Github atau hubungi maintainer: **@fahmirizalbudi**
+## 📖 Usage
+
+### ✔ Running the Application
+
+- **Api development:** `go run main.go`.
+- **Website development:** `npm run dev`.
+- **Mobile development:** `flutter run`.
+
+> Use [http://localhost:8080](http://localhost:8080) to test the api in your Postman.
+
+> Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+
+## 📜 License
+
+All rights reserved. This project is for educational purposes only and cannot be used or distributed without permission.
