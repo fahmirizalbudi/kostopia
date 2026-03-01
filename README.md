@@ -21,24 +21,24 @@
 
 <br />
 
-## 🛏️ Kostopia
+## Kostopia
 
 Kostopia is a web and mobile application for renting boarding houses, rental houses, or rental housing. Built with Go to provide a backend, Next.js as the web application and Flutter for a mobile application. Key features include:
 
-## 🖼️ Preview
+## Preview
 
 ![](screenshot.png)
 
-## ✨ Features
+## Features
 
-- **🔍 Advanced Search & Filter:** Easily find rooms based on specific criteria such as location, price range, facilities, and type.
-- **🗺️ Interactive Maps:** View boarding house locations directly on an integrated map for better navigation.
-- **📅 Easy Booking:** Schedule site visits or book rooms directly through the application.
-- **⭐ Reviews & Ratings:** Read honest reviews from previous tenants to make informed decisions.
-- **📊 Property Management:** Add and update room details, upload photos, and manage facilities easily.
-- **👥 Tenant Management:** Keep track of active tenants, rental periods, and due dates.
+- **Advanced Search & Filter:** Easily find rooms based on specific criteria such as location, price range, facilities, and type.
+- **Interactive Maps:** View boarding house locations directly on an integrated map for better navigation.
+- **Easy Booking:** Schedule site visits or book rooms directly through the application.
+- **Reviews & Ratings:** Read honest reviews from previous tenants to make informed decisions.
+- **Property Management:** Add and update room details, upload photos, and manage facilities easily.
+- **Tenant Management:** Keep track of active tenants, rental periods, and due dates.
 
-## 👩‍💻 Tech Stack
+## Tech Stack
 
 - **Next.js & TypeScript**: Used for the web platform, providing server-side rendering and type safety.
 - **Sass**: For modular and advanced CSS styling.
@@ -49,11 +49,11 @@ Kostopia is a web and mobile application for renting boarding houses, rental hou
 - **Redis**: An in-memory data structure store, used as a database, cache, and message broker to improve API performance.
 - **Midtrans**: Integrated payment gateway for handling secure transactions.
 
-## 📦 Getting Started
+## Getting Started
 
 To get a local copy of this project up and running, follow these steps.
 
-### 🚀 Prerequisites
+### Prerequisites
 
 - **Go** (v1.24.x or higher).
 - **Dart** (v.3.8.1 or higher) & **Flutter SDK**.
@@ -61,7 +61,7 @@ To get a local copy of this project up and running, follow these steps.
 - **PostgreSQL** (or another supported SQL database).
 - **Redis** (latest stable version).
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository:**
 
@@ -99,9 +99,9 @@ To get a local copy of this project up and running, follow these steps.
    npm run dev
    ```
 
-## 📖 Usage
+## Usage
 
-### ✔ Running the Application
+### Running the Application
 
 - **Api development:** `go run main.go`.
 - **Website development:** `npm run dev`.
@@ -111,6 +111,6 @@ To get a local copy of this project up and running, follow these steps.
 
 > Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
-## 📜 License
+## License
 
 All rights reserved. This project is for educational purposes only and cannot be used or distributed without permission.
