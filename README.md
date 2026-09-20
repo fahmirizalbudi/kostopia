@@ -27,7 +27,7 @@ Kostopia is a web and mobile application for renting boarding houses, rental hou
 
 ## Preview
 
-![](screenshot.png)
+![](screenshot_kostopia.png)
 
 ## Features
 
